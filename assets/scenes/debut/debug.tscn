@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dk8ujo3e41nkn"]
+[gd_scene load_steps=8 format=3 uid="uid://dk8ujo3e41nkn"]
 
 [ext_resource type="ArrayMesh" uid="uid://73njubqxid5t" path="res://assets/scenes/debut/test2.res" id="3_eqauj"]
 [ext_resource type="Environment" uid="uid://d3dpjlph6ubct" path="res://assets/envs/default_env.tres" id="4_jgn5e"]
+[ext_resource type="PackedScene" uid="uid://dl1s1x72s8t5h" path="res://assets/entities/props/crap_boombox/crap_boombox.tscn" id="5_kasv3"]
+[ext_resource type="Material" uid="uid://kpukkpxo6q8f" path="res://assets/materials/tiles/white_1.tres" id="5_njkap"]
+[ext_resource type="PackedScene" uid="uid://drt48tkil2m1c" path="res://assets/entities/weapons/Baretta/Baretta.tscn" id="6_8yilj"]
 [ext_resource type="PackedScene" uid="uid://dpdu75kd4lge8" path="res://assets/entities/weapons/Honeybadger/honeybadger.tscn" id="9_nq381"]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_apq2p"]
@@ -59,3 +62,15 @@ light_indirect_energy = 2.477
 light_volumetric_fog_energy = 2.723
 light_size = 0.346
 shadow_enabled = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.17652, -0.174146, -4.28135)
+use_collision = true
+size = Vector3(1.22836, 0.516705, 1)
+material = ExtResource("5_njkap")
+
+[node name="crap_boombox" parent="." instance=ExtResource("5_kasv3")]
+transform = Transform3D(0.659516, 0, -0.75169, 0, 1, 0, 0.75169, 0, 0.659516, -1.46134, 0.104405, -4.40571)
+
+[node name="Baretta" parent="." instance=ExtResource("6_8yilj")]
+transform = Transform3D(0.973829, 0.227167, 0.00717472, 0, -0.0315677, 0.999502, 0.22728, -0.973344, -0.0307416, -1.28264, 0.142567, -3.98373)
