@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://02l1q5taa85p"]
+
+[ext_resource type="Texture2D" uid="uid://cj0kfcr0vsi8l" path="res://assets/textures/blood/blood_spurt/bspurt1.png" id="1_lklnl"]
+
+[resource]
+transparency = 1
+albedo_texture = ExtResource("1_lklnl")
+ao_enabled = true
+uv2_triplanar = true
+uv2_world_triplanar = true
+billboard_keep_scale = true
+grow = true
+grow_amount = -0.441
+fixed_size = true

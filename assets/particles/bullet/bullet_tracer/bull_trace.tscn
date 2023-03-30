@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://btwsymk13hk3p"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_br5qn"]
+transparency = 1
+albedo_color = Color(1, 1, 0.341176, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2xmhr"]
+lifetime_randomness = 0.07
+direction = Vector3(0, 0, 900)
+spread = 0.0
+initial_velocity_min = 25.0
+initial_velocity_max = 60.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_y0kt7"]
+size = Vector3(0.002, 0.002, 0.078)
+
+[node name="bull_trace" type="GPUParticles3D"]
+material_override = SubResource("StandardMaterial3D_br5qn")
+transparency = 0.46
+emitting = false
+amount = 1
+one_shot = true
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_2xmhr")
+draw_pass_1 = SubResource("BoxMesh_y0kt7")

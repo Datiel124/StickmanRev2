@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3 uid="uid://ur1enk21sh42"]
+
+[ext_resource type="Script" path="res://assets/scripts/particles/blood/blood_spurt.gd" id="1_fptyc"]
+[ext_resource type="Material" uid="uid://02l1q5taa85p" path="res://assets/particles/blood/bspurtmat/blood_spurt.tres" id="2_8pugv"]
+
+[sub_resource type="Curve" id="Curve_4yrrr"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.831461, 0.127273), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_g70m4"]
+curve = SubResource("Curve_4yrrr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yp183"]
+lifetime_randomness = 0.25
+particle_flag_align_y = true
+particle_flag_rotate_y = true
+particle_flag_disable_z = true
+direction = Vector3(900, 55, 500)
+spread = 180.0
+flatness = 1.0
+gravity = Vector3(0, -2.8, 0)
+initial_velocity_min = 0.2
+initial_velocity_max = 0.8
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+angle_max = 10.0
+scale_curve = SubResource("CurveTexture_g70m4")
+color = Color(1, 0, 0, 1)
+hue_variation_max = 0.15
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_64kha"]
+lightmap_size_hint = Vector2i(2, 2)
+material = ExtResource("2_8pugv")
+add_uv2 = true
+size = Vector2(0.01, 0.04)
+
+[node name="blood_spurt" type="Node3D"]
+script = ExtResource("1_fptyc")
+
+[node name="blood" type="GPUParticles3D" parent="."]
+material_override = ExtResource("2_8pugv")
+transparency = 0.4
+ignore_occlusion_culling = true
+amount = 45
+speed_scale = 2.5
+explosiveness = 1.0
+randomness = 0.6
+fixed_fps = 144
+collision_base_size = 0.1
+visibility_aabb = AABB(-0.81115, -1.99051, -0.04, 1.51739, 2.11993, 0.08)
+local_coords = true
+transform_align = 3
+process_material = SubResource("ParticleProcessMaterial_yp183")
+draw_pass_1 = SubResource("QuadMesh_64kha")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

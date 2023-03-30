@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="CameraData" load_steps=2 format=3 uid="uid://cw2gtie23nvl0"]
+
+[ext_resource type="Script" path="res://assets/scripts/Camera/CameraData.gd" id="1_dauyx"]
+
+[resource]
+script = ExtResource("1_dauyx")
+cam_offset = Vector3(0.201, 1.555, 0.95)
+weapon_equipped_cam_offset = Vector3(0.4, 0, 0)

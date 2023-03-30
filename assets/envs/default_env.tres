@@ -1,0 +1,29 @@
+[gd_resource type="Environment" load_steps=3 format=3 uid="uid://d3dpjlph6ubct"]
+
+[ext_resource type="Material" uid="uid://blhr20ighors4" path="res://assets/envs/default_sky.tres" id="1_iqn2v"]
+
+[sub_resource type="Sky" id="Sky_1pxa0"]
+sky_material = ExtResource("1_iqn2v")
+
+[resource]
+background_mode = 2
+sky = SubResource("Sky_1pxa0")
+ssao_enabled = true
+ssao_radius = 1.1
+ssao_power = 3.56762
+ssao_detail = 1.5
+ssao_horizon = 0.03
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
+sdfgi_bounce_feedback = 0.4
+sdfgi_cascades = 8
+glow_enabled = true
+glow_intensity = 7.37
+glow_strength = 0.83
+glow_bloom = 0.08
+glow_blend_mode = 4
+glow_hdr_threshold = 0.87
+volumetric_fog_density = 0.01
+adjustment_enabled = true
+adjustment_brightness = 0.9
+adjustment_contrast = 1.17

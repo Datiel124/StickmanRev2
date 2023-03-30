@@ -1,0 +1,110 @@
+[gd_scene load_steps=9 format=3 uid="uid://3uicmawrn0g8"]
+
+[ext_resource type="Script" path="res://assets/entities/camera/camera.gd" id="1_y85im"]
+[ext_resource type="Resource" uid="uid://d22vijxi5y5gm" path="res://assets/resources/CameraData/DefaultCam.tres" id="2_7fxa2"]
+[ext_resource type="Texture2D" uid="uid://bshsrbn82o1rq" path="res://assets/textures/crosshair/Crosshair.png" id="2_fv12t"]
+[ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://assets/entities/motion_blur/motion_blur.tscn" id="3_hxg6g"]
+[ext_resource type="Shader" path="res://assets/entities/motion_blur/moblur.gdshader" id="5_4juwk"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_iptl5"]
+radius = 0.001
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_st2q6"]
+render_priority = 0
+shader = ExtResource("5_4juwk")
+shader_parameter/linear_velocity = Vector3(0, 0, 0)
+shader_parameter/angular_velocity = Vector3(0, 0, 0)
+shader_parameter/iteration_count = 8
+shader_parameter/intensity = 0.2
+shader_parameter/startRadius = 1.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_646le"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath("horizontal:rotation")
+properties/2/spawn = true
+properties/2/sync = true
+properties/3/path = NodePath("horizontal/vertical:rotation")
+properties/3/spawn = true
+properties/3/sync = true
+properties/4/path = NodePath("horizontal/vertical/Camera3D:position")
+properties/4/spawn = true
+properties/4/sync = true
+properties/5/path = NodePath(".:is_freecam")
+properties/5/spawn = false
+properties/5/sync = true
+properties/6/path = NodePath(".:CameraDataResource")
+properties/6/spawn = false
+properties/6/sync = true
+properties/7/path = NodePath(".:camera_follow_node")
+properties/7/spawn = true
+properties/7/sync = true
+
+[node name="Camera" type="CharacterBody3D"]
+collision_layer = 0
+collision_mask = 0
+motion_mode = 1
+slide_on_ceiling = false
+floor_stop_on_slope = false
+floor_block_on_wall = false
+platform_floor_layers = 4294901760
+script = ExtResource("1_y85im")
+CameraDataResource = ExtResource("2_7fxa2")
+sensitivity = 0.1
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0178781)
+shape = SubResource("SphereShape3D_iptl5")
+disabled = true
+
+[node name="horizontal" type="Node3D" parent="."]
+
+[node name="vertical" type="Node3D" parent="horizontal"]
+
+[node name="Camera3D" type="Camera3D" parent="horizontal/vertical"]
+fov = 90.0
+near = 0.01
+
+[node name="CrosshairHolder" type="CanvasLayer" parent="horizontal/vertical/Camera3D"]
+
+[node name="TextureRect" type="TextureRect" parent="horizontal/vertical/Camera3D/CrosshairHolder"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_fv12t")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Aimcast" type="RayCast3D" parent="horizontal/vertical/Camera3D"]
+target_position = Vector3(0, 0, -9000)
+collision_mask = 3
+
+[node name="KillCast" type="RayCast3D" parent="horizontal/vertical/Camera3D"]
+target_position = Vector3(0, 0, -9000)
+collision_mask = 2
+
+[node name="motion_blur" parent="horizontal/vertical/Camera3D" instance=ExtResource("3_hxg6g")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.790757)
+visible = false
+skeleton = NodePath("../../../..")
+surface_material_override/0 = SubResource("ShaderMaterial_st2q6")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.15
+replication_config = SubResource("SceneReplicationConfig_646le")
+public_visibility = false

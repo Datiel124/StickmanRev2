@@ -1,0 +1,92 @@
+[gd_scene load_steps=3 format=3 uid="uid://byf70b5ate3gx"]
+
+[ext_resource type="Script" path="res://assets/scenes/menu/menu.gd" id="1_lpo11"]
+[ext_resource type="Texture2D" uid="uid://dc3fkfugwvtla" path="res://assets/textures/misc/company-logo (1).png" id="2_feimm"]
+
+[node name="menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lpo11")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Menu" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -244.0
+offset_top = -113.5
+offset_right = 244.0
+offset_bottom = 113.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Menu"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Menu/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Menu - Stick RPG 3D (Development Crap lmao)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StartGame" type="Button" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start SP Game
+"
+
+[node name="HostBtn" type="Button" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="JoinBtn" type="Button" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="HFlowContainer" type="HFlowContainer" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="NameEnt" type="LineEdit" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter Name Here"
+
+[node name="AddrEntry" type="LineEdit" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter IP Address Here"
+
+[node name="PortEntry" type="LineEdit" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer"]
+layout_mode = 2
+placeholder_text = "Port"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -199.0
+offset_top = -219.0
+offset_right = 800.0
+offset_bottom = 880.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.199, 0.199)
+texture = ExtResource("2_feimm")
+
+[connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/HostBtn" to="." method="_on_host_btn_pressed"]
+[connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/JoinBtn" to="." method="_on_join_btn_pressed"]

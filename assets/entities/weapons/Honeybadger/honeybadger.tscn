@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://dpdu75kd4lge8"]
+
+[ext_resource type="PackedScene" uid="uid://dx13vt2io8j3b" path="res://assets/entities/weapons/WeaponBase/WeaponBase.tscn" id="1_roo6p"]
+[ext_resource type="ArrayMesh" uid="uid://b8x5gnb6xpu4q" path="res://assets/models/weapons/honeybadger/honeybadger.res" id="2_3o72u"]
+[ext_resource type="Resource" uid="uid://djhcdiw53cik0" path="res://assets/entities/weapons/Honeybadger/honeybadger.tres" id="2_ow37x"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_31yr7"]
+custom_solver_bias = 0.037
+margin = 0.653
+points = PackedVector3Array(0.528, 0.048, -0.026, -0.572, -0.095, 0.004, -0.053, -0.236, -0.019, -0.573, 0.046, 0.001, -0.234, -0.147, 0.026, -0.049, -0.217, 0.026, -0.167, 0.113, -0.025, 0.536, 0.046, 0.024)
+
+[node name="HoneyBadger" instance=ExtResource("1_roo6p")]
+Item_Resource = ExtResource("2_ow37x")
+
+[node name="ItemModel" parent="Mesh" index="0"]
+transform = Transform3D(-1.96701e-05, -450, -1.96701e-05, 0, -1.96701e-05, 450, -450, 1.96701e-05, 8.59808e-13, 0, 0, 0)
+mesh = ExtResource("2_3o72u")
+
+[node name="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0197401, 0)
+shape = SubResource("ConvexPolygonShape3D_31yr7")
+
+[node name="Muzzle" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.536651, 0.0311721, 0)
+
+[node name="RayCast3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.529451, 0.0300456, 0)
+
+[node name="SoundPlayer" parent="." index="4"]
+volume_db = -10.0

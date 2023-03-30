@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://fn4ue284pmgv"]
+
+[ext_resource type="Shader" path="res://assets/entities/motion_blur/moblur.gdshader" id="1_evqay"]
+[ext_resource type="Script" path="res://assets/entities/motion_blur/motion_blur.gd" id="2_3fs8w"]
+
+[sub_resource type="PlaneMesh" id="1"]
+size = Vector2(40, 20)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nla8u"]
+render_priority = 0
+shader = ExtResource("1_evqay")
+shader_parameter/linear_velocity = Vector3(0, 0, 0)
+shader_parameter/angular_velocity = Vector3(0, 0, 0)
+shader_parameter/iteration_count = 2
+shader_parameter/intensity = null
+shader_parameter/startRadius = null
+
+[node name="motion_blur" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -2)
+cast_shadow = 0
+mesh = SubResource("1")
+surface_material_override/0 = SubResource("ShaderMaterial_nla8u")
+script = ExtResource("2_3fs8w")

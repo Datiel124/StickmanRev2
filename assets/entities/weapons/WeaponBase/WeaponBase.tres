@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=2 format=3 uid="uid://cmadcep7wt3ak"]
+
+[ext_resource type="Script" path="res://assets/scripts/item_resource/item_resource.gd" id="1_tefte"]
+
+[resource]
+script = ExtResource("1_tefte")
+ItemName = "Weapon Base"
+Item_Position_Offset = Vector3(-0.053, 0.152, -0.002)
+Item_Rotation_Offset = Vector3(0, 0.243, 1.654)
+Item_Cooldown = 0.2
+Damage = 5
+Physics_Push_Threshold = 2
+Ammo_bullets = 16
+Ammo_mag = 8
+Camera_Shake_Intensity = 0.5
+item_use_sounds = Array[AudioStream]([])
+item_sound_pitch_min = 1
+item_sound_pitch_max = 1.3
+arm_filters = 2
+animation_type = 0
+item_type = 0

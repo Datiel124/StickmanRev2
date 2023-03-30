@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://dx13vt2io8j3b"]
+
+[ext_resource type="Script" path="res://assets/scripts/Item/ItemBase.gd" id="1_7d5cs"]
+[ext_resource type="Resource" uid="uid://cmadcep7wt3ak" path="res://assets/entities/weapons/WeaponBase/WeaponBase.tres" id="2_keabg"]
+[ext_resource type="ArrayMesh" uid="uid://cqvcemgijgdv5" path="res://assets/models/weapons/beretta/Beretta.tres" id="3_oo41k"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_2q68o"]
+custom_solver_bias = 0.037
+margin = 0.653
+points = PackedVector3Array(0.03, -0.121, 0.021, 0.196, 0.04, -0.027, -0.07, -0.112, -0.021, 0.198, 0.03, 0.019, -0.061, 0.042, 0.018, -0.072, -0.121, 0.022, -0.058, 0.031, -0.025, -0.006, -0.111, -0.031)
+
+[node name="WeaponBase" type="RigidBody3D" groups=["Item"]]
+script = ExtResource("1_7d5cs")
+Item_Resource = ExtResource("2_keabg")
+
+[node name="Mesh" type="Node3D" parent="."]
+
+[node name="ItemModel" type="MeshInstance3D" parent="Mesh"]
+transform = Transform3D(100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 0, 0, 0)
+mesh = ExtResource("3_oo41k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_2q68o")
+
+[node name="Muzzle" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.185113, 0.0311721, 0)
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.194895, 0.0300456, 0)
+target_position = Vector3(900, 0, 0)
+
+[node name="SoundPlayer" type="AudioStreamPlayer3D" parent="."]
+bus = &"Sounds"
+
+[node name="item_cooldown" type="Timer" parent="."]
+
+[connection signal="timeout" from="item_cooldown" to="." method="_on_item_cooldown_timeout"]
