@@ -5,10 +5,10 @@
  I want heavy emphasis on gore and customization. Gunplay should be standard raycast based shooting and should deliver a satisfying feel
 
 
-!(https://imgur.com/u1gxfnq.png)
+![Dev Screenie](https://imgur.com/u1gxfnq.png)
 
-!(https://imgur.com/oNF51Ci.png)
+![Another Dev Screenie](https://imgur.com/oNF51Ci.png)
 
-!(https://imgur.com/8ChKw9q)
+![And Dev Screenie](https://imgur.com/8ChKw9q)
 
 ## Please do cool shit ™
