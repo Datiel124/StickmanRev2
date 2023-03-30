@@ -13,3 +13,5 @@
 
 ## Please do cool shit ™
 And by that, I mean just add stuff that fit a third person shooter I guess.
+
+Oh, and this game is licensed under CC0. I made it and all, but fuck trying to take credit. Do what you want with this code, no need to show or ask.
