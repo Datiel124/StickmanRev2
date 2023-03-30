@@ -9,6 +9,7 @@
 
 ![Another Dev Screenie](https://imgur.com/oNF51Ci.png)
 
-![And Dev Screenie](https://imgur.com/8ChKw9q)
+![And another Dev Screenie](https://imgur.com/8ChKw9q.png)
 
 ## Please do cool shit ™
+And by that, I mean just add stuff that fit a third person shooter I guess.
