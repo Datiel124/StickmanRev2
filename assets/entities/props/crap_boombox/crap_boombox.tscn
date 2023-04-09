@@ -13,7 +13,7 @@ size = Vector3(0.250624, 0.482841, 0.600377)
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_yjs3a"]
 streams_count = 5
 random_pitch = 1.0
-random_volume_offset_db = 0.0
+random_volume_offset_db = 0.15
 stream_0/stream = ExtResource("2_bo55n")
 stream_0/weight = 1.0
 stream_1/stream = ExtResource("3_l0k83")
@@ -36,5 +36,5 @@ shape = SubResource("BoxShape3D_kx0kd")
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0843928, 0.107535, -0.0116111)
 stream = SubResource("AudioStreamRandomizer_yjs3a")
-volume_db = -60.257
+volume_db = -45.0
 autoplay = true

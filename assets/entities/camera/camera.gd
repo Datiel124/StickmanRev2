@@ -59,8 +59,9 @@ func _physics_process(delta):
 		##Enable Freecam
 		if Input.is_action_just_pressed("give_test_item"):
 			if !is_freecam:
+				camera_follow_node.character_pawn.summon_item(Weapondb.SpawnableWeapons["Honeybadger"])
 				camera_follow_node.character_pawn.summon_item(Weapondb.SpawnableWeapons["Baretta"])
-		
+				
 		##Enable Freecam
 		if Input.is_action_just_pressed("freecam_enable"):
 			if !is_freecam and !dead_cam:
@@ -201,3 +202,12 @@ func detach_cam():
 
 func fov_zoom(zoom, delta):
 	Camera.fov = lerpf(Camera.fov, zoom, delta * 8)
+
+func getMidPoint(muzzlepoint):
+	var cam = get_viewport().get_camera_3d()
+	var viewport = get_viewport().get_content_scale_size()
+	
+	var rayOrigin = cam.project_ray_origin(viewport/2)
+	var rayEnd = (rayOrigin + cam.project_ray_normal(viewport/2)*600)
+	var dir = -(rayEnd - muzzlepoint.global_transform.origin).normalized()
+	return dir

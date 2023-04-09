@@ -9,5 +9,12 @@ script = ExtResource("1_qjmrv")
 bulletSpeed = 450.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(40, 0, 0, 0, -1.74846e-06, 40, 0, -40, -1.74846e-06, 0, 0, 0)
+transform = Transform3D(35, 0, 0, 0, -2.65058e-06, -35, 0, 60.6382, -1.5299e-06, 0, 0, 0)
 mesh = ExtResource("2_bwsfq")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(1, 1, 0.360784, 1)
+light_energy = 2.231
+shadow_enabled = true
+distance_fade_enabled = true
+omni_range = 4.19111
