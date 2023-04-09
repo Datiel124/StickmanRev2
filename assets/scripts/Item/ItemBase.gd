@@ -27,6 +27,7 @@ func playSound(sound_type:int):
 	pass
 
 func use():
+	var bullet = Item_Resource.Projectile.instantiate()
 	##Call this function when using the item, takes after the item type described in the item resource
 	if !is_in_use:
 		is_in_use = true
@@ -34,11 +35,11 @@ func use():
 		
 		if Item_Resource.item_type == 5:
 				playSound(0)
-				GlobalParticles.create_bullet_tracer(muzzle_point.global_position, self.rotation, muzzle_point)
+				#GlobalParticles.create_bullet_tracer(muzzle_point.global_position, self.rotation, muzzle_point)
 
 		if Item_Resource.item_type == 6:
 				playSound(0)
-				GlobalParticles.create_bullet_tracer(muzzle_point.global_position, self.rotation, muzzle_point)
+				#GlobalParticles.create_bullet_tracer(muzzle_point.global_position, self.rotation, muzzle_point)
 
 		if Item_Resource.animation_type == 0:
 			holder.anim_tree.set("parameters/pistol_shot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)	
@@ -48,6 +49,11 @@ func use():
 		
 		holder.is_using = true
 		holder.weapon_lower_timer.start()
+		
+		if !Item_Resource.Projectile == null:
+			muzzle_point.add_child(bullet)
+			bullet.shooter = holder
+			bullet.top_level = true
 		
 	pass
 

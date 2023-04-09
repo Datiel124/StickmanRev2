@@ -9,6 +9,7 @@ extends CharacterBody3D
 @onready var horiz = $horizontal
 @onready var vert = $horizontal/vertical
 @onready var dead_cam = false
+@onready var hudDisplay = $horizontal/vertical/Camera3D/HUD
 
 @export var cam_smooth_zoom = 0.1
 @export var min_zoom := -0.2
@@ -22,6 +23,8 @@ var acceleration = 3
 var vert_velocity = Vector3.ZERO
 var total_pitch = 0.0
 var mouse_pos = Vector2(0.0,0.0)
+
+
 
 var c_name = ""
 var mp_id 
@@ -100,6 +103,8 @@ func _physics_process(delta):
 	Camera.position.z = lerp(Camera.position.z, CameraDataResource.cam_offset.z, 5 * delta)
 	horiz.position.y = lerp(horiz.position.y, CameraDataResource.cam_offset.y, 5 * delta)
 	
+	
+	
 	if !camera_follow_node == null:
 		if !camera_follow_node.character_pawn.has_weapon_equipped:
 			if camera_follow_node.character_pawn.camera_shoulder == 0:
@@ -117,6 +122,8 @@ func _physics_process(delta):
 		
 	##Freecam
 	if is_freecam:
+		hudDisplay.weaponDisplay.hide()
+		
 		direction = Vector3(Input.get_action_strength("MoveRight") - Input.get_action_strength("MoveLeft"), 0, Input.get_action_strength("MoveBackwards") - Input.get_action_strength("MoveForward")).rotated(Vector3.UP, rot)
 			
 		if direction != Vector3.ZERO:

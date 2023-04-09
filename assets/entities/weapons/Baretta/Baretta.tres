@@ -1,13 +1,16 @@
-[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://grsuf7ptc418"]
+[gd_resource type="Resource" script_class="ItemResource" load_steps=5 format=3 uid="uid://grsuf7ptc418"]
 
 [ext_resource type="AudioStream" uid="uid://dxp6c4vi24yww" path="res://assets/sounds/weapons/baretta/baretta_shot0.wav" id="1_3cv54"]
 [ext_resource type="Script" path="res://assets/scripts/item_resource/item_resource.gd" id="1_83wu1"]
+[ext_resource type="PackedScene" uid="uid://dkihm3rutcd3o" path="res://assets/entities/bullet/bullet.tscn" id="1_ntpgu"]
+[ext_resource type="Texture2D" uid="uid://c3iphin2mii6d" path="res://assets/textures/weaponIcons/beretta/Baretta.png" id="2_lcm7u"]
 
 [resource]
 script = ExtResource("1_83wu1")
 ItemName = "Baretta"
 Item_Position_Offset = Vector3(-0.053, 0.152, -0.002)
-Item_Rotation_Offset = Vector3(0, 0.243, 1.654)
+Item_Rotation_Offset = Vector3(0, 0.243, 1.5)
+itemIcon = ExtResource("2_lcm7u")
 Item_Cooldown = 0.2
 Damage = 5
 Physics_Push_Threshold = 2
@@ -17,6 +20,7 @@ Camera_Shake_Intensity = 0.5
 item_use_sounds = Array[AudioStream]([ExtResource("1_3cv54")])
 item_sound_pitch_min = 1
 item_sound_pitch_max = 1.3
+Projectile = ExtResource("1_ntpgu")
 arm_filters = 2
 animation_type = 0
 item_type = 6

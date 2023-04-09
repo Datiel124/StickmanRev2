@@ -7,6 +7,8 @@ class_name ItemResource
 @export var Item_Position_Offset : Vector3
 ## Rotation offset for when the item is equipped.
 @export var Item_Rotation_Offset : Vector3
+## Item icon for when its equipped
+@export var itemIcon : CompressedTexture2D
 @export var Item_Cooldown = 0.5
 @export var Damage = 5
 @export var Physics_Push_Threshold = 2
@@ -17,6 +19,7 @@ class_name ItemResource
 @export var item_sound_pitch_min = 1
 @export var item_sound_pitch_max = 1.3
 @export var item_use_animation : Animation
+@export var Projectile : PackedScene
 ## Which arm will be animated with this item equipped. By default both arms will be animated
 @export_enum("Left Arm", "Right Arm", "Both Arms") var arm_filters = 2
 @export_enum("BarettaPistol", "HoneybadgerRifle") var animation_type = 0

@@ -3,6 +3,7 @@ extends CharacterBody3D
 class_name Pawn
 var ragdoll = preload("res://assets/entities/pawn/pawn_ragdoll.tscn")
 
+var dt
 @onready var CameraPosNode = $CameraPos
 @onready var ik_node = $Mesh/Male/MaleSkeleton/Skeleton3D/SkeletonIK3D
 @onready var ik_marker = $Mesh/Lookat
@@ -79,6 +80,7 @@ func _physics_process(delta):
 	if Global.is_multiplayer_game:
 		if not is_multiplayer_authority(): return
 	
+	
 	if Health <= 0 and !is_dead:
 		kill(last_bone_hit)
 		#velocity = Vector3(0,0,0)
@@ -87,9 +89,13 @@ func _physics_process(delta):
 			change_to_dead_cam()
 	
 	if is_controlled:
+		$Mesh.rotation.y = lerp_angle($Mesh.rotation.y, rot, delta * turn_rate)
+		#Set Rotation vector to Camera pos
+		rot = pawn_cam.rot
 		
-		if Global.is_multiplayer_game:
-			if not is_multiplayer_authority(): return
+		if Input.is_action_pressed("Shoot"):
+			if !current_equipped == null:
+				current_equipped.use()
 		
 		if Input.is_action_pressed("Aim"):
 			if !is_using:
@@ -102,38 +108,7 @@ func _physics_process(delta):
 		if !Input.is_action_pressed("Aim"):
 			if !is_using:
 				is_aiming = false
-			
-		
-		if Input.is_action_pressed("Shoot"):
-			if !current_equipped == null:
-				current_equipped.use()
-				
-		
-		if Input.is_action_just_released("mwheel_up"):
-			if !current_equipped_index > Inventory.size():
-				current_equipped_index = current_equipped_index + 1
-				
-		if Input.is_action_just_released("mwheel_down"):
-			if !current_equipped_index < 0:
-				current_equipped_index = current_equipped_index - 1
-		
-		MoveLeft = Input.get_action_strength("MoveLeft")
-		MoveRight = Input.get_action_strength("MoveRight")
-		MoveForward = Input.get_action_strength("MoveForward")
-		MoveBackwards = Input.get_action_strength("MoveBackwards")
-		
-		$Mesh.rotation.y = lerp_angle($Mesh.rotation.y, rot, delta * turn_rate)
-		
-		#Set Rotation vector to Camera pos
-		rot = pawn_cam.rot
-		
 
-
-			
-		#Swap Shoulder
-		if Input.is_action_just_pressed("swap_shoulder"):
-			swap_shoulder()
-			
 	# Add the gravity.
 	if !is_dead:
 		if not is_on_floor():
@@ -190,6 +165,19 @@ func _physics_process(delta):
 		
 		if has_weapon_equipped:
 			current_equipped = Inventory[current_equipped_index]
+			
+			if is_controlled:
+				pawn_cam.hudDisplay.weaponDisplay.show()
+				pawn_cam.hudDisplay.weaponDisplayName.text = current_equipped.Item_Resource.ItemName
+				if !current_equipped.Item_Resource.itemIcon == null:
+					pawn_cam.hudDisplay.weaponDisplayTexture.texture = current_equipped.Item_Resource.itemIcon
+				else:
+					var unknownpng = load("res://assets/textures/weaponIcons/unknown/unknown.png")
+					pawn_cam.hudDisplay.weaponDisplayTexture.texture = unknownpng
+		else:
+			if is_controlled:
+				pawn_cam.hudDisplay.weaponDisplay.hide()
+		
 		
 	if current_equipped_index > inv_items or current_equipped_index <= -1:
 		current_equipped_index = 0
@@ -218,6 +206,25 @@ func _physics_process(delta):
 	if is_using == true:
 		is_aiming = true
 
+
+func _unhandled_input(input):
+	if is_controlled:
+		#Swap Shoulder
+		if Input.is_action_just_pressed("swap_shoulder"):
+			swap_shoulder()
+		
+		if Input.is_action_just_released("mwheel_up"):
+			if !current_equipped_index > Inventory.size():
+				current_equipped_index = current_equipped_index + 1
+				
+		if Input.is_action_just_released("mwheel_down"):
+			if !current_equipped_index < 0:
+				current_equipped_index = current_equipped_index - 1
+		
+		MoveLeft = Input.get_action_strength("MoveLeft")
+		MoveRight = Input.get_action_strength("MoveRight")
+		MoveForward = Input.get_action_strength("MoveForward")
+		MoveBackwards = Input.get_action_strength("MoveBackwards")
 
 func swap_shoulder():
 	if camera_shoulder == 0:

@@ -23,7 +23,7 @@ mesh = ExtResource("3_lyuiv")
 shape = SubResource("ConvexPolygonShape3D_2q68o")
 
 [node name="Muzzle" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.185113, 0.0311721, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.977389, 0.00381562, 0)
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.194895, 0.0300456, 0)

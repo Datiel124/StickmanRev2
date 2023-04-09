@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkihm3rutcd3o"]
+
+[ext_resource type="Script" path="res://assets/entities/bullet/bullet.gd" id="1_qjmrv"]
+[ext_resource type="ArrayMesh" uid="uid://bmwkqs1xo6jhb" path="res://assets/models/bullet/bullet.res" id="2_bwsfq"]
+
+[node name="bullet" type="Node3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1_qjmrv")
+bulletSpeed = 450.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(40, 0, 0, 0, -1.74846e-06, 40, 0, -40, -1.74846e-06, 0, 0, 0)
+mesh = ExtResource("2_bwsfq")
