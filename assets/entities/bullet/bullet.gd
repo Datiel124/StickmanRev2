@@ -54,7 +54,7 @@ func _physics_process(delta):
 				newPos = hitResult.position
 				if hitResult.collider.has_method("damage"):
 					hitResult.collider.damage(shooter.current_equipped.Item_Resource.Damage, shooter.current_equipped.Item_Resource.physicsPushMult,  bulletFlyDir, hitResult.position, true, shooter.current_equipped.Item_Resource.knockbackForce)
-					delete()
+					#delete()
 				
 		else:
 			if shooter.pawn_cam.Killcast.is_colliding():
@@ -62,7 +62,7 @@ func _physics_process(delta):
 				var hitResult = shooter.pawn_cam.Killcast.get_collider()
 				if hitResult.has_method("damage"):
 					hitResult.damage(shooter.current_equipped.Item_Resource.Damage, shooter.current_equipped.Item_Resource.physicsPushMult, bulletFlyDir, hitPosition, true, shooter.current_equipped.Item_Resource.knockbackForce)
-					delete()
+					#delete()
 				
 		justCreated = false
 			

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://byf70b5ate3gx"]
+[gd_scene load_steps=4 format=3 uid="uid://byf70b5ate3gx"]
 
 [ext_resource type="Script" path="res://assets/scenes/menu/menu.gd" id="1_lpo11"]
 [ext_resource type="Texture2D" uid="uid://dc3fkfugwvtla" path="res://assets/textures/misc/company-logo (1).png" id="2_feimm"]
+[ext_resource type="AudioStream" uid="uid://dmifxlb0c387l" path="res://assets/sounds/ui/uiclick.wav" id="3_ipqm8"]
 
 [node name="menu" type="Control"]
 layout_mode = 3
@@ -86,6 +87,10 @@ grow_horizontal = 0
 grow_vertical = 0
 scale = Vector2(0.199, 0.199)
 texture = ExtResource("2_feimm")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ipqm8")
+bus = &"Sounds"
 
 [connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/HostBtn" to="." method="_on_host_btn_pressed"]

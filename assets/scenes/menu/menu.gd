@@ -16,8 +16,9 @@ func _process(delta):
 
 
 func _on_start_game_pressed():
-
+	$AudioStreamPlayer2D.play()
 	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
+	await $AudioStreamPlayer2D.finished
 	Global.is_multiplayer_game = false
 	get_tree().change_scene_to_file("res://assets/scenes/debut/debug.tscn")
 	Global.add_player()
@@ -25,11 +26,17 @@ func _on_start_game_pressed():
 
 func _on_host_btn_pressed():
 	if addr_entry.text and port_entry.text and name_entry.text != "":
+		$AudioStreamPlayer2D.play()
+		await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
+		await $AudioStreamPlayer2D.finished
 		Global.port = int(str(port_entry.text))
 		create_server()
 
 func _on_join_btn_pressed():
 	if addr_entry.text and port_entry.text and name_entry.text != "":
+		$AudioStreamPlayer2D.play()
+		await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
+		await $AudioStreamPlayer2D.finished
 		join_server()
 		print("Connecting to " + str(Global.ip) + ", Port: " + str(Global.port))
 		
@@ -42,6 +49,7 @@ func create_server():
 	Global.is_multiplayer_game = true
 	mp_peer.create_server(Global.port)
 	multiplayer.multiplayer_peer = mp_peer
+	Fade.fade_in(0.3, Color(0,0,0,1),"GradientVertical",false,true)
 	get_tree().change_scene_to_file("res://assets/scenes/debut/debug.tscn")
 	Global.add_player(Vector3(0,0,0), multiplayer.get_unique_id())
 	multiplayer.peer_connected.connect(Global.add_player)
@@ -54,3 +62,4 @@ func join_server():
 	get_tree().change_scene_to_file("res://assets/scenes/debut/debug.tscn")
 	mp_peer.create_client(Global.ip, Global.port)
 	multiplayer.multiplayer_peer = mp_peer
+	Fade.fade_in(0.3, Color(0,0,0,1),"GradientVertical",false,true)
