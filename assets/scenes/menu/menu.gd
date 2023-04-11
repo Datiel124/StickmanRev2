@@ -20,7 +20,7 @@ func _on_start_game_pressed():
 	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
 	Global.is_multiplayer_game = false
 	get_tree().change_scene_to_file("res://assets/scenes/debut/debug.tscn")
-	Global.add_player(multiplayer.get_unique_id(), Vector3(0,0,0))
+	Global.add_player()
 	Fade.fade_in(0.3, Color(0,0,0,1),"GradientVertical",false,true)
 
 func _on_host_btn_pressed():
@@ -43,7 +43,7 @@ func create_server():
 	mp_peer.create_server(Global.port)
 	multiplayer.multiplayer_peer = mp_peer
 	get_tree().change_scene_to_file("res://assets/scenes/debut/debug.tscn")
-	Global.add_player(multiplayer.get_unique_id(), Vector3(0,0,0))
+	Global.add_player(Vector3(0,0,0), multiplayer.get_unique_id())
 	multiplayer.peer_connected.connect(Global.add_player)
 
 func join_server():

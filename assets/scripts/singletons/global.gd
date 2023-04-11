@@ -60,7 +60,7 @@ func load_settings():
 			is_fullscreen = config_file.get_value(setting, "fullscreen")
 
 ##Adds a player/camera to the scene - MULTIPLAYER USAGE ONLY
-func add_player(peer_id, pos:Vector3):
+func add_player(pos:Vector3 = Vector3(0,0,0), peer_id:int = 0):
 	var player_camera = camera_ent.instantiate()
 	var player_pawn = stickpawn.instantiate()
 	if is_multiplayer_game:
