@@ -16,9 +16,12 @@ func _process(delta):
 
 
 func _on_start_game_pressed():
+
+	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
 	Global.is_multiplayer_game = false
 	get_tree().change_scene_to_file("res://assets/scenes/debut/debug.tscn")
 	Global.add_player(multiplayer.get_unique_id(), Vector3(0,0,0))
+	Fade.fade_in(0.3, Color(0,0,0,1),"GradientVertical",false,true)
 
 func _on_host_btn_pressed():
 	if addr_entry.text and port_entry.text and name_entry.text != "":

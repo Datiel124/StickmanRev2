@@ -16,7 +16,7 @@ data = PackedVector3Array(1.7617, 0.0613, 0.8599, 0.9508, 0.0613, -0.1048, 1.761
 environment = ExtResource("4_jgn5e")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.0859735, -0.625569, 0.775417, -1.76904e-09, 0.778299, 0.627894, -0.996297, -0.0539823, 0.0669131, 0.530135, 5.86455, -2.50464)
+transform = Transform3D(0.0859735, -0.625569, 0.775417, -1.76904e-09, 0.778299, 0.627894, -0.996297, -0.0539823, 0.0669131, 0.530135, 5.86455, -1.88308)
 light_energy = 0.832
 shadow_enabled = true
 shadow_blur = 0.077
@@ -24,14 +24,14 @@ directional_shadow_fade_start = 1.0
 directional_shadow_max_distance = 20.0
 
 [node name="HoneyBadger" parent="." instance=ExtResource("9_nq381")]
-transform = Transform3D(0.159144, -0.987038, -0.0207184, 0.879626, 0.132234, 0.456918, -0.448256, -0.09094, 0.889268, 12.1761, 0.376738, -4.29937)
+transform = Transform3D(0.159144, -0.987038, -0.0207184, 0.879626, 0.132234, 0.456918, -0.448256, -0.09094, 0.889268, 12.1761, 0.376738, -3.67781)
 
 [node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.6989, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.6989, 0.621563)
 size = Vector3(65.9407, 2, 68.1605)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.486, 0, -3.92179e-07, 0, 4.486, 0, 3.92179e-07, 0, -4.486, 1.07043, -0.694515, 0.143482)
+transform = Transform3D(-4.486, 0, -3.92179e-07, 0, 4.486, 0, 3.92179e-07, 0, -4.486, 1.07043, -0.694515, 0.765045)
 mesh = ExtResource("3_eqauj")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
@@ -40,7 +40,7 @@ mesh = ExtResource("3_eqauj")
 shape = SubResource("ConcavePolygonShape3D_apq2p")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.51822, 2.93793, -1.4909)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.51822, 2.93793, -0.869337)
 light_energy = 1.615
 light_indirect_energy = 2.477
 light_volumetric_fog_energy = 2.723
@@ -48,7 +48,7 @@ light_size = 0.346
 shadow_enabled = true
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.51522, 2.93793, -1.4909)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.51522, 2.93793, -0.869337)
 light_energy = 1.615
 light_indirect_energy = 2.477
 light_volumetric_fog_energy = 2.723
@@ -56,7 +56,7 @@ light_size = 0.346
 shadow_enabled = true
 
 [node name="OmniLight3D3" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.51781, 2.93793, -2.81472)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.51781, 2.93793, -2.19316)
 light_energy = 1.615
 light_indirect_energy = 2.477
 light_volumetric_fog_energy = 2.723
@@ -64,13 +64,13 @@ light_size = 0.346
 shadow_enabled = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.17652, -0.174146, -4.28135)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.17652, -0.174146, -3.65979)
 use_collision = true
 size = Vector3(1.22836, 0.516705, 1)
 material = ExtResource("5_njkap")
 
 [node name="crap_boombox" parent="." instance=ExtResource("5_kasv3")]
-transform = Transform3D(0.659516, 0, -0.75169, 0, 1, 0, 0.75169, 0, 0.659516, -1.46134, 0.104405, -4.40571)
+transform = Transform3D(0.659516, 0, -0.75169, 0, 1, 0, 0.75169, 0, 0.659516, -1.46134, 0.104405, -3.78415)
 
 [node name="Baretta" parent="." instance=ExtResource("6_8yilj")]
-transform = Transform3D(0.973829, 0.227167, 0.00717472, 0, -0.0315677, 0.999502, 0.22728, -0.973344, -0.0307416, -1.28264, 0.142567, -3.98373)
+transform = Transform3D(0.973829, 0.227167, 0.00717472, 0, -0.0315677, 0.999502, 0.22728, -0.973344, -0.0307416, -1.28264, 0.142567, -3.36217)

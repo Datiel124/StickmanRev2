@@ -284,6 +284,5 @@ func change_to_dead_cam():
 	CameraPosNode.remove_child(pawn_cam)
 	created_ragdoll.add_child(pawn_cam)
 
-func damage(amount:int):
-	Health = Health - amount
+
 	

@@ -9,6 +9,8 @@ class_name Bullet
 @export var shooter : CharacterBody3D
 var prevPos : Vector3 = Vector3()
 var totalDist = 0
+var isHit : bool = false
+var newPos : Vector3
 
 @export var useGravity = true
 
@@ -20,10 +22,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	var newPos : Vector3
+	
 	if !shooter == null:
 		if shooter.is_controlled and !shooter.current_equipped == null:
-			bulletFlyDir = shooter.pawn_cam.getMidPoint(shooter.current_equipped.muzzle_point)
+			if shooter.pawn_cam.Aimcast.is_colliding():
+				bulletFlyDir = shooter.pawn_cam.Aimcast.get_collision_point().normalized()
+			else:
+				bulletFlyDir = shooter.pawn_cam.getMidPoint(shooter.current_equipped.muzzle_point)
 		else:
 			bulletFlyDir = global_transform.basis.z
 			
@@ -37,7 +42,29 @@ func _physics_process(delta):
 		
 	global_transform.origin = newPos
 	
-	prevPos = newPos
+	
+	##Cast the ray from prevpos to newpos
+	var hitQuery = PhysicsRayQueryParameters3D.create(prevPos,newPos)
+	
+	if shooter:
+		if isHit:
+			hitQuery.exclude = [self]
+		else:
+			hitQuery.exclude = [shooter, self]
+			
+	var hitResult = get_world_3d().direct_space_state.intersect_ray(hitQuery)
+	
+	var dist = prevPos.distance_to(newPos)
+	
+	if hitResult:
+		isHit = true
+		newPos = hitResult.position
+		if hitResult.collider.has_method("damage"):
+			print("hit enemy")
+			hitResult.collider.damage(shooter.current_equipped.Item_Resource.Damage, bulletFlyDir, hitResult.position)
+			delete()
+		
+
 
 func delete():
 	queue_free()
