@@ -166,16 +166,17 @@ func _unhandled_input(event):
 
 
 func posess_pawn(pawn:Node3D):
+	var playerController = load("res://assets/resources/controllers/player/playerMasterController.gd")
 	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
 	reset_cam()
 	camera_follow_node = pawn
+	pawn.setMasterController(playerController)
 	get_tree().get_root().get_node("/root/Global").remove_child(self)
 	pawn.character_pawn.CameraPosNode.add_child(self)
-	pawn.character_pawn.pawn_cam = self
+	pawn.getMasterController().pawnCam = self
 	reset_cam()
 	pawn.character_pawn.global_rotation = Vector3.ZERO
-	CameraDataResource = pawn.character_pawn.CameraResource
-	pawn.character_pawn.is_controlled = true
+	CameraDataResource = pawn.controllerScript.CameraResource
 	is_freecam = false
 	Fade.fade_in(0.3, Color(0,0,0,1),"GradientVertical",false,true)
 
@@ -201,9 +202,9 @@ func reset_cam():
 func detach_cam():
 	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
 	Killcast.clear_exceptions()
+	camera_follow_node.clearMasterController()
 	var detach_pos = Vector3(vert.global_position.x,horiz.global_position.y,self.global_position.z)
 	var new_parent = get_node("/root/Global")
-	camera_follow_node.character_pawn.is_controlled = false
 	camera_follow_node.character_pawn.CameraPosNode.remove_child(self)
 	camera_follow_node = null
 	self.global_position = detach_pos

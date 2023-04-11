@@ -11,6 +11,7 @@ var dt
 @onready var anim_player = $Mesh/AnimationPlayer
 @onready var weapon_lower_timer = $weapon_lower_timer
 @onready var hitBoxes = $Mesh/Male/MaleSkeleton/Hitboxes
+@onready var pawnMesh = $Mesh
 #@onready var Camera_spring = $CameraPos/horizontal/vertical/SpringArm3D
 
 @export var pawn_cam : CharacterBody3D
@@ -26,14 +27,6 @@ var dt
 @export var acceleration = 3
 
 @export var rot = 0.0
-var turn_rate = 11
-var default_turn_rate = 11
-
-#Camera Data
-@export var CameraResource : CameraData
-
-## Camera shoulder position, 0 = Right, 1 = left
-@export var camera_shoulder = 0
 
 #Weapon Related
 @export var has_weapon_equipped = false
@@ -82,34 +75,9 @@ func _physics_process(delta):
 	if Global.is_multiplayer_game:
 		if not is_multiplayer_authority(): return
 	
-	
 	if Health <= 0 and !is_dead:
 		kill(last_bone_hit)
 		#velocity = Vector3(0,0,0)
-		
-		if is_controlled:
-			change_to_dead_cam()
-	
-	if is_controlled:
-		$Mesh.rotation.y = lerp_angle($Mesh.rotation.y, rot, delta * turn_rate)
-		#Set Rotation vector to Camera pos
-		rot = pawn_cam.rot
-		
-		if Input.is_action_pressed("Shoot"):
-			if !current_equipped == null:
-				current_equipped.use()
-		
-		if Input.is_action_pressed("Aim"):
-			if !is_using:
-				is_aiming = true
-			is_using = false
-			pawn_cam.fov_zoom(pawn_cam.default_cam_fov - 25, delta)
-		else:
-			pawn_cam.fov_zoom(pawn_cam.default_cam_fov, delta)
-
-		if !Input.is_action_pressed("Aim"):
-			if !is_using:
-				is_aiming = false
 
 	# Add the gravity.
 	if !is_dead:
@@ -132,8 +100,7 @@ func _physics_process(delta):
 	
 	anim_tree.set("parameters/Walk/blend_position",Vector2(velocity.x, velocity.z).rotated(rot))
 	
-	
-	
+
 	move_and_slide()
 	
 	
@@ -141,11 +108,7 @@ func _physics_process(delta):
 	if is_aiming:
 		ik_node.start()
 		ik_node.interpolation = lerpf(ik_node.get_interpolation(), 1, 10 * delta)
-		if is_controlled:
-			turn_rate = 25
-			ik_marker.rotation.x = -pawn_cam.vert.rotation.x
 	else:
-		turn_rate = default_turn_rate
 		ik_node.interpolation = lerpf(ik_node.get_interpolation(), 0, 10 * delta)
 		if ik_node.interpolation <= 0:
 			ik_node.stop()
@@ -168,18 +131,6 @@ func _physics_process(delta):
 		
 		if has_weapon_equipped:
 			current_equipped = Inventory[current_equipped_index]
-			
-			if is_controlled:
-				pawn_cam.hudDisplay.weaponDisplay.show()
-				pawn_cam.hudDisplay.weaponDisplayName.text = current_equipped.Item_Resource.ItemName
-				if !current_equipped.Item_Resource.itemIcon == null:
-					pawn_cam.hudDisplay.weaponDisplayTexture.texture = current_equipped.Item_Resource.itemIcon
-				else:
-					var unknownpng = load("res://assets/textures/weaponIcons/unknown/unknown.png")
-					pawn_cam.hudDisplay.weaponDisplayTexture.texture = unknownpng
-		else:
-			if is_controlled:
-				pawn_cam.hudDisplay.weaponDisplay.hide()
 		
 		
 	if current_equipped_index > inv_items or current_equipped_index <= -1:
@@ -210,30 +161,6 @@ func _physics_process(delta):
 		is_aiming = true
 
 
-func _unhandled_input(input):
-	if is_controlled:
-		#Swap Shoulder
-		if Input.is_action_just_pressed("swap_shoulder"):
-			swap_shoulder()
-		
-		if Input.is_action_just_released("mwheel_up"):
-			if !current_equipped_index > Inventory.size():
-				current_equipped_index = current_equipped_index + 1
-				
-		if Input.is_action_just_released("mwheel_down"):
-			if !current_equipped_index < 0:
-				current_equipped_index = current_equipped_index - 1
-		
-		MoveLeft = Input.get_action_strength("MoveLeft")
-		MoveRight = Input.get_action_strength("MoveRight")
-		MoveForward = Input.get_action_strength("MoveForward")
-		MoveBackwards = Input.get_action_strength("MoveBackwards")
-
-func swap_shoulder():
-	if camera_shoulder == 0:
-		camera_shoulder = 1
-	else:
-		camera_shoulder = 0
 
 func pawn_animation(delta):
 	pass
