@@ -30,7 +30,7 @@ var physics_bones
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if active_ragdoll_enabled == true:
-		$bleed_out_timer.wait_time = randf_range(0.05,0.5)
+		$bleed_out_timer.wait_time = randf_range(0.09,0.9)
 		$bleed_out_timer.start()
 	
 	#ragdoll_skeleton.physical_bones_start_simulation()

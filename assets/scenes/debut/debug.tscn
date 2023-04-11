@@ -35,6 +35,8 @@ transform = Transform3D(-4.486, 0, -3.92179e-07, 0, 4.486, 0, 3.92179e-07, 0, -4
 mesh = ExtResource("3_eqauj")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+collision_layer = 7
+collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_apq2p")
@@ -69,8 +71,17 @@ use_collision = true
 size = Vector3(1.22836, 0.516705, 1)
 material = ExtResource("5_njkap")
 
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.2055, 24.0477, -7.88497)
+use_collision = true
+size = Vector3(1.22836, 0.516705, 1)
+material = ExtResource("5_njkap")
+
 [node name="crap_boombox" parent="." instance=ExtResource("5_kasv3")]
 transform = Transform3D(0.659516, 0, -0.75169, 0, 1, 0, 0.75169, 0, 0.659516, -1.46134, 0.104405, -3.78415)
+
+[node name="crap_boombox2" parent="." instance=ExtResource("5_kasv3")]
+transform = Transform3D(-0.434728, 0, -0.900561, 0, 1, 0, 0.900561, 0, -0.434728, -10.1639, 24.3419, -8.00841)
 
 [node name="Baretta" parent="." instance=ExtResource("6_8yilj")]
 transform = Transform3D(0.973829, 0.227167, 0.00717472, 0, -0.0315677, 0.999502, 0.22728, -0.973344, -0.0307416, -1.28264, 0.142567, -3.36217)

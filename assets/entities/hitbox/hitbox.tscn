@@ -2,7 +2,10 @@
 
 [ext_resource type="Script" path="res://assets/scripts/hitbox/hitbox.gd" id="1_sav1f"]
 
-[node name="hitbox" type="Area3D"]
+[node name="hitbox" type="RigidBody3D"]
 script = ExtResource("1_sav1f")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+bus = &"Sounds"

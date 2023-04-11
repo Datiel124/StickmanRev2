@@ -10,6 +10,7 @@ var dt
 @onready var pawn_skeleton = $Mesh/Male/MaleSkeleton/Skeleton3D
 @onready var anim_player = $Mesh/AnimationPlayer
 @onready var weapon_lower_timer = $weapon_lower_timer
+@onready var hitBoxes = $Mesh/Male/MaleSkeleton/Hitboxes
 #@onready var Camera_spring = $CameraPos/horizontal/vertical/SpringArm3D
 
 @export var pawn_cam : CharacterBody3D
@@ -60,8 +61,9 @@ var current_equipped = null
 var current_equipped_index = 0
 
 var last_bone_hit = 0
-var last_impulse = Vector3(8, 0 , 0)
+var last_impulse: Vector3
 var impulse_amnt = 9
+var impulseDir :Vector3
 
 var created_ragdoll
 var is_using:bool
@@ -133,6 +135,7 @@ func _physics_process(delta):
 	
 	
 	move_and_slide()
+	
 	
 	#Aim Lerp
 	if is_aiming:
@@ -267,13 +270,13 @@ func create_ragdoll(impulse_bone:int = 0):
 		if child is PhysicalBone3D:
 			if child.get_bone_id() == impulse_bone:
 				_ragdoll.ragdoll_skeleton.physical_bones_start_simulation()
-				child.apply_central_impulse(last_impulse)
+				child.apply_impulse(last_impulse, impulseDir)
 	
 	_ragdoll.target_skeleton = pawn_skeleton
 	_ragdoll.bone_hit = last_bone_hit
 	_ragdoll.pawn_to_animate = self
 	_ragdoll.pawn_dead = get_parent()
-	created_ragdoll = ragdoll
+	created_ragdoll = _ragdoll
 
 
 func _on_weapon_lower_timer_timeout():

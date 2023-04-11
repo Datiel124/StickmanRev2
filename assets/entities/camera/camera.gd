@@ -107,6 +107,14 @@ func _physics_process(delta):
 	
 	
 	if !camera_follow_node == null:
+		var triggerOnce = true
+
+		if triggerOnce:
+			Killcast.add_exception(camera_follow_node.character_pawn)
+			for bones in camera_follow_node.character_pawn.hitBoxes.get_children():
+				for hitboxes in bones.get_children():
+					Killcast.add_exception(hitboxes)
+		
 		if !camera_follow_node.character_pawn.has_weapon_equipped:
 			if camera_follow_node.character_pawn.camera_shoulder == 0:
 				vert.position.x = lerp(vert.position.x, CameraDataResource.cam_offset.x, 5 * delta)
@@ -158,6 +166,7 @@ func _unhandled_input(event):
 
 
 func posess_pawn(pawn:Node3D):
+	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
 	reset_cam()
 	camera_follow_node = pawn
 	get_tree().get_root().get_node("/root/Global").remove_child(self)
@@ -168,6 +177,7 @@ func posess_pawn(pawn:Node3D):
 	CameraDataResource = pawn.character_pawn.CameraResource
 	pawn.character_pawn.is_controlled = true
 	is_freecam = false
+	Fade.fade_in(0.3, Color(0,0,0,1),"GradientVertical",false,true)
 
 func update_mouselook():
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -189,6 +199,8 @@ func reset_cam():
 	self.position = Vector3.ZERO
 
 func detach_cam():
+	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
+	Killcast.clear_exceptions()
 	var detach_pos = Vector3(vert.global_position.x,horiz.global_position.y,self.global_position.z)
 	var new_parent = get_node("/root/Global")
 	camera_follow_node.character_pawn.is_controlled = false
@@ -198,6 +210,7 @@ func detach_cam():
 	new_parent.add_child(self)
 	is_freecam = true
 	CameraDataResource = defaultcamres
+	Fade.fade_in(0.3, Color(0,0,0,1),"GradientVertical",false,true)
 
 
 func fov_zoom(zoom, delta):
