@@ -14,7 +14,7 @@ var dt
 @onready var pawnMesh = $Mesh
 #@onready var Camera_spring = $CameraPos/horizontal/vertical/SpringArm3D
 
-@export var pawn_cam : CharacterBody3D
+@export var pawnController : masterController
 @export var is_controlled = false
 @export var Health = 100
 @export var is_dead = false
@@ -211,8 +211,7 @@ func _on_weapon_lower_timer_timeout():
 	is_aiming = false
 
 func change_to_dead_cam():
-	CameraPosNode.remove_child(pawn_cam)
-	created_ragdoll.add_child(pawn_cam)
+	pass
 
 
 	

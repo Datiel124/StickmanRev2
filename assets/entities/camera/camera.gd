@@ -10,6 +10,7 @@ extends CharacterBody3D
 @onready var vert = $horizontal/vertical
 @onready var dead_cam = false
 @onready var hudDisplay = $horizontal/vertical/Camera3D/HUD
+@onready var playerNode = load("res://assets/resources/controllers/player/playerController.tscn")
 
 @export var cam_smooth_zoom = 0.1
 @export var min_zoom := -0.2
@@ -116,16 +117,16 @@ func _physics_process(delta):
 					Killcast.add_exception(hitboxes)
 		
 		if !camera_follow_node.character_pawn.has_weapon_equipped:
-			if camera_follow_node.character_pawn.camera_shoulder == 0:
+			if camera_follow_node.getMasterController().camera_shoulder == 0:
 				vert.position.x = lerp(vert.position.x, CameraDataResource.cam_offset.x, 5 * delta)
 			else:
 				vert.position.x = lerp(vert.position.x, -CameraDataResource.cam_offset.x, 5 * delta)
 			
 		#Set Camera position to equipped weapon shoulder
-		if camera_follow_node.character_pawn.camera_shoulder == 0 and camera_follow_node.character_pawn.has_weapon_equipped == true and !is_freecam:
+		if camera_follow_node.getMasterController().camera_shoulder == 0 and camera_follow_node.character_pawn.has_weapon_equipped == true and !is_freecam:
 			vert.position.x = lerp(vert.position.x, CameraDataResource.weapon_equipped_cam_offset.x, 5 * delta)
 			pass
-		if camera_follow_node.character_pawn.camera_shoulder == 1 and camera_follow_node.character_pawn.has_weapon_equipped == true and !is_freecam:
+		if camera_follow_node.getMasterController().camera_shoulder == 1 and camera_follow_node.character_pawn.has_weapon_equipped == true and !is_freecam:
 			vert.position.x = lerp(vert.position.x, -CameraDataResource.weapon_equipped_cam_offset.x, 5 * delta)
 			pass
 		
@@ -166,11 +167,12 @@ func _unhandled_input(event):
 
 
 func posess_pawn(pawn:Node3D):
-	var playerController = load("res://assets/resources/controllers/player/playerMasterController.gd")
 	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
 	reset_cam()
 	camera_follow_node = pawn
-	pawn.setMasterController(playerController)
+	var playercontroller = playerNode.instantiate()
+	pawn.add_child(playercontroller)
+	pawn.setMasterController(playercontroller)
 	get_tree().get_root().get_node("/root/Global").remove_child(self)
 	pawn.character_pawn.CameraPosNode.add_child(self)
 	pawn.getMasterController().pawnCam = self
@@ -178,6 +180,7 @@ func posess_pawn(pawn:Node3D):
 	pawn.character_pawn.global_rotation = Vector3.ZERO
 	CameraDataResource = pawn.controllerScript.CameraResource
 	is_freecam = false
+	pawn.getMasterController().pawn = pawn.character_pawn
 	Fade.fade_in(0.3, Color(0,0,0,1),"GradientVertical",false,true)
 
 func update_mouselook():

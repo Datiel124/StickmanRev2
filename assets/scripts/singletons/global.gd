@@ -63,7 +63,6 @@ func load_settings():
 func add_player(pos:Vector3 = Vector3(0,0,0), peer_id:int = 0):
 	var player_camera = camera_ent.instantiate()
 	var player_pawn = stickpawn.instantiate()
-	var playerController = load("res://assets/resources/controllers/player/playerMasterController.gd")
 	if is_multiplayer_game:
 		add_child(player_pawn)
 		player_camera.c_name = player_name
@@ -80,12 +79,16 @@ func add_player(pos:Vector3 = Vector3(0,0,0), peer_id:int = 0):
 		player_pawn.position = pos
 		player_camera.is_freecam = false
 	else:
+		var playerController = load("res://assets/resources/controllers/player/playerController.tscn")
+		var controller = playerController.instantiate()
 		add_child(player_pawn)
+		player_pawn.add_child(controller)
 		player_camera.camera_follow_node = player_pawn
-		player_pawn.setMasterController(playerController)
+		player_pawn.setMasterController(controller)
+		player_pawn.getMasterController().pawn = player_pawn.character_pawn
 		player_camera.CameraDataResource = player_pawn.getMasterController().CameraResource
-		player_pawn.getMasterController().CameraPosNode.add_child(player_camera)
 		player_pawn.getMasterController().pawnCam = player_camera
+		player_pawn.character_pawn.CameraPosNode.add_child(player_camera)
 		player_pawn.position = pos
 		player_camera.is_freecam = false
 

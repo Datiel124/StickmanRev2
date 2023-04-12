@@ -3,7 +3,7 @@ extends Node3D
 class_name Pawn_Controller
 
 @onready var character_pawn = $character_pawn
-var controllerScript
+@export var controllerScript : masterController
 
 
 # Called when the node enters the scene tree for the first time.
@@ -15,11 +15,14 @@ func _ready():
 func _process(delta):
 	pass
 
-func setMasterController(controller):
-	controllerScript = controller
+func setMasterController(mcontroller):
+	controllerScript = mcontroller
 	
 func getMasterController():
 	return controllerScript
 	
 func clearMasterController():
 	controllerScript = null
+	for child in get_children():
+		if child is masterController:
+			child.queue_free()
