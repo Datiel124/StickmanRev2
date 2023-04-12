@@ -25,18 +25,18 @@ func _ready():
 func _physics_process(delta):
 	if justCreated:
 		if !shooter == null:
-			if shooter.is_controlled and !shooter.current_equipped == null:
-				if shooter.pawn_cam.Killcast.is_colliding():
-					bulletFlyDir = (global_transform.origin - shooter.pawn_cam.Killcast.get_collision_point()).normalized()
+			if !shooter.current_equipped == null:
+				if shooter.get_owner().getMasterController().has_method("getKillcastPoint") and shooter.get_owner().getMasterController().checkIfKillcastColliding() == true:
+					bulletFlyDir = (global_transform.origin - shooter.get_owner().getMasterController().getKillcastPoint()).normalized()
 				else:
 					bulletFlyDir = global_transform.basis.z
-			else:
-				bulletFlyDir = global_transform.basis.z
+		else:
+			bulletFlyDir = global_transform.basis.z
 		
 		
 		##Cast the ray from prevpos to newpos
 		var hitQuery
-		if !shooter.is_controlled:
+		if !shooter.get_owner().getMasterController().has_method("getKillcastPoint"):
 			hitQuery = PhysicsRayQueryParameters3D.create(prevPos,newPos)
 			
 			if shooter:
@@ -57,9 +57,9 @@ func _physics_process(delta):
 					#delete()
 				
 		else:
-			if shooter.pawn_cam.Killcast.is_colliding():
-				var hitPosition = shooter.pawn_cam.Killcast.get_collision_point()
-				var hitResult = shooter.pawn_cam.Killcast.get_collider()
+			if shooter.get_owner().getMasterController().has_method("getKillcastPoint") and shooter.get_owner().getMasterController().checkIfKillcastColliding() == true:
+				var hitPosition = shooter.get_owner().getMasterController().getKillcastPoint()
+				var hitResult = shooter.get_owner().getMasterController().getKillcastCollider()
 				if hitResult.has_method("damage"):
 					hitResult.damage(shooter.current_equipped.Item_Resource.Damage, shooter.current_equipped.Item_Resource.physicsPushMult, bulletFlyDir, hitPosition, true, shooter.current_equipped.Item_Resource.knockbackForce)
 					#delete()

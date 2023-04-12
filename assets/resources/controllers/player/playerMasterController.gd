@@ -95,3 +95,14 @@ func swap_shoulder():
 		camera_shoulder = 1
 	else:
 		camera_shoulder = 0
+
+func getKillcastPoint():
+	if pawnCam.Killcast.is_colliding():
+		return pawnCam.Killcast.get_collision_point()
+
+func getKillcastCollider():
+	if pawnCam.Killcast.is_colliding():
+		return pawnCam.Killcast.get_collider()
+
+func checkIfKillcastColliding():
+	return pawnCam.Killcast.is_colliding()

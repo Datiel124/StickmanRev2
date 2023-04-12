@@ -228,3 +228,4 @@ func getMidPoint(muzzlepoint):
 	var rayEnd = (rayOrigin + cam.project_ray_normal(viewport/2)*600)
 	var dir = -(rayEnd - muzzlepoint.global_transform.origin).normalized()
 	return dir
+
