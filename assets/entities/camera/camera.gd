@@ -45,13 +45,15 @@ var defaultcamres = load("res://assets/resources/CameraData/DefaultCam.tres")
 
 
 func _ready():
-	if not is_multiplayer_authority(): return
+	if Global.is_multiplayer_game:
+		if not is_multiplayer_authority(): return
 	Camera.current = true
 	Input.set_mouse_mode(2)
 	pass # Replace with function body.
 
 func _physics_process(delta):
-	if not is_multiplayer_authority(): return
+	if Global.is_multiplayer_game:
+		if not is_multiplayer_authority(): return
 	##Rotation Setter
 	rot = vert.global_transform.basis.get_euler().y
 	update_mouselook()
@@ -60,8 +62,8 @@ func _physics_process(delta):
 		##Enable Freecam
 		if Input.is_action_just_pressed("give_test_item"):
 			if !is_freecam:
-				camera_follow_node.character_pawn.summon_item(Weapondb.SpawnableWeapons["Honeybadger"])
 				camera_follow_node.character_pawn.summon_item(Weapondb.SpawnableWeapons["Baretta"])
+				camera_follow_node.character_pawn.summon_item(Weapondb.SpawnableWeapons["Honeybadger"])
 				
 		##Enable Freecam
 		if Input.is_action_just_pressed("freecam_enable"):
@@ -74,18 +76,6 @@ func _physics_process(delta):
 			if Aimcast.is_colliding() && is_freecam:
 				if Aimcast.get_collider().get_parent() is Pawn_Controller:
 					posess_pawn(Aimcast.get_collider().get_parent())
-		
-		##Debug Kill Pawn
-		if Input.is_action_just_pressed("Shoot"):
-			if Killcast.is_colliding() && is_freecam:
-				if Killcast.get_collider() is PhysicalBone3D:
-					if Killcast.get_collider().get_owner() is Pawn_Controller:
-						if !Killcast.get_collider().get_owner().character_pawn.is_dead:
-							Killcast.get_collider().get_owner().character_pawn.last_bone_hit = Killcast.get_collider().get_bone_id()
-							Killcast.get_collider().get_owner().character_pawn.last_impulse = Killcast.get_collision_point().rotated(Vector3.DOWN,rot)
-							Killcast.get_collider().get_owner().character_pawn.impulse_amnt = debug_impulse
-							GlobalParticles.create_blood(0,Killcast.get_collision_point())
-							Killcast.get_collider().get_owner().character_pawn.kill(Killcast.get_collider().get_owner().character_pawn.last_bone_hit)
 		
 		if Input.is_action_just_pressed("pawn_spawn"):
 			var spawn_zone = get_node("/root/Global")
@@ -158,8 +148,10 @@ func camera_zoom_lerp():
 	spring_arm_temp = clamp(spring_arm_temp, min_zoom, max_zoom)
 	camera_springarm.spring_length = lerp(camera_springarm.spring_length, spring_arm_temp, cam_smooth_zoom)
 
-func _unhandled_input(event):
-	if not is_multiplayer_authority(): return
+func _input(event):
+	if Global.is_multiplayer_game:
+		if not is_multiplayer_authority(): return
+	
 	if event is InputEventMouseMotion:
 		mouse_pos.x += event.relative.x
 		mouse_pos.y += event.relative.y
