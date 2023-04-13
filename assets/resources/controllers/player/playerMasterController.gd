@@ -6,6 +6,8 @@ var enabled = true
 var pawn
 ##Player Camera
 var pawnCam
+#Tilt
+var tiltFactor = 0.02
 ## Player mesh turn rate
 var turnRate = 11
 var default_turn_rate = 11
@@ -28,6 +30,13 @@ func _process(delta):
 			pawn.pawnMesh.rotation.y = lerp_angle(pawn.pawnMesh.rotation.y, pawn.rot, delta * turnRate)
 			#Set Rotation vector to Camera pos
 			pawn.rot = pawnCam.rot
+			
+			##Enable status for HUD
+			if !pawnCam.hudDisplay.healthStatus.visible == true:
+				pawnCam.hudDisplay.healthStatus.show()
+				
+			##Set HP bar to pawn HP
+			pawnCam.hudDisplay.hpBar.value = pawn.Health
 			
 			##Check if the player is shooting
 			if Input.is_action_pressed("Shoot"):
@@ -66,6 +75,9 @@ func _process(delta):
 			else:
 				turnRate = default_turn_rate
 
+func _physics_process(delta):
+	if !pawn == null:
+		pass
 
 func _input(input):
 	if !pawn == null:

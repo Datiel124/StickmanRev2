@@ -3,6 +3,8 @@ extends Control
 @onready var weaponDisplay = $WeaponDisplay
 @onready var weaponDisplayTexture = $WeaponDisplay/WepText
 @onready var weaponDisplayName = $WeaponDisplay/WeaponName
+@onready var healthStatus = $Status
+@onready var hpBar = $Status/HpBar
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

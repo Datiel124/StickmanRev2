@@ -43,6 +43,7 @@ script = ExtResource("1_fptyc")
 [node name="blood" type="GPUParticles3D" parent="."]
 material_override = ExtResource("2_8pugv")
 transparency = 0.4
+cast_shadow = 0
 ignore_occlusion_culling = true
 amount = 45
 speed_scale = 2.5

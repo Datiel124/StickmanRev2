@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://3uicmawrn0g8"]
+[gd_scene load_steps=17 format=3 uid="uid://3uicmawrn0g8"]
 
 [ext_resource type="Script" path="res://assets/entities/camera/camera.gd" id="1_y85im"]
 [ext_resource type="Resource" uid="uid://d22vijxi5y5gm" path="res://assets/resources/CameraData/DefaultCam.tres" id="2_7fxa2"]
@@ -8,6 +8,8 @@
 [ext_resource type="FontFile" uid="uid://xmwjvmqspojb" path="res://assets/fonts/Grand_Aventure_Text.otf" id="4_ta6kv"]
 [ext_resource type="Shader" path="res://assets/entities/motion_blur/moblur.gdshader" id="5_4juwk"]
 [ext_resource type="Texture2D" uid="uid://c3iphin2mii6d" path="res://assets/textures/weaponIcons/beretta/Baretta.png" id="5_84h6w"]
+[ext_resource type="Theme" uid="uid://r6eti221uvo4" path="res://assets/resources/hp/hptheme.tres" id="7_afife"]
+[ext_resource type="Texture2D" uid="uid://cp82ljwccbn5h" path="res://assets/textures/ui/heartIcon.png" id="8_wn6kk"]
 [ext_resource type="Script" path="res://assets/resources/controllers/player/playerMasterController.gd" id="9_mdnuy"]
 [ext_resource type="Resource" uid="uid://cw2gtie23nvl0" path="res://assets/resources/CameraData/PawnDefaultPlayerCam.tres" id="10_jsogn"]
 
@@ -199,6 +201,48 @@ offset_bottom = 46.52
 texture = ExtResource("5_84h6w")
 expand_mode = 3
 stretch_mode = 4
+
+[node name="Status" type="Control" parent="horizontal/vertical/Camera3D/HUD"]
+layout_mode = 1
+anchors_preset = 0
+offset_right = 531.0
+offset_bottom = 148.0
+
+[node name="HpBar" type="ProgressBar" parent="horizontal/vertical/Camera3D/HUD/Status"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 16.0
+offset_right = 529.0
+offset_bottom = 43.0
+theme = ExtResource("7_afife")
+value = 83.36
+show_percentage = false
+
+[node name="StatusH" type="ColorRect" parent="horizontal/vertical/Camera3D/HUD/Status"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 7.0
+offset_right = 34.0
+offset_bottom = 95.0
+color = Color(0.54902, 0, 0, 0.486275)
+
+[node name="StatusBG" type="ColorRect" parent="horizontal/vertical/Camera3D/HUD/Status"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 7.0
+offset_right = 548.0
+offset_bottom = 96.0
+color = Color(0, 0, 0, 0.556863)
+
+[node name="heartIcon" type="TextureRect" parent="horizontal/vertical/Camera3D/HUD/Status"]
+modulate = Color(0.443137, 0, 0, 1)
+layout_mode = 0
+offset_left = 38.0
+offset_top = 13.0
+offset_right = 74.0
+offset_bottom = 48.0
+texture = ExtResource("8_wn6kk")
+expand_mode = 2
 
 [node name="Aimcast" type="RayCast3D" parent="horizontal/vertical/Camera3D"]
 target_position = Vector3(0, 0, -9000)

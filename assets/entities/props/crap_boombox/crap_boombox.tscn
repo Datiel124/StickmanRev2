@@ -4,7 +4,7 @@
 [ext_resource type="AudioStream" uid="uid://d0ia5aorbij7e" path="res://assets/music/ExternalActivity.mp3" id="2_bo55n"]
 [ext_resource type="AudioStream" uid="uid://kto2dqyucdyf" path="res://assets/music/HHb2.mp3" id="3_l0k83"]
 [ext_resource type="AudioStream" uid="uid://bbq1w5ubd4abv" path="res://assets/music/HHb.mp3" id="4_lm1kh"]
-[ext_resource type="AudioStream" uid="uid://bxukm6o4w5m1g" path="res://assets/music/Jailbreak.mp3" id="5_5wimk"]
+[ext_resource type="AudioStream" uid="uid://4fr4v3mmy3oj" path="res://assets/music/Frenzy.mp3" id="5_bsskq"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kx0kd"]
 size = Vector3(0.250624, 0.482841, 0.600377)
@@ -19,7 +19,7 @@ stream_1/stream = ExtResource("3_l0k83")
 stream_1/weight = 1.0
 stream_2/stream = ExtResource("4_lm1kh")
 stream_2/weight = 1.0
-stream_3/stream = ExtResource("5_5wimk")
+stream_3/stream = ExtResource("5_bsskq")
 stream_3/weight = 1.0
 
 [node name="crap_boombox" type="RigidBody3D" groups=["prop"]]

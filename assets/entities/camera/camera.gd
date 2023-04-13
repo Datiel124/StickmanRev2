@@ -123,6 +123,7 @@ func _physics_process(delta):
 	##Freecam
 	if is_freecam:
 		hudDisplay.weaponDisplay.hide()
+		hudDisplay.healthStatus.hide()
 		
 		direction = Vector3(Input.get_action_strength("MoveRight") - Input.get_action_strength("MoveLeft"), 0, Input.get_action_strength("MoveBackwards") - Input.get_action_strength("MoveForward")).rotated(Vector3.UP, rot)
 			
@@ -163,6 +164,7 @@ func posess_pawn(pawn:Node3D):
 	reset_cam()
 	camera_follow_node = pawn
 	var playercontroller = playerNode.instantiate()
+	pawn.clearMasterController()
 	pawn.add_child(playercontroller)
 	pawn.setMasterController(playercontroller)
 	get_tree().get_root().get_node("/root/Global").remove_child(self)

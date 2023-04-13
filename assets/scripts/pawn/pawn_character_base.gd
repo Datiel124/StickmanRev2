@@ -15,7 +15,6 @@ var dt
 #@onready var Camera_spring = $CameraPos/horizontal/vertical/SpringArm3D
 
 @export var pawnController : masterController
-@export var is_controlled = false
 @export var Health = 100
 @export var is_dead = false
 @export var is_aiming = false
@@ -33,6 +32,11 @@ var dt
 
 #Animation Related
 @onready var anim_tree = $Mesh/AnimationTree
+
+##If gun is blocked by being inside a wall or something
+var isItemBlocked:bool = false:
+	set(value):
+		isItemBlocked = value
 
 ##Character Related
 var c_name = ""
