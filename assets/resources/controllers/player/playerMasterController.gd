@@ -36,7 +36,7 @@ func _process(delta):
 				pawnCam.hudDisplay.healthStatus.show()
 				
 			##Set HP bar to pawn HP
-			pawnCam.hudDisplay.hpBar.value = pawn.Health
+			pawnCam.hudDisplay.hpBar.value = lerpf(pawnCam.hudDisplay.hpBar.value, pawn.Health, delta*8)
 			
 			##Check if the player is shooting
 			if Input.is_action_pressed("Shoot"):
