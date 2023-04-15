@@ -25,6 +25,9 @@ func _ready():
 func _process(delta):
 	if !pawn == null:
 		if enabled:
+			##Connect Item picked up signal
+			if !pawn.pickedupItem.is_connected(itemPickedup):
+				pawn.pickedupItem.connect(itemPickedup)
 			##Tie shot signal
 			if pawn.has_weapon_equipped:
 				if !pawn.current_equipped.itemUsed.is_connected(shotFired):
@@ -96,7 +99,10 @@ func _input(input):
 			##Scroll weapon list down
 			if Input.is_action_just_pressed("mwheel_down"):
 				pawn.current_equipped_index = pawn.current_equipped_index - 1
-
+			
+			##Pause menu toggle
+			if Input.is_action_just_pressed("game_pause"):
+				Global.notify_warn("No pause menu yet.. Just Alt+F4 if you need to leave the game.", 2, 2)
 			#Set movement strength parameters
 			pawn.MoveLeft = Input.get_action_strength("MoveLeft")
 			pawn.MoveRight = Input.get_action_strength("MoveRight")
@@ -123,3 +129,6 @@ func checkIfKillcastColliding():
 
 func shotFired():
 	pawnCam.applyRecoil(5)
+
+func itemPickedup(spawned):
+	Global.notify_fade("Picked up " + str(spawned.name), 2, 5)

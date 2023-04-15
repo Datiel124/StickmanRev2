@@ -1,0 +1,11 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=3 format=3 uid="uid://ot20of35bq16"]
+
+[ext_resource type="AudioStream" uid="uid://doah0b50uqi2n" path="res://assets/sounds/ui/uiSoft.wav" id="2_0asb8"]
+[ext_resource type="AudioStream" uid="uid://dbxyo1p3kd36u" path="res://assets/sounds/ui/uievaluate.wav" id="2_k5bhv"]
+
+[resource]
+streams_count = 2
+stream_0/stream = ExtResource("2_k5bhv")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("2_0asb8")
+stream_1/weight = 1.0

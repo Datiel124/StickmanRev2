@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://d3tap8lr0nbpi"]
+[gd_scene load_steps=8 format=3 uid="uid://d3tap8lr0nbpi"]
 
 [ext_resource type="Script" path="res://assets/scripts/singletons/notifs/notifs.gd" id="1_7sywe"]
-[ext_resource type="AudioStream" uid="uid://c65f15xka526g" path="res://assets/scripts/singletons/notifs/notif_sound1.wav" id="2_o1mjt"]
+[ext_resource type="AudioStream" uid="uid://c1x354mn4nakn" path="res://assets/scripts/singletons/notifs/notifRandomizer.tres" id="2_p1vb8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fx4d3"]
 bg_color = Color(0, 0, 0, 0.462745)
@@ -47,11 +47,6 @@ _data = {
 "pop_in": SubResource("Animation_n5ntt")
 }
 
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_82fal"]
-streams_count = 1
-stream_0/stream = ExtResource("2_o1mjt")
-stream_0/weight = 1.0
-
 [node name="notif_fade" type="Panel"]
 clip_contents = true
 custom_minimum_size = Vector2(272, 32)
@@ -80,7 +75,7 @@ libraries = {
 [node name="Timer" type="Timer" parent="."]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = SubResource("AudioStreamRandomizer_82fal")
+stream = ExtResource("2_p1vb8")
 bus = &"Sounds"
 
 [connection signal="ready" from="." to="AudioStreamPlayer" method="play"]

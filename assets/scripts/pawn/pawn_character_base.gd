@@ -4,6 +4,8 @@ class_name Pawn
 var ragdoll = preload("res://assets/entities/pawn/pawn_ragdoll.tscn")
 
 var dt
+signal pickedupItem
+
 @onready var CameraPosNode = $CameraPos
 @onready var ik_node = $Mesh/Male/MaleSkeleton/Skeleton3D/SkeletonIK3D
 @onready var ik_marker = $Mesh/Lookat
@@ -164,14 +166,13 @@ func pawn_animation(delta):
 	pass
 
 func summon_item(item):
-
 	if !itemholder.has_node(str(item)):
 		var spawned = item.instantiate()
 		spawned.holder = self
 		spawned.is_held = true
 		itemholder.add_child(spawned)
 		Inventory.append(spawned)
-		Global.notify_fade("Picked up " + str(spawned.name), 2, 5)
+		emit_signal("pickedupItem", spawned)
 		$equipsounds.play()
 		if !spawned.is_held:
 			spawned.is_held = true
