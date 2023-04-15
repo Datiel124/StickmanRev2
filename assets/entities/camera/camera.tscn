@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://3uicmawrn0g8"]
+[gd_scene load_steps=15 format=3 uid="uid://3uicmawrn0g8"]
 
 [ext_resource type="Script" path="res://assets/entities/camera/camera.gd" id="1_y85im"]
 [ext_resource type="Resource" uid="uid://d22vijxi5y5gm" path="res://assets/resources/CameraData/DefaultCam.tres" id="2_7fxa2"]
@@ -10,8 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://c3iphin2mii6d" path="res://assets/textures/weaponIcons/beretta/Baretta.png" id="5_84h6w"]
 [ext_resource type="Theme" uid="uid://r6eti221uvo4" path="res://assets/resources/hp/hptheme.tres" id="7_afife"]
 [ext_resource type="Texture2D" uid="uid://cp82ljwccbn5h" path="res://assets/textures/ui/heartIcon.png" id="8_wn6kk"]
-[ext_resource type="Script" path="res://assets/resources/controllers/player/playerMasterController.gd" id="9_mdnuy"]
-[ext_resource type="Resource" uid="uid://cw2gtie23nvl0" path="res://assets/resources/CameraData/PawnDefaultPlayerCam.tres" id="10_jsogn"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_iptl5"]
 radius = 0.001
@@ -263,7 +261,3 @@ surface_material_override/0 = SubResource("ShaderMaterial_st2q6")
 replication_interval = 0.15
 replication_config = SubResource("SceneReplicationConfig_646le")
 public_visibility = false
-
-[node name="playerNode" type="Node3D" parent="."]
-script = ExtResource("9_mdnuy")
-CameraResource = ExtResource("10_jsogn")

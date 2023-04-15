@@ -1,0 +1,136 @@
+[gd_scene load_steps=3 format=3 uid="uid://bls4esso5he3i"]
+
+[ext_resource type="Script" path="res://assets/scripts/world_related/worldScript/worldScript.gd" id="1_02hqo"]
+[ext_resource type="Environment" uid="uid://d3dpjlph6ubct" path="res://assets/envs/default_env.tres" id="2_uo5rm"]
+
+[node name="safehouseDefault" type="Node"]
+script = ExtResource("1_02hqo")
+worldType = 2
+worldName = "Safehouse One"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("2_uo5rm")
+
+[node name="geometry" type="Node3D" parent="."]
+
+[node name="floor" type="Node3D" parent="geometry"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="geometry/floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.524094, 0)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(2, 1, 12)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="geometry/floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.98427, 0.524094, 0)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(8, 1, 6)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="geometry/floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.016, 0.512, -3)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(8, 1, 6)
+
+[node name="ceiling" type="Node3D" parent="geometry"]
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="geometry/ceiling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.52409, 0)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(2, 1, 12)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="geometry/ceiling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.98427, 3.52409, 0)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(8, 1, 6)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="geometry/ceiling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.016, 3.512, -3)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(8, 1, 6)
+
+[node name="walls" type="Node3D" parent="geometry"]
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="geometry/walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.016, 1.512, 0)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(8, 4, 0.002)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="geometry/walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.00482, 1.512, 4.53076)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(0.002, 4, 3.06832)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="geometry/walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.995183, 1.512, 3.99028)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(0.002, 4, 8)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="geometry/walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0159998, 1.512, 6)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(2, 4, 0.002)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="geometry/walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.984, 1.512, -3)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(8, 4, 0.002)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="geometry/walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.984, 1.512, 3)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(8, 4, 0.002)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="geometry/walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.984, 1.512, 0)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(0.002, 4, 6)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="geometry/walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.016, 1.512, -6)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(10, 4, 0.002)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="geometry/walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.016, 1.512, -3)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(0.002, 4, 6)
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="geometry/walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.975081, 1.512, -4.50036)
+use_collision = true
+collision_layer = 65535
+collision_mask = 65023
+size = Vector3(0.002, 4, 3.01813)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.195125, -0.357449, 0.913322, 0, 0.931221, 0.364454, -0.980778, -0.071114, 0.181704, 13.0998, 6.69348, 0.228307)
+shadow_enabled = true

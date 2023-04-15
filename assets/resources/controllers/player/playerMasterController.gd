@@ -21,11 +21,15 @@ var default_turn_rate = 11
 func _ready():
 	pass
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if !pawn == null:
 		if enabled:
+			##Tie shot signal
+			if pawn.has_weapon_equipped:
+				if !pawn.current_equipped.itemUsed.is_connected(shotFired):
+					pawn.current_equipped.itemUsed.connect(shotFired)
+				
 			##Set the mesh to look at the camera direction
 			pawn.pawnMesh.rotation.y = lerp_angle(pawn.pawnMesh.rotation.y, pawn.rot, delta * turnRate)
 			#Set Rotation vector to Camera pos
@@ -118,3 +122,6 @@ func getKillcastCollider():
 
 func checkIfKillcastColliding():
 	return pawnCam.Killcast.is_colliding()
+
+func shotFired():
+	pawnCam.applyRecoil(5)

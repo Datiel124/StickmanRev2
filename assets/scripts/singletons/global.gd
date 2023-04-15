@@ -12,6 +12,9 @@ var is_multiplayer_game = false
 ## If is fullscreen
 var is_fullscreen = true
 
+## Ingame Globals
+var world
+
 #MP Related
 var port = 7777
 var ip = "localhost"
@@ -83,7 +86,7 @@ func add_player(pos:Vector3 = Vector3(0,0,0), peer_id:int = 0):
 		var controller = playerController.instantiate()
 		add_child(player_pawn)
 		player_pawn.add_child(controller)
-		player_camera.camera_follow_node = player_pawn
+		player_camera.attachedPawn = player_pawn
 		player_pawn.setMasterController(controller)
 		player_pawn.getMasterController().pawn = player_pawn.character_pawn
 		player_camera.CameraDataResource = player_pawn.getMasterController().CameraResource

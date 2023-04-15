@@ -1,4 +1,4 @@
-extends Pawn_Controller
+extends Node3D
 class_name masterController
 
 # Called when the node enters the scene tree for the first time.

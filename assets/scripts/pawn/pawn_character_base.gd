@@ -12,7 +12,8 @@ var dt
 @onready var weapon_lower_timer = $weapon_lower_timer
 @onready var hitBoxes = $Mesh/Male/MaleSkeleton/Hitboxes
 @onready var pawnMesh = $Mesh
-#@onready var Camera_spring = $CameraPos/horizontal/vertical/SpringArm3D
+@onready var anim_tree = $Mesh/AnimationTree
+
 
 @export var pawnController : masterController
 @export var Health = 100
@@ -29,9 +30,6 @@ var dt
 
 #Weapon Related
 @export var has_weapon_equipped = false
-
-#Animation Related
-@onready var anim_tree = $Mesh/AnimationTree
 
 ##If gun is blocked by being inside a wall or something
 var isItemBlocked:bool = false:

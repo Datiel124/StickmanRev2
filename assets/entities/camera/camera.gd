@@ -1,5 +1,5 @@
 extends CharacterBody3D
-
+class_name playerCam
 
 @onready var Aimcast = $horizontal/vertical/Camera3D/Aimcast
 @onready var Killcast = $horizontal/vertical/Camera3D/KillCast
@@ -34,7 +34,9 @@ var defaultcamres = load("res://assets/resources/CameraData/DefaultCam.tres")
 @export var default_cam_fov = 90
 @export var debug_cam_controls = true
 @export var is_freecam = true
-@export var camera_follow_node : Node3D
+@export var attachedPawn : Node3D:
+	get:
+		return attachedPawn
 @export var CameraDataResource:CameraData
 
 @onready var rot = vert.global_transform.basis.get_euler().y
@@ -62,8 +64,8 @@ func _physics_process(delta):
 		##Enable Freecam
 		if Input.is_action_just_pressed("give_test_item"):
 			if !is_freecam:
-				camera_follow_node.character_pawn.summon_item(Weapondb.SpawnableWeapons["Baretta"])
-				camera_follow_node.character_pawn.summon_item(Weapondb.SpawnableWeapons["Honeybadger"])
+				attachedPawn.character_pawn.summon_item(Weapondb.SpawnableWeapons["Baretta"])
+				attachedPawn.character_pawn.summon_item(Weapondb.SpawnableWeapons["Honeybadger"])
 				
 		##Enable Freecam
 		if Input.is_action_just_pressed("freecam_enable"):
@@ -97,26 +99,26 @@ func _physics_process(delta):
 	
 	
 	
-	if !camera_follow_node == null:
+	if !attachedPawn == null:
 		var triggerOnce = true
 
 		if triggerOnce:
-			Killcast.add_exception(camera_follow_node.character_pawn)
-			for bones in camera_follow_node.character_pawn.hitBoxes.get_children():
+			Killcast.add_exception(attachedPawn.character_pawn)
+			for bones in attachedPawn.character_pawn.hitBoxes.get_children():
 				for hitboxes in bones.get_children():
 					Killcast.add_exception(hitboxes)
 		
-		if !camera_follow_node.character_pawn.has_weapon_equipped:
-			if camera_follow_node.getMasterController().camera_shoulder == 0:
+		if !attachedPawn.character_pawn.has_weapon_equipped:
+			if attachedPawn.getMasterController().camera_shoulder == 0:
 				vert.position.x = lerp(vert.position.x, CameraDataResource.cam_offset.x, 5 * delta)
 			else:
 				vert.position.x = lerp(vert.position.x, -CameraDataResource.cam_offset.x, 5 * delta)
 			
 		#Set Camera position to equipped weapon shoulder
-		if camera_follow_node.getMasterController().camera_shoulder == 0 and camera_follow_node.character_pawn.has_weapon_equipped == true and !is_freecam:
+		if attachedPawn.getMasterController().camera_shoulder == 0 and attachedPawn.character_pawn.has_weapon_equipped == true and !is_freecam:
 			vert.position.x = lerp(vert.position.x, CameraDataResource.weapon_equipped_cam_offset.x, 5 * delta)
 			pass
-		if camera_follow_node.getMasterController().camera_shoulder == 1 and camera_follow_node.character_pawn.has_weapon_equipped == true and !is_freecam:
+		if attachedPawn.getMasterController().camera_shoulder == 1 and attachedPawn.character_pawn.has_weapon_equipped == true and !is_freecam:
 			vert.position.x = lerp(vert.position.x, -CameraDataResource.weapon_equipped_cam_offset.x, 5 * delta)
 			pass
 		
@@ -162,7 +164,7 @@ func _input(event):
 func posess_pawn(pawn:Node3D):
 	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
 	reset_cam()
-	camera_follow_node = pawn
+	attachedPawn = pawn
 	var playercontroller = playerNode.instantiate()
 	pawn.clearMasterController()
 	pawn.add_child(playercontroller)
@@ -186,7 +188,7 @@ func update_mouselook():
 		
 		mouse_pos = Vector2(0, 0)
 		
-		pitch = clamp(pitch, -90 - total_pitch, 90 - total_pitch)
+		pitch = clamp(pitch, -88 - total_pitch, 88 - total_pitch)
 		total_pitch += pitch
 		horiz.rotate_y(deg_to_rad(-yaw))
 		vert.rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch))
@@ -199,12 +201,12 @@ func reset_cam():
 func detach_cam():
 	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
 	Killcast.clear_exceptions()
-	camera_follow_node.clearMasterController()
+	attachedPawn.clearMasterController()
 	var detach_pos = Vector3(vert.global_position.x,horiz.global_position.y,self.global_position.z)
 	var new_parent = get_node("/root/Global")
-	camera_follow_node.character_pawn.CameraPosNode.remove_child(self)
-	camera_follow_node = null
-	self.global_position = detach_pos
+	attachedPawn.character_pawn.CameraPosNode.remove_child(self)
+	attachedPawn = null
+	self.position = detach_pos
 	new_parent.add_child(self)
 	is_freecam = true
 	CameraDataResource = defaultcamres
@@ -223,3 +225,6 @@ func getMidPoint(muzzlepoint):
 	var dir = -(rayEnd - muzzlepoint.global_transform.origin).normalized()
 	return dir
 
+func applyRecoil(amount:int):
+	var camDefaultRotation = Vector3(vert.rotation.x, horiz.rotation.y, Camera.rotation.z)
+	vert.rotation.y = vert.rotation.y * -amount
