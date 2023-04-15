@@ -18,10 +18,10 @@ func _process(delta):
 
 func setMasterController(mcontroller):
 	controllerScript = mcontroller
-	
+
 func getMasterController():
 	return controllerScript
-	
+
 func clearMasterController():
 	controllerScript = null
 	for child in get_children():

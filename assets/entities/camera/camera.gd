@@ -28,7 +28,7 @@ var mouse_pos = Vector2(0.0,0.0)
 
 
 var c_name = ""
-var mp_id 
+var mp_id
 
 var defaultcamres = load("res://assets/resources/CameraData/DefaultCam.tres")
 @export var default_cam_fov = 90
@@ -64,21 +64,23 @@ func _physics_process(delta):
 		##Enable Freecam
 		if Input.is_action_just_pressed("give_test_item"):
 			if !is_freecam:
-				attachedPawn.character_pawn.summon_item(Weapondb.SpawnableWeapons["Baretta"])
-				attachedPawn.character_pawn.summon_item(Weapondb.SpawnableWeapons["Honeybadger"])
-				
+				for i in Weapondb.SpawnableWeapons.keys():
+					attachedPawn.character_pawn.summon_item(Weapondb.SpawnableWeapons[i])
+					for wait in 5:
+						await get_tree().physics_frame
+
 		##Enable Freecam
 		if Input.is_action_just_pressed("freecam_enable"):
 			if !is_freecam and !dead_cam:
 				detach_cam()
-				
-		
+
+
 		##Posess Pawn
 		if Input.is_action_just_pressed("debug_posess"):
 			if Aimcast.is_colliding() && is_freecam:
 				if Aimcast.get_collider().get_parent() is Pawn_Controller:
 					posess_pawn(Aimcast.get_collider().get_parent())
-		
+
 		if Input.is_action_just_pressed("pawn_spawn"):
 			var spawn_zone = get_node("/root/Global")
 			if Aimcast.is_colliding():
@@ -88,17 +90,17 @@ func _physics_process(delta):
 					pawn.position = Aimcast.get_collision_point()
 					pawn.rotation.y = randf_range(0,360)
 					spawn_zone.add_child(pawn, true)
-					
+
 	##If freecam is on
 	if is_freecam:
 		vert.position.x = lerp(vert.position.x, CameraDataResource.cam_offset.x, 5 * delta)
-	
+
 	##If Freecam is not on and is posessing
 	Camera.position.z = lerp(Camera.position.z, CameraDataResource.cam_offset.z, 5 * delta)
 	horiz.position.y = lerp(horiz.position.y, CameraDataResource.cam_offset.y, 5 * delta)
-	
-	
-	
+
+
+
 	if !attachedPawn == null:
 		var triggerOnce = true
 
@@ -107,13 +109,13 @@ func _physics_process(delta):
 			for bones in attachedPawn.character_pawn.hitBoxes.get_children():
 				for hitboxes in bones.get_children():
 					Killcast.add_exception(hitboxes)
-		
+
 		if !attachedPawn.character_pawn.has_weapon_equipped:
 			if attachedPawn.getMasterController().camera_shoulder == 0:
 				vert.position.x = lerp(vert.position.x, CameraDataResource.cam_offset.x, 5 * delta)
 			else:
 				vert.position.x = lerp(vert.position.x, -CameraDataResource.cam_offset.x, 5 * delta)
-			
+
 		#Set Camera position to equipped weapon shoulder
 		if attachedPawn.getMasterController().camera_shoulder == 0 and attachedPawn.character_pawn.has_weapon_equipped == true and !is_freecam:
 			vert.position.x = lerp(vert.position.x, CameraDataResource.weapon_equipped_cam_offset.x, 5 * delta)
@@ -121,30 +123,30 @@ func _physics_process(delta):
 		if attachedPawn.getMasterController().camera_shoulder == 1 and attachedPawn.character_pawn.has_weapon_equipped == true and !is_freecam:
 			vert.position.x = lerp(vert.position.x, -CameraDataResource.weapon_equipped_cam_offset.x, 5 * delta)
 			pass
-		
+
 	##Freecam
 	if is_freecam:
 		hudDisplay.weaponDisplay.hide()
 		hudDisplay.healthStatus.hide()
-		
+
 		direction = Vector3(Input.get_action_strength("MoveRight") - Input.get_action_strength("MoveLeft"), 0, Input.get_action_strength("MoveBackwards") - Input.get_action_strength("MoveForward")).rotated(Vector3.UP, rot)
-			
+
 		if direction != Vector3.ZERO:
 			direction = direction.normalized()
 
 		velocity.x = lerp(velocity.x, direction.x * cam_speed, delta * acceleration )
 		velocity.z = lerp(velocity.z, direction.z * cam_speed, delta * acceleration )
 		velocity.y = lerp(velocity.y, vert_velocity.y * cam_speed, delta * acceleration)
-		
+
 		vert_velocity = Vector3.ZERO
 		if Input.is_action_pressed("freecam_up"):
 			vert_velocity.y = 1.0
 		if Input.is_action_pressed("freecam_down"):
 			vert_velocity.y = -1.0
-			
-			
-			
-		
+
+
+
+
 		move_and_slide()
 
 func camera_zoom_lerp():
@@ -154,11 +156,11 @@ func camera_zoom_lerp():
 func _input(event):
 	if Global.is_multiplayer_game:
 		if not is_multiplayer_authority(): return
-	
+
 	if event is InputEventMouseMotion:
 		mouse_pos.x += event.relative.x
 		mouse_pos.y += event.relative.y
-		
+
 
 
 func posess_pawn(pawn:Node3D):
@@ -182,18 +184,18 @@ func posess_pawn(pawn:Node3D):
 func update_mouselook():
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		mouse_pos *= sensitivity
-		
+
 		var yaw = mouse_pos.x
 		var pitch = mouse_pos.y
-		
+
 		mouse_pos = Vector2(0, 0)
-		
+
 		pitch = clamp(pitch, -88 - total_pitch, 88 - total_pitch)
 		total_pitch += pitch
 		horiz.rotate_y(deg_to_rad(-yaw))
 		vert.rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch))
 
-			
+
 
 func reset_cam():
 	self.position = Vector3.ZERO
@@ -219,7 +221,7 @@ func fov_zoom(zoom, delta):
 func getMidPoint(muzzlepoint):
 	var cam = get_viewport().get_camera_3d()
 	var viewport = get_viewport().get_content_scale_size()
-	
+
 	var rayOrigin = cam.project_ray_origin(viewport/2)
 	var rayEnd = (rayOrigin + cam.project_ray_normal(viewport/2)*600)
 	var dir = -(rayEnd - muzzlepoint.global_transform.origin).normalized()

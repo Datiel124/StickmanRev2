@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://dursbwf6gwoqv"]
+
+[ext_resource type="PackedScene" uid="uid://d3tap8lr0nbpi" path="res://assets/scripts/singletons/notifs/notif_fade.tscn" id="1_yal84"]
+[ext_resource type="Texture2D" uid="uid://kk848843568l" path="res://assets/scripts/singletons/notifs/warninghd.pmg.png" id="2_wwe7f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qe8nk"]
+bg_color = Color(0.176471, 0, 0, 0.686275)
+border_width_top = 2
+border_width_bottom = 2
+border_color = Color(1, 0, 0, 0)
+corner_detail = 1
+
+[node name="notif_warn" instance=ExtResource("1_yal84")]
+theme_override_styles/panel = SubResource("StyleBoxFlat_qe8nk")
+
+[node name="Label" parent="." index="0"]
+offset_left = 32.0
+offset_right = 272.0
+text = "Warning
+"
+
+[node name="TextureRect" type="TextureRect" parent="Label" index="0"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = -28.0
+offset_right = -4.0
+grow_vertical = 2
+texture = ExtResource("2_wwe7f")
+expand_mode = 1
+stretch_mode = 5

@@ -1,0 +1,151 @@
+[gd_scene load_steps=2 format=3 uid="uid://dm5bh8yaxomig"]
+
+[sub_resource type="GDScript" id="GDScript_h3uiv"]
+script/source = "extends MarginContainer
+
+var warning_texture := preload(\"res://assets/scripts/singletons/notifs/warninghd.pmg.png\")
+var notif_fade : PackedScene = preload(\"res://assets/scripts/singletons/notifs/notif_fade.tscn\")
+var notif_warn : PackedScene = preload(\"res://assets/scripts/singletons/notifs/notif_warn.tscn\")
+var notif_click : PackedScene = preload(\"res://assets/scripts/singletons/notifs/notif_click.tscn\")
+@onready var hud_positions = [$Margins/topleft_notifs, $Margins/topcenter_notifs, $Margins/topright_notifs, $Margins/bottomleft_notifs, $Margins/bottomcenter_notifs, $Margins/bottomright_notifs]
+
+
+func _on_button_pressed() -> void:
+	var pos = 2
+	if $Margins/CheckBox.button_pressed:
+		pos = randi_range(0, 5)
+	Global.notify_fade([\"Test a long message\", \"Short\", \"Medium message\", \"This is the longest message ever, ever. The longest that could ever possibly exist. You wouldn't need a message this long for anything. But it should still handle it.\"].pick_random(), pos, randf_range(3, 6))
+	pass # Replace with function body.
+
+
+func _on_button_2_pressed() -> void:
+	var pos = 2
+	if $Margins/CheckBox.button_pressed:
+		pos = randi_range(0, 5)
+	Global.notify_warn([\"This is a warning. You have been warned.\", \"This is a longer warning. Maybe for console warnings or something. Like this. Error : Weapon missing stats.\"].pick_random(), pos, 3.0)
+	pass # Replace with function body.
+
+
+func _on_button_3_pressed() -> void:
+	var pos = 2
+	if $Margins/CheckBox.button_pressed:
+		pos = randi_range(0, 5)
+	Global.notify_click(\"Click me!\", pos, Global.notify_fade, -1, [\"You clicked it.\", pos, 3.0])
+	pass # Replace with function body.
+"
+
+[node name="Notifications" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 64
+script = SubResource("GDScript_h3uiv")
+
+[node name="Margins" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="topleft_notifs" type="VBoxContainer" parent="Margins"]
+layout_mode = 1
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="topcenter_notifs" type="VBoxContainer" parent="Margins"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="topright_notifs" type="VBoxContainer" parent="Margins"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="bottomleft_notifs" type="VBoxContainer" parent="Margins"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="bottomcenter_notifs" type="VBoxContainer" parent="Margins"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="bottomright_notifs" type="VBoxContainer" parent="Margins"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="CheckBox" type="CheckBox" parent="Margins"]
+visible = false
+layout_mode = 2
+offset_left = 680.0
+offset_top = 576.0
+offset_right = 783.0
+offset_bottom = 607.0
+text = "random"
+
+[node name="Button" type="Button" parent="Margins"]
+visible = false
+layout_mode = 2
+offset_left = 672.0
+offset_top = 496.0
+offset_right = 800.0
+offset_bottom = 560.0
+text = "test text"
+
+[node name="Button2" type="Button" parent="Margins"]
+visible = false
+layout_mode = 2
+offset_left = 808.0
+offset_top = 496.0
+offset_right = 936.0
+offset_bottom = 560.0
+text = "test warn"
+
+[node name="Button3" type="Button" parent="Margins"]
+visible = false
+layout_mode = 2
+offset_left = 944.0
+offset_top = 496.0
+offset_right = 1072.0
+offset_bottom = 560.0
+text = "test clickable"
+
+[connection signal="pressed" from="Margins/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Margins/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Margins/Button3" to="." method="_on_button_3_pressed"]

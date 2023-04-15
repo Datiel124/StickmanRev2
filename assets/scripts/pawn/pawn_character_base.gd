@@ -40,7 +40,7 @@ var isItemBlocked:bool = false:
 var c_name = ""
 
 ##MP Related
-var mp_id:int 
+var mp_id:int
 
 #Movement Variables
 var MoveLeft = 0.0
@@ -49,11 +49,12 @@ var MoveForward = 0.0
 var MoveBackwards = 0.0
 
 #Inventory and Equip
-@export var inv_items = Inventory.size() - 1
-@export var Inventory:Array
+@export var Inventory: Array
 @onready var itemholder = $R_Holder
 var current_equipped = null
-var current_equipped_index = 0
+var current_equipped_index := 0:
+	set(value):
+		current_equipped_index = clamp(value, 0, Inventory.size()-1)
 
 var last_bone_hit = 0
 var last_impulse: Vector3
@@ -70,13 +71,15 @@ func _enter_tree():
 	if Global.is_multiplayer_game:
 		set_multiplayer_authority(str(name).to_int())
 
+
 func _ready():
 	Inventory.append(null)
+
 
 func _physics_process(delta):
 	if Global.is_multiplayer_game:
 		if not is_multiplayer_authority(): return
-	
+
 	if Health <= 0 and !is_dead:
 		kill(last_bone_hit)
 		#velocity = Vector3(0,0,0)
@@ -93,19 +96,19 @@ func _physics_process(delta):
 		# Get the input direction and handle the movement/deceleration.
 		# As good practice, you should replace UI actions with custom gameplay actions.
 		var direction = Vector3(MoveRight - MoveLeft, 0, MoveBackwards - MoveForward).rotated(Vector3.UP, rot)
-		
+
 		if direction != Vector3.ZERO:
 				direction = direction.normalized()
-		
+
 		velocity.x = lerp(velocity.x, direction.x * character_speed, delta * acceleration )
 		velocity.z = lerp(velocity.z, direction.z * character_speed, delta * acceleration )
-	
+
 	anim_tree.set("parameters/Walk/blend_position",Vector2(velocity.x, velocity.z).rotated(rot))
-	
+
 
 	move_and_slide()
-	
-	
+
+
 	#Aim Lerp
 	if is_aiming:
 		ik_node.start()
@@ -114,41 +117,34 @@ func _physics_process(delta):
 		ik_node.interpolation = lerpf(ik_node.get_interpolation(), 0, 10 * delta)
 		if ik_node.interpolation <= 0:
 			ik_node.stop()
-	
+
 	#Inventory and Item equip start
-	inv_items = Inventory.size() - 1
-	if !current_equipped_index > inv_items:
-		if current_equipped_index == 0:
-			has_weapon_equipped = false
-			current_equipped = Inventory[current_equipped_index]
+	if current_equipped_index == 0:
+		has_weapon_equipped = false
+		current_equipped = null
+		for item in itemholder.get_child_count():
+			itemholder.get_child(item).visible = false
+	else:
+		if Inventory[current_equipped_index] != null:
+			has_weapon_equipped = true
+			Inventory[current_equipped_index].show()
 			for item in itemholder.get_child_count():
-				itemholder.get_child(item).visible = false
-		else:
-			if !Inventory[current_equipped_index] == null:
-				has_weapon_equipped = true
-				Inventory[current_equipped_index].show()
-				for item in itemholder.get_child_count():
-					if !itemholder.get_child(item) == current_equipped:
-						itemholder.get_child(item).hide()
-		
-		if has_weapon_equipped:
-			current_equipped = Inventory[current_equipped_index]
-		
-		
-	if current_equipped_index > inv_items or current_equipped_index <= -1:
-		current_equipped_index = 0
-	
+				if !itemholder.get_child(item) == current_equipped:
+					itemholder.get_child(item).hide()
+	if has_weapon_equipped:
+		current_equipped = Inventory[current_equipped_index]
+
 	## Weapon Animation
 	if !current_equipped == null:
 		anim_tree.set("parameters/weapon_blend/blend_amount", lerpf(anim_tree.get("parameters/weapon_blend/blend_amount"), 1, 15 * delta))
-		
+
 		if current_equipped.Item_Resource.animation_type == 0:
 			anim_tree.set("parameters/weapon_type/transition_request", "pistol_baretta")
 			if is_aiming == false:
 				anim_tree.set("parameters/pistol_baretta_idleaim/blend_position", lerpf(anim_tree.get("parameters/pistol_baretta_idleaim/blend_position"), 0, 15 * delta))
 			else:
 				anim_tree.set("parameters/pistol_baretta_idleaim/blend_position", lerpf(anim_tree.get("parameters/pistol_baretta_idleaim/blend_position"), 1, 35 * delta))
-			
+
 		if current_equipped.Item_Resource.animation_type == 1:
 			anim_tree.set("parameters/weapon_type/transition_request", "honeybadger")
 			if !is_aiming:
@@ -158,7 +154,7 @@ func _physics_process(delta):
 	else:
 		anim_tree.set("parameters/weapon_blend/blend_amount", lerpf(anim_tree.get("parameters/weapon_blend/blend_amount"), 0, 15 * delta))
 		is_using = false
-			
+
 	if is_using == true:
 		is_aiming = true
 
@@ -168,15 +164,18 @@ func pawn_animation(delta):
 	pass
 
 func summon_item(item):
+
 	if !itemholder.has_node(str(item)):
 		var spawned = item.instantiate()
 		spawned.holder = self
 		spawned.is_held = true
 		itemholder.add_child(spawned)
 		Inventory.append(spawned)
+		Global.notify_fade("Picked up " + str(spawned.name), 2, 5)
+		$equipsounds.play()
 		if !spawned.is_held:
 			spawned.is_held = true
-	pass
+
 
 func kill(bone_hit):
 	$Collider.disabled = true
@@ -185,7 +184,7 @@ func kill(bone_hit):
 	create_ragdoll(bone_hit)
 	anim_tree.active = false
 	hide()
-	
+
 func create_ragdoll(impulse_bone:int = 0):
 	var _ragdoll = ragdoll.instantiate()
 	_ragdoll.global_transform = $Mesh.global_transform
@@ -193,14 +192,14 @@ func create_ragdoll(impulse_bone:int = 0):
 	for bones in _ragdoll.ragdoll_skeleton.get_bone_count():
 		_ragdoll.ragdoll_skeleton.set_bone_pose_rotation(bones, $Mesh/Male/MaleSkeleton/Skeleton3D.get_bone_pose_rotation(bones))
 		_ragdoll.ragdoll_skeleton.set_bone_pose_position(bones, $Mesh/Male/MaleSkeleton/Skeleton3D.get_bone_pose_position(bones))
-		
+
 	for bone in _ragdoll.ragdoll_skeleton.get_child_count():
 		var child = _ragdoll.ragdoll_skeleton.get_child(bone)
 		if child is PhysicalBone3D:
 			if child.get_bone_id() == impulse_bone:
 				_ragdoll.ragdoll_skeleton.physical_bones_start_simulation()
 				child.apply_impulse(last_impulse, impulseDir)
-	
+
 	_ragdoll.target_skeleton = pawn_skeleton
 	_ragdoll.bone_hit = last_bone_hit
 	_ragdoll.pawn_to_animate = self
@@ -216,4 +215,4 @@ func change_to_dead_cam():
 	pass
 
 
-	
+

@@ -3,7 +3,7 @@ class_name playerMasterController
 ##Enable controller
 var enabled = true
 ##Player Pawn
-var pawn
+var pawn : Pawn
 ##Player Camera
 var pawnCam
 #Tilt
@@ -29,19 +29,19 @@ func _process(delta):
 			if pawn.has_weapon_equipped:
 				if !pawn.current_equipped.itemUsed.is_connected(shotFired):
 					pawn.current_equipped.itemUsed.connect(shotFired)
-				
+
 			##Set the mesh to look at the camera direction
 			pawn.pawnMesh.rotation.y = lerp_angle(pawn.pawnMesh.rotation.y, pawn.rot, delta * turnRate)
 			#Set Rotation vector to Camera pos
 			pawn.rot = pawnCam.rot
-			
+
 			##Enable status for HUD
 			if !pawnCam.hudDisplay.healthStatus.visible == true:
 				pawnCam.hudDisplay.healthStatus.show()
-				
+
 			##Set HP bar to pawn HP
 			pawnCam.hudDisplay.hpBar.value = lerpf(pawnCam.hudDisplay.hpBar.value, pawn.Health, delta*8)
-			
+
 			##Check if the player is shooting
 			if Input.is_action_pressed("Shoot"):
 				if !pawn.current_equipped == null:
@@ -58,7 +58,7 @@ func _process(delta):
 			if !Input.is_action_pressed("Aim"):
 				if !pawn.is_using:
 					pawn.is_aiming = false
-					
+
 			##Set weapon icon for the hud when the player has a weapon equipped.
 			if pawn.has_weapon_equipped:
 				pawnCam.hudDisplay.weaponDisplay.show()
@@ -70,8 +70,8 @@ func _process(delta):
 					pawnCam.hudDisplay.weaponDisplayTexture.texture = unknownpng
 			else:
 				pawnCam.hudDisplay.weaponDisplay.hide()
-			
-			
+
+
 			##Aim Rotation turn rate set
 			if pawn.is_aiming:
 				turnRate = 25
@@ -90,15 +90,13 @@ func _input(input):
 			if Input.is_action_just_pressed("swap_shoulder"):
 				swap_shoulder()
 			##Scroll weapon list up
-			if Input.is_action_just_released("mwheel_up"):
-				if !pawn.current_equipped_index > pawn.Inventory.size():
-					pawn.current_equipped_index = pawn.current_equipped_index + 1
+			if Input.is_action_just_pressed("mwheel_up"):
+				pawn.current_equipped_index = pawn.current_equipped_index + 1
 
 			##Scroll weapon list down
-			if Input.is_action_just_released("mwheel_down"):
-				if !pawn.current_equipped_index < 0:
-					pawn.current_equipped_index = pawn.current_equipped_index - 1
-			
+			if Input.is_action_just_pressed("mwheel_down"):
+				pawn.current_equipped_index = pawn.current_equipped_index - 1
+
 			#Set movement strength parameters
 			pawn.MoveLeft = Input.get_action_strength("MoveLeft")
 			pawn.MoveRight = Input.get_action_strength("MoveRight")

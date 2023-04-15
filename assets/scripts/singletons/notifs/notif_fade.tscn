@@ -1,0 +1,88 @@
+[gd_scene load_steps=9 format=3 uid="uid://d3tap8lr0nbpi"]
+
+[ext_resource type="Script" path="res://assets/scripts/singletons/notifs/notifs.gd" id="1_7sywe"]
+[ext_resource type="AudioStream" uid="uid://c65f15xka526g" path="res://assets/scripts/singletons/notifs/notif_sound1.wav" id="2_o1mjt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fx4d3"]
+bg_color = Color(0, 0, 0, 0.462745)
+border_width_top = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0)
+corner_detail = 1
+
+[sub_resource type="LabelSettings" id="LabelSettings_g1g0f"]
+font_size = 12
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="GDScript" id="GDScript_1hfhi"]
+script/source = "extends Label
+
+
+func _on_item_rect_changed() -> void:
+	if size.x > 256:
+		autowrap_mode = TextServer.AUTOWRAP_WORD
+		custom_minimum_size.x = 256
+	pass # Replace with function body.
+"
+
+[sub_resource type="Animation" id="Animation_n5ntt"]
+resource_name = "pop_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:y_scale_mult")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.594605, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jsqvf"]
+_data = {
+"pop_in": SubResource("Animation_n5ntt")
+}
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_82fal"]
+streams_count = 1
+stream_0/stream = ExtResource("2_o1mjt")
+stream_0/weight = 1.0
+
+[node name="notif_fade" type="Panel"]
+clip_contents = true
+custom_minimum_size = Vector2(272, 32)
+offset_right = 272.0
+offset_bottom = 32.0
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_fx4d3")
+script = ExtResource("1_7sywe")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 8.0
+offset_right = 9.0
+offset_bottom = 32.0
+label_settings = SubResource("LabelSettings_g1g0f")
+vertical_alignment = 1
+script = SubResource("GDScript_1hfhi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "pop_in"
+libraries = {
+"": SubResource("AnimationLibrary_jsqvf")
+}
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_82fal")
+bus = &"Sounds"
+
+[connection signal="ready" from="." to="AudioStreamPlayer" method="play"]
+[connection signal="item_rect_changed" from="Label" to="Label" method="_on_item_rect_changed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

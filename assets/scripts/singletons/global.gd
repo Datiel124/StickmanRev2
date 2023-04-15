@@ -23,6 +23,7 @@ var player_name = ""
 
 ##World Stuff
 var mp_spawner = MultiplayerSpawner.new()
+var notif_hud = preload("res://assets/scripts/singletons/Notifications.tscn").instantiate()
 
 #Preloads
 var stickpawn = preload("res://assets/entities/pawn/character_pawn.tscn")
@@ -35,16 +36,18 @@ var settingsvars = config_file.load("user://settings/settings.sav")
 
 # Called when the node enters the scene tree for the first time.
 func _process(delta):
-		
+
 	if Input.is_action_just_pressed("fullscreen_toggle"):
 		fullscreen_toggle()
-			
+
 	if Input.is_action_just_pressed("screenshot"):
 		screenshot()
+
 
 func _ready():
 	load_settings()
 	add_child(mp_spawner)
+	add_child(notif_hud)
 	mp_spawner.name = "MPSpawner"
 	mp_spawner.add_spawnable_scene("res://assets/entities/camera/camera.tscn")
 	mp_spawner.add_spawnable_scene("res://assets/entities/pawn/character_pawn.tscn")
@@ -110,7 +113,7 @@ func fullscreen_toggle():
 	else:
 		is_fullscreen = true
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
-	
+
 func screenshot():
 	print("Initializing screenshot!")
 	var screenshot_count = 0
@@ -128,3 +131,65 @@ func screenshot():
 		screenshot.save_png("user://screenshots/screenshot_" + str(screenshot_count) + ".png")
 		screenshot_count = screenshot_count + 1
 	print("Saved screenshot!")
+
+
+enum NOTIF_POSITION{topleft, topcenter, topright, bottomleft, bottomcenter, bottomright}
+func notify_fade(text : String, position : NOTIF_POSITION, fade_time : float = 3.0):
+	var new_notif
+	var container = notif_hud.hud_positions[position]
+
+	new_notif = notif_hud.notif_fade.instantiate()
+	container.add_child(new_notif)
+	set_notif_flags(new_notif, position)
+
+	new_notif.set_text(text)
+	if fade_time > 0:
+		new_notif.timer.start(fade_time)
+	return new_notif
+
+
+func notify_warn(text : String, position : NOTIF_POSITION, fade_time : float = -1, texture : Texture = notif_hud.warning_texture):
+	var new_notif
+	var container = notif_hud.hud_positions[position]
+
+	new_notif = notif_hud.notif_warn.instantiate()
+	container.add_child(new_notif)
+	set_notif_flags(new_notif, position)
+
+	new_notif.set_text(text)
+	new_notif.set_warn_params.call(texture, fade_time)
+	if fade_time > 0:
+		new_notif.timer.start(fade_time)
+	return new_notif
+
+
+func notify_click(text : String, position : NOTIF_POSITION, call_on_click : Callable, fade_time : float = -1, binds : Array = []):
+	var new_notif : Control
+	var container = notif_hud.hud_positions[position]
+
+	new_notif = notif_hud.notif_click.instantiate()
+	container.add_child(new_notif)
+	set_notif_flags(new_notif, position)
+
+	new_notif.set_text(text)
+	new_notif.set_click_params.call(call_on_click, binds, fade_time)
+	if fade_time > 0:
+		new_notif.timer.start(fade_time)
+	return new_notif
+
+
+func set_notif_flags(new_notif, position) -> void:
+	match position % 3:
+		0:
+			new_notif.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+		1:
+			new_notif.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		2:
+			new_notif.size_flags_horizontal = Control.SIZE_SHRINK_END
+
+
+func notify_custom(node : Control, position : NOTIF_POSITION) -> Control:
+	var container = notif_hud.hud_positions[position]
+	container.add_child(node)
+	set_notif_flags(node, position)
+	return node
