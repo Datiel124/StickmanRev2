@@ -7,7 +7,6 @@
 [node name="bullet" type="Node3D"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_qjmrv")
-bulletSpeed = 350.0
 explosion = ExtResource("2_bfewn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

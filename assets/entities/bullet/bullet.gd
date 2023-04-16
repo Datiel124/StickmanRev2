@@ -79,8 +79,9 @@ func _physics_process(delta):
 
 var pos_prev_frame : Vector3
 func _process(delta: float) -> void:
-	scale.y = position.distance_to(pos_prev_frame) * 30
-	pos_prev_frame = position
+	scale.z = global_position.distance_to(prevPos) * 0.8
+	look_at(prevPos, Vector3.BACK)
+	pos_prev_frame = global_position
 
 
 func explode(at_position):
