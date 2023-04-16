@@ -39,7 +39,7 @@ func _on_join_btn_pressed():
 		await $AudioStreamPlayer2D.finished
 		join_server()
 		print("Connecting to " + str(Global.ip) + ", Port: " + str(Global.port))
-		
+
 
 
 func create_server():

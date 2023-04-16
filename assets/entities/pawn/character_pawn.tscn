@@ -933,7 +933,7 @@ target_node = NodePath("../../../../Lookat")
 [node name="Hitboxes" type="Node3D" parent="character_pawn/Mesh/Male/MaleSkeleton"]
 
 [node name="Head" type="BoneAttachment3D" parent="character_pawn/Mesh/Male/MaleSkeleton/Hitboxes"]
-transform = Transform3D(0.995849, -0.0153153, -0.089603, 0.0114016, 0.998952, -0.0440308, 0.0901844, 0.0428267, 0.994992, 0.0250898, 1.48025, -0.0975346)
+transform = Transform3D(0.99585, -0.0153151, -0.0896031, 0.0114016, 0.998952, -0.0440295, 0.0901845, 0.0428254, 0.994993, 0.0250899, 1.48025, -0.0975353)
 bone_name = "Neck"
 bone_idx = 41
 use_external_skeleton = true
@@ -955,7 +955,7 @@ volume_db = -8.0
 bus = &"Sounds"
 
 [node name="Spine2" type="BoneAttachment3D" parent="character_pawn/Mesh/Male/MaleSkeleton/Hitboxes"]
-transform = Transform3D(0.99584, -0.0105983, -0.0903826, 0.0111785, 0.999913, 0.00591309, 0.090312, -0.00689901, 0.995883, 0.0278867, 1.21637, -0.095714)
+transform = Transform3D(0.995841, -0.0105981, -0.0903826, 0.0111785, 0.999913, 0.00591435, 0.0903121, -0.0069004, 0.995883, 0.0278867, 1.21637, -0.0957144)
 bone_name = "Spine_2"
 bone_idx = 2
 use_external_skeleton = true
@@ -977,7 +977,7 @@ volume_db = -8.0
 bus = &"Sounds"
 
 [node name="LArm" type="BoneAttachment3D" parent="character_pawn/Mesh/Male/MaleSkeleton/Hitboxes"]
-transform = Transform3D(-0.954195, 0.210152, 0.212841, -0.176818, -0.970233, 0.1653, 0.241251, 0.120091, 0.962974, 0.162376, 1.44958, -0.117052)
+transform = Transform3D(-0.954196, 0.210152, 0.212841, -0.176817, -0.970233, 0.165301, 0.241251, 0.120093, 0.962974, 0.162376, 1.44958, -0.117052)
 bone_name = "L_UpperArm"
 bone_idx = 4
 use_external_skeleton = true
@@ -999,7 +999,7 @@ volume_db = -8.0
 bus = &"Sounds"
 
 [node name="LForearm" type="BoneAttachment3D" parent="character_pawn/Mesh/Male/MaleSkeleton/Hitboxes"]
-transform = Transform3D(-0.942641, -0.265034, 0.202857, 0.3331, -0.709221, 0.621297, -0.0207893, 0.65324, 0.756841, 0.214987, 1.20668, -0.086987)
+transform = Transform3D(-0.942646, -0.265034, 0.202857, 0.333102, -0.70922, 0.621299, -0.0207904, 0.653242, 0.75684, 0.214987, 1.20668, -0.0869872)
 bone_name = "L_Forearm"
 bone_idx = 5
 use_external_skeleton = true
@@ -1021,7 +1021,7 @@ volume_db = -8.0
 bus = &"Sounds"
 
 [node name="LHand" type="BoneAttachment3D" parent="character_pawn/Mesh/Male/MaleSkeleton/Hitboxes"]
-transform = Transform3D(0.529799, 0.522723, 0.667862, 0.755331, -0.648921, -0.0912964, 0.38567, 0.552841, -0.738642, 0.147301, 1.02556, 0.0798428)
+transform = Transform3D(0.529801, 0.522726, 0.667866, 0.755332, -0.648921, -0.0912995, 0.385669, 0.552844, -0.738641, 0.147301, 1.02556, 0.0798431)
 bone_name = "L_Hand"
 bone_idx = 6
 use_external_skeleton = true
@@ -1043,7 +1043,7 @@ volume_db = -8.0
 bus = &"Sounds"
 
 [node name="RArm" type="BoneAttachment3D" parent="character_pawn/Mesh/Male/MaleSkeleton/Hitboxes"]
-transform = Transform3D(-0.615497, -0.694087, -0.373333, 0.783329, -0.486651, -0.386701, 0.0867217, -0.530467, 0.843229, -0.115317, 1.45214, -0.118376)
+transform = Transform3D(-0.615497, -0.694087, -0.373332, 0.783329, -0.486651, -0.386699, 0.0867213, -0.530465, 0.84323, -0.115317, 1.45214, -0.118377)
 bone_name = "R_UpperArm"
 bone_idx = 23
 use_external_skeleton = true
@@ -1065,7 +1065,7 @@ volume_db = -8.0
 bus = &"Sounds"
 
 [node name="RForearm" type="BoneAttachment3D" parent="character_pawn/Mesh/Male/MaleSkeleton/Hitboxes"]
-transform = Transform3D(-0.929071, 0.360007, -0.0847258, -0.338132, -0.734017, 0.588951, 0.149824, 0.575839, 0.803689, -0.28908, 1.3303, -0.251178)
+transform = Transform3D(-0.92907, 0.360008, -0.0847249, -0.338131, -0.734017, 0.588951, 0.149826, 0.575839, 0.803688, -0.289081, 1.3303, -0.251178)
 bone_name = "R_Forearm"
 bone_idx = 24
 use_external_skeleton = true
@@ -1087,7 +1087,7 @@ volume_db = -8.0
 bus = &"Sounds"
 
 [node name="RHand" type="BoneAttachment3D" parent="character_pawn/Mesh/Male/MaleSkeleton/Hitboxes"]
-transform = Transform3D(-0.593828, 0.624619, -0.507122, -0.801933, -0.510525, 0.310231, -0.0651296, 0.590912, 0.804075, -0.197139, 1.14284, -0.104116)
+transform = Transform3D(-0.593827, 0.62462, -0.507123, -0.801932, -0.510525, 0.310233, -0.0651278, 0.590911, 0.804079, -0.197139, 1.14284, -0.104116)
 bone_name = "R_Hand"
 bone_idx = 25
 use_external_skeleton = true
@@ -1109,7 +1109,7 @@ volume_db = -8.0
 bus = &"Sounds"
 
 [node name="Spine1" type="BoneAttachment3D" parent="character_pawn/Mesh/Male/MaleSkeleton/Hitboxes"]
-transform = Transform3D(0.994053, -0.0319885, -0.103994, 0.017457, 0.990296, -0.137752, 0.107394, 0.135118, 0.984976, 0.0344793, 1.01228, -0.123561)
+transform = Transform3D(0.994053, -0.0319883, -0.103994, 0.0174569, 0.990296, -0.13775, 0.107394, 0.135117, 0.984976, 0.0344793, 1.01228, -0.123561)
 bone_name = "Spine_1"
 bone_idx = 1
 use_external_skeleton = true
@@ -1131,7 +1131,7 @@ volume_db = -8.0
 bus = &"Sounds"
 
 [node name="Spine0" type="BoneAttachment3D" parent="character_pawn/Mesh/Male/MaleSkeleton/Hitboxes"]
-transform = Transform3D(0.990201, 0.0295629, -0.136415, 0.00577235, 0.967803, 0.251635, 0.139461, -0.249959, 0.958158, 0.0303467, 0.876988, -0.0886192)
+transform = Transform3D(0.990201, 0.0295629, -0.136415, 0.00577237, 0.967803, 0.251636, 0.139461, -0.24996, 0.958158, 0.0303467, 0.876988, -0.0886192)
 bone_name = "Spine_0"
 bone_idx = 0
 use_external_skeleton = true
@@ -1160,7 +1160,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0181012, 0.835077, -0.10899
 shape = SubResource("CapsuleShape3D_60c4p")
 
 [node name="R_Holder" type="BoneAttachment3D" parent="character_pawn"]
-transform = Transform3D(0.593828, -0.62462, 0.507122, -0.801933, -0.510525, 0.310231, 0.0651295, -0.590912, -0.804075, 0.222975, 1.14284, -0.00505634)
+transform = Transform3D(-0.593827, 0.62462, -0.507123, -0.801932, -0.510525, 0.310233, -0.0651278, 0.590911, 0.804079, -0.197139, 1.14284, -0.104116)
 bone_name = "R_Hand"
 bone_idx = 25
 use_external_skeleton = true

@@ -35,6 +35,7 @@ var config_file = ConfigFile.new()
 var settingsvars = config_file.load("user://settings/settings.sav")
 
 # Called when the node enters the scene tree for the first time.
+var clicksnap = preload("res://assets/sounds/ui/uipopup.wav")
 func _process(delta):
 
 	if Input.is_action_just_pressed("fullscreen_toggle"):
@@ -42,7 +43,22 @@ func _process(delta):
 
 	if Input.is_action_just_pressed("screenshot"):
 		var path = screenshot()
-		Global.notify_click("Took screenshot"+ path +"(Click to view)", func(): Global.notify_warn("Not yet functional", 2, 2), 2, 8)
+		var new_audio = AudioStreamPlayer.new()
+		new_audio.stream = clicksnap
+		add_child(new_audio)
+		new_audio.play()
+		new_audio.finished.connect(new_audio.queue_free)
+		Global.notify_click("Took screenshot"+ path +"(Click to view)", open_screenshot.bind(path), 2, 8)
+
+
+var ss_sound = preload("res://assets/sounds/ui/uiSoft.wav")
+func open_screenshot(path):
+	var new_audio = AudioStreamPlayer.new()
+	new_audio.stream = ss_sound
+	add_child(new_audio)
+	new_audio.play()
+	OS.shell_open(ProjectSettings.globalize_path(path))
+	new_audio.finished.connect(new_audio.queue_free)
 
 
 func _ready():
