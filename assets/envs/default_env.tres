@@ -13,7 +13,6 @@ ssao_intensity = 1.0
 ssao_power = 3.56762
 ssao_detail = 1.5
 ssao_horizon = 0.03
-ssil_enabled = true
 sdfgi_enabled = true
 sdfgi_use_occlusion = true
 sdfgi_bounce_feedback = 1.0

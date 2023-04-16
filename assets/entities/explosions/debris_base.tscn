@@ -101,6 +101,7 @@ material = SubResource("StandardMaterial3D_7scub")
 
 [node name="debris_base" type="RigidBody3D"]
 collision_layer = 0
+input_ray_pickable = false
 gravity_scale = 0.5
 script = SubResource("GDScript_swuip")
 
@@ -108,14 +109,15 @@ script = SubResource("GDScript_swuip")
 shape = SubResource("SphereShape3D_rmnd0")
 
 [node name="trail" type="GPUParticles3D" parent="."]
-amount = 16
-lifetime = 2.0
+gi_mode = 0
+amount = 4
 fixed_fps = 60
 visibility_aabb = AABB(-0.652759, -0.514794, -0.572628, 1.30552, 4.03764, 1.14526)
 process_material = SubResource("ParticleProcessMaterial_rk57g")
 draw_pass_1 = SubResource("QuadMesh_y2gy8")
 
 [node name="shorttrail" type="GPUParticles3D" parent="."]
+gi_mode = 0
 amount = 2
 lifetime = 0.02
 fixed_fps = 60
@@ -127,6 +129,7 @@ draw_pass_1 = SubResource("QuadMesh_ogfov")
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 light_color = Color(1, 0.380392, 0, 1)
 light_energy = 0.5
+light_bake_mode = 0
 omni_range = 1.0
 omni_attenuation = 0.392292
 

@@ -45,6 +45,7 @@ material_override = ExtResource("2_8pugv")
 transparency = 0.4
 cast_shadow = 0
 ignore_occlusion_culling = true
+gi_mode = 0
 amount = 45
 speed_scale = 2.5
 explosiveness = 1.0

@@ -167,8 +167,3 @@ game_pause={
 
 common/physics_ticks_per_second=144
 3d/default_gravity=15.0
-
-[rendering]
-
-global_illumination/sdfgi/probe_ray_count=2
-global_illumination/sdfgi/frames_to_update_lights=4

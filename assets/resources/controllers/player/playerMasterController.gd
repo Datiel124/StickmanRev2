@@ -6,12 +6,7 @@ var enabled = true
 var pawn : Pawn:
 	set(value):
 		while pawnCam == null:
-			print("NOY CONNECTED")
 			await get_tree().process_frame
-		print("disconnecting old")
-		Global.notify_fade("old + " + str(pawn))
-		Global.notify_fade("new + " + str(value))
-		print("connecting new")
 		value.die.connect(pawnCam.detach_cam)
 		pawn = value
 ##Player Camera

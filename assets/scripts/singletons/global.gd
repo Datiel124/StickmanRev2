@@ -41,7 +41,8 @@ func _process(delta):
 		fullscreen_toggle()
 
 	if Input.is_action_just_pressed("screenshot"):
-		screenshot()
+		var path = screenshot()
+		Global.notify_click("Took screenshot"+ path +"(Click to view)", func(): Global.notify_warn("Not yet functional", 2, 2), 2, 8)
 
 
 func _ready():
@@ -114,23 +115,27 @@ func fullscreen_toggle():
 		is_fullscreen = true
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 
-func screenshot():
+func screenshot() -> String:
 	print("Initializing screenshot!")
 	var screenshot_count = 0
 	var screenshot = get_viewport().get_texture().get_image()
 
+	var savedfilepath
 	if user_dir.dir_exists("user://screenshots"):
 		var screenshot_dir = DirAccess.open("user://screenshots/")
 		print(screenshot_dir.get_current_dir())
 		screenshot_count = screenshot_dir.get_files().size() + 1
 		screenshot.save_png("user://screenshots/screenshot_" + str(screenshot_count) + ".png")
+		savedfilepath = "user://screenshots/screenshot_" + str(screenshot_count) + ".png"
 		screenshot_count = screenshot_count + 1
 	else:
 		user_dir.make_dir("screenshots")
 		var screenshot_dir = DirAccess.open("user://screenshots/")
 		screenshot.save_png("user://screenshots/screenshot_" + str(screenshot_count) + ".png")
+		savedfilepath = "user://screenshots/screenshot_" + str(screenshot_count) + ".png"
 		screenshot_count = screenshot_count + 1
 	print("Saved screenshot!")
+	return savedfilepath
 
 
 enum NOTIF_POSITION{topleft, topcenter, topright, bottomleft, bottomcenter, bottomright}
