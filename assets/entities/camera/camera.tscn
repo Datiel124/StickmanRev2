@@ -250,6 +250,7 @@ collision_mask = 9
 [node name="KillCast" type="RayCast3D" parent="horizontal/vertical/Camera3D"]
 target_position = Vector3(0, 0, -9000)
 collision_mask = 4
+collide_with_areas = true
 
 [node name="motion_blur" parent="horizontal/vertical/Camera3D" instance=ExtResource("3_hxg6g")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.790757)

@@ -32,7 +32,6 @@ var mp_id
 
 var defaultcamres = load("res://assets/resources/CameraData/DefaultCam.tres")
 @export var default_cam_fov = 90
-@export var debug_cam_controls = true
 @export var is_freecam = true
 @export var attachedPawn : Node3D:
 	get:
@@ -60,7 +59,16 @@ func _physics_process(delta):
 	rot = vert.global_transform.basis.get_euler().y
 	update_mouselook()
 	##Debug Controls
-	if debug_cam_controls:
+	##Enable/Disable Debug
+	if Input.is_action_just_pressed("debug_enable"):
+		if Global.debugMode:
+			Global.debugMode = false
+			Global.notify_warn("Debug controls disabled.", 2, 5)
+		else:
+			Global.debugMode = true
+			Global.notify_warn("Debug controls enabled.", 2, 5)
+			
+	if Global.debugMode:
 		##Enable Freecam
 		if Input.is_action_just_pressed("give_test_item"):
 			if !is_freecam:
@@ -95,7 +103,7 @@ func _physics_process(delta):
 					pawn.rotation.y = randf_range(0,360)
 					spawn_zone.add_child(pawn, true)
 					return
-			Global.notify_warn("Failed to spawn: Look at a surface to spawn pawn onto.")
+			Global.notify_warn("Failed to spawn: Look at a surface to spawn pawn onto.", 2, 3)
 
 	##If freecam is on
 	if is_freecam:
@@ -209,6 +217,7 @@ func reset_cam():
 func detach_cam():
 	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
 	Killcast.clear_exceptions()
+	attachedPawn.getMasterController().enabled = false
 	attachedPawn.clearMasterController()
 	var detach_pos = Vector3(vert.global_position.x,horiz.global_position.y,self.global_position.z)
 	var new_parent = get_node("/root/Global")

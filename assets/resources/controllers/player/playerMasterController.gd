@@ -5,9 +5,6 @@ var enabled = true
 ##Player Pawn
 var pawn : Pawn:
 	set(value):
-		while pawnCam == null:
-			await get_tree().process_frame
-		value.die.connect(pawnCam.detach_cam)
 		pawn = value
 ##Player Camera
 var pawnCam
@@ -30,6 +27,10 @@ func _ready():
 func _process(delta):
 	if !pawn == null:
 		if enabled:
+			##Pawn Death
+			if !pawn.die.is_connected(pawnCam.detach_cam):
+				pawn.die.connect(pawnCam.detach_cam)
+			
 			##Connect Item picked up signal
 			if !pawn.pickedupItem.is_connected(itemPickedup):
 				pawn.pickedupItem.connect(itemPickedup)
@@ -86,6 +87,8 @@ func _process(delta):
 				pawn.ik_marker.rotation.x = -pawnCam.vert.rotation.x
 			else:
 				turnRate = default_turn_rate
+		else:
+			pawn.die.disconnect(pawnCam.detach_cam)
 
 func _physics_process(delta):
 	if !pawn == null:

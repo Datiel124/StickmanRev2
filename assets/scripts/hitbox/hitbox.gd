@@ -1,5 +1,5 @@
 class_name Hitbox
-extends RigidBody3D
+extends Node3D
 
 var boneId : int
 @onready var pawn = get_owner()

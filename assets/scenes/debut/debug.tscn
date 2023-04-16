@@ -78,3 +78,6 @@ transform = Transform3D(-0.434728, 0, -0.900561, 0, 1, 0, 0.900561, 0, -0.434728
 
 [node name="Baretta" parent="." instance=ExtResource("6_8yilj")]
 transform = Transform3D(0.973829, 0.227167, 0.00717472, 0, -0.0315677, 0.999502, 0.22728, -0.973344, -0.0307416, -1.28264, 0.142567, -3.36217)
+
+[node name="HoneyBadger2" parent="." instance=ExtResource("9_nq381")]
+transform = Transform3D(0.0221464, -0.999755, 1.9183e-09, 0.89605, 0.0198492, 0.443509, -0.443401, -0.00982214, 0.89627, -0.0887429, 0.180509, -3.81973)

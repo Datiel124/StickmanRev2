@@ -17,6 +17,8 @@ func _ready():
 	if is_held:
 		self.visible = false
 		collision.disabled = true
+		$Mesh/ItemModel.set_material_overlay(null)
+
 
 	item_cooldown.wait_time = Item_Resource.Item_Cooldown
 	pass # Replace with function body.
@@ -53,7 +55,10 @@ func use():
 		holder.weapon_lower_timer.start()
 
 		if !Item_Resource.Projectile == null:
+			var smoke = load("res://assets/particles/weaponSmoke/weaponSmoke.tscn")
+			var smokeEffect = smoke.instantiate()
 			muzzle_point.add_child(bullet)
+			muzzle_point.add_child(smokeEffect)
 			bullet.shooter = holder
 			bullet.top_level = true
 

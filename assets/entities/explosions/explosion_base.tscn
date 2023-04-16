@@ -83,7 +83,7 @@ interpolation_mode = 2
 offsets = PackedFloat32Array(0, 0.9975)
 colors = PackedColorArray(0.501961, 0.501961, 0.501961, 0.290196, 0.321569, 0.34902, 0.380392, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_i2ake"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dj83g"]
 gradient = SubResource("Gradient_1kf7j")
 
 [sub_resource type="Curve" id="Curve_k5vid"]
@@ -92,7 +92,7 @@ max_value = 2.0
 _data = [Vector2(0, 1), 0.0, 1.0, 0, 1, Vector2(1, 2), 1.0, 0.0, 1, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_mq5oy"]
+[sub_resource type="CurveTexture" id="CurveTexture_gxx65"]
 curve = SubResource("Curve_k5vid")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3gpk5"]
@@ -110,8 +110,8 @@ damping_max = 100.0
 angle_min = -720.0
 angle_max = 720.0
 scale_max = 2.0
-scale_curve = SubResource("CurveTexture_mq5oy")
-color_ramp = SubResource("GradientTexture1D_i2ake")
+scale_curve = SubResource("CurveTexture_gxx65")
+color_ramp = SubResource("GradientTexture1D_dj83g")
 
 [sub_resource type="QuadMesh" id="QuadMesh_2uh6p"]
 material = ExtResource("1_3altw")

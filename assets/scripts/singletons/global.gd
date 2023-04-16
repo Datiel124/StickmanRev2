@@ -4,6 +4,9 @@ var user_dir = DirAccess.open("user://")
 var unix_time: float = Time.get_unix_time_from_system()
 var datetime_dict: Dictionary = Time.get_datetime_dict_from_unix_time(unix_time)
 
+##Debug mode
+var debugMode : bool = false
+
 # Get the system time
 var system_time: String = Time.get_time_string_from_system()
 
@@ -43,12 +46,7 @@ func _process(delta):
 
 	if Input.is_action_just_pressed("screenshot"):
 		var path = screenshot()
-		var new_audio = AudioStreamPlayer.new()
-		new_audio.stream = clicksnap
-		add_child(new_audio)
-		new_audio.play()
-		new_audio.finished.connect(new_audio.queue_free)
-		Global.notify_click("Took screenshot"+ path +"(Click to view)", open_screenshot.bind(path), 2, 8)
+		Global.notify_click("Took screenshot '"+ path +"' (Click to view)", open_screenshot.bind(path), 2, 8)
 
 
 var ss_sound = preload("res://assets/sounds/ui/uiSoft.wav")
@@ -56,7 +54,7 @@ func open_screenshot(path):
 	var new_audio = AudioStreamPlayer.new()
 	new_audio.stream = ss_sound
 	add_child(new_audio)
-	new_audio.play()
+	#new_audio.play()
 	OS.shell_open(ProjectSettings.globalize_path(path))
 	new_audio.finished.connect(new_audio.queue_free)
 
@@ -104,6 +102,7 @@ func add_player(pos:Vector3 = Vector3(0,0,0), peer_id:int = 0):
 	else:
 		var playerController = load("res://assets/resources/controllers/player/playerController.tscn")
 		var controller = playerController.instantiate()
+		controller.pawn = player_pawn
 		add_child(player_pawn)
 		player_pawn.add_child(controller)
 		player_camera.attachedPawn = player_pawn

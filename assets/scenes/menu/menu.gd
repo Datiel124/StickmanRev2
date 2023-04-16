@@ -9,7 +9,7 @@ func _ready():
 	addr_entry.text = Global.ip
 	port_entry.text = str(Global.port)
 	name_entry.text = Global.player_name
-
+	Global.notify_warn("Heads up, debug controls are disabled by default. Press F9 to enable them. Early alpha build right here.", 2, 5)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass

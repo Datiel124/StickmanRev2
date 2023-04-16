@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3 uid="uid://dvapwqbo2ts5g"]
+
+[ext_resource type="Material" uid="uid://b7v3hu47mktj8" path="res://assets/entities/explosions/smoke_particle_material.tres" id="1_fn0tw"]
+
+[sub_resource type="GDScript" id="GDScript_cnxc6"]
+script/source = "extends Node3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	$Particles/smoke.emitting = true
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[sub_resource type="Gradient" id="Gradient_ingl3"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.9975)
+colors = PackedColorArray(0.501961, 0.501961, 0.501961, 0.290196, 0.321569, 0.34902, 0.380392, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i2ake"]
+gradient = SubResource("Gradient_ingl3")
+
+[sub_resource type="Curve" id="Curve_fo63t"]
+min_value = 1.0
+max_value = 2.0
+_data = [Vector2(0, 1), 0.0, 1.1474, 0, 1, Vector2(0.451613, 1.51818), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.87861, 0.0, 1, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_mq5oy"]
+curve = SubResource("Curve_fo63t")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jy57r"]
+lifetime_randomness = 0.25
+spread = 180.0
+gravity = Vector3(0, 1, 0)
+initial_velocity_min = 5.18
+initial_velocity_max = 12.22
+angular_velocity_min = -19.57
+angular_velocity_max = 38.06
+linear_accel_min = -100.0
+linear_accel_max = -100.0
+damping_min = 100.0
+damping_max = 100.0
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 0.25
+scale_max = 0.73
+scale_curve = SubResource("CurveTexture_mq5oy")
+color_ramp = SubResource("GradientTexture1D_i2ake")
+
+[sub_resource type="QuadMesh" id="QuadMesh_07gg5"]
+material = ExtResource("1_fn0tw")
+
+[node name="weaponSmoke" type="Node3D"]
+script = SubResource("GDScript_cnxc6")
+
+[node name="Particles" type="Node3D" parent="."]
+
+[node name="smoke" type="GPUParticles3D" parent="Particles"]
+gi_mode = 0
+emitting = false
+amount = 5
+lifetime = 3.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_jy57r")
+draw_pass_1 = SubResource("QuadMesh_07gg5")

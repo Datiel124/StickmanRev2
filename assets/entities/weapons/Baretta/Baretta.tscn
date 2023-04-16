@@ -1,8 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://drt48tkil2m1c"]
+[gd_scene load_steps=7 format=3 uid="uid://drt48tkil2m1c"]
 
 [ext_resource type="Script" path="res://assets/scripts/Item/ItemBase.gd" id="1_sbms4"]
 [ext_resource type="Resource" uid="uid://grsuf7ptc418" path="res://assets/entities/weapons/Baretta/Baretta.tres" id="2_k0drx"]
 [ext_resource type="ArrayMesh" uid="uid://cqvcemgijgdv5" path="res://assets/models/weapons/beretta/Beretta.tres" id="3_lyuiv"]
+[ext_resource type="Shader" path="res://assets/shaders/highlight/highlight.gdshader" id="3_urp0g"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f0qun"]
+render_priority = 0
+shader = ExtResource("3_urp0g")
+shader_parameter/shine_color = Color(1, 1, 0.705882, 1)
+shader_parameter/cycle_interval = 1.1
+shader_parameter/shine_speed = 1.0
+shader_parameter/shine_width = 1.0
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_2q68o"]
 custom_solver_bias = 0.037
@@ -17,6 +26,7 @@ Item_Resource = ExtResource("2_k0drx")
 
 [node name="ItemModel" type="MeshInstance3D" parent="Mesh"]
 transform = Transform3D(100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 0, 0, 0)
+material_overlay = SubResource("ShaderMaterial_f0qun")
 mesh = ExtResource("3_lyuiv")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
