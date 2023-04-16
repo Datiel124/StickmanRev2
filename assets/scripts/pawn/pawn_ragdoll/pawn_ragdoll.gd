@@ -32,7 +32,7 @@ func _ready():
 	if active_ragdoll_enabled == true:
 		$bleed_out_timer.wait_time = randf_range(0.09,0.9)
 		$bleed_out_timer.start()
-	
+
 	#ragdoll_skeleton.physical_bones_start_simulation()
 	physics_bones = ragdoll_skeleton.get_children().filter(func(x): return x is PhysicalBone3D)
 	#print(physics_bones)
@@ -51,7 +51,7 @@ func _process(delta):
 				$bleed_out_death.set_stream(death_sounds[randi_range(0,3)])
 				$bleed_out_death.play()
 				death_sound_played = true
-	
+
 	pass
 
 func _physics_process(delta):
@@ -59,40 +59,40 @@ func _physics_process(delta):
 		if linear_spring_stiffness <= 0:
 			linear_spring_stiffness = 0
 			ragdoll_health = 0
-		
+
 		if angular_spring_stiffness <= 0:
 			angular_spring_stiffness = 0
 			ragdoll_health = 0
-			
+
 		if max_angular_force <= 0:
 			max_angular_force = 0
 			ragdoll_health = 0
-		
+
 		if !target_skeleton == null:
 			if !ragdoll_health <= 0:
 				##Chest hit animation
 				if bone_hit == 0 or bone_hit == 1 or bone_hit == 2:
 					pawn_to_animate.anim_player.play("MaleAnimations/WritheChestBack")
-				
+
 				##Right knee hit animation
 				if bone_hit == 48 or bone_hit == 49  or bone_hit == 50:
 					pawn_to_animate.anim_player.play("MaleAnimations/WritheRightKneeBack")
-					
+
 				##Head = Insta kill
 				if bone_hit == 41 or bone_hit == 42:
 					ragdoll_health = 0
-				
+
 				for b in physics_bones:
 						if !b.name == "Physical Bone Spine_2" and !b.name == "Physical Bone Neck" and !b.name == "Physical Bone Spine_1" and !b.name == "Physical Bone Spine_0":
 							var target_transform: Transform3D = target_skeleton.global_transform * target_skeleton.get_bone_global_pose(b.get_bone_id())
 							var current_transform: Transform3D = ragdoll_skeleton.global_transform * ragdoll_skeleton.get_bone_global_pose(b.get_bone_id())
 							var rotation_difference: Basis = (target_transform.basis * current_transform.basis.inverse())
-						
+
 							var position_difference:Vector3 = target_transform.origin - current_transform.origin
-							
+
 							var torque = hookes_law(rotation_difference.get_euler(), b.angular_velocity, angular_spring_stiffness, angular_spring_damping)
 							torque = torque.limit_length(max_angular_force)
-							
+
 							b.angular_velocity += torque * delta
 
 func hookes_law(displacement: Vector3, current_velocity: Vector3, stiffness: float, damping: float) -> Vector3:

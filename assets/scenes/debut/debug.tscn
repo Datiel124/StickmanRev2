@@ -25,6 +25,8 @@ directional_shadow_max_distance = 20.0
 
 [node name="HoneyBadger" parent="." instance=ExtResource("9_nq381")]
 transform = Transform3D(0.159144, -0.987038, -0.0207184, 0.879626, 0.132234, 0.456918, -0.448256, -0.09094, 0.889268, 12.1761, 0.376738, -3.67781)
+collision_layer = 1
+collision_mask = 1
 
 [node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.6989, 0.621563)
@@ -35,19 +37,10 @@ transform = Transform3D(-4.486, 0, -3.92179e-07, 0, 4.486, 0, 3.92179e-07, 0, -4
 mesh = ExtResource("3_eqauj")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
-collision_layer = 7
-collision_mask = 7
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_apq2p")
-
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.51822, 2.93793, -0.869337)
-light_energy = 1.615
-light_indirect_energy = 2.477
-light_volumetric_fog_energy = 2.723
-light_size = 0.346
-shadow_enabled = true
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.51522, 2.93793, -0.869337)

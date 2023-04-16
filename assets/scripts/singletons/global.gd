@@ -134,7 +134,7 @@ func screenshot():
 
 
 enum NOTIF_POSITION{topleft, topcenter, topright, bottomleft, bottomcenter, bottomright}
-func notify_fade(text : String, position : NOTIF_POSITION, fade_time : float = 3.0):
+func notify_fade(text : String, position : NOTIF_POSITION = 2, fade_time : float = 3.0):
 	var new_notif
 	var container = notif_hud.hud_positions[position]
 
@@ -148,7 +148,7 @@ func notify_fade(text : String, position : NOTIF_POSITION, fade_time : float = 3
 	return new_notif
 
 
-func notify_warn(text : String, position : NOTIF_POSITION, fade_time : float = -1, texture : Texture = notif_hud.warning_texture):
+func notify_warn(text : String, position : NOTIF_POSITION = 2, fade_time : float = -1, texture : Texture = notif_hud.warning_texture):
 	var new_notif
 	var container = notif_hud.hud_positions[position]
 
@@ -163,7 +163,7 @@ func notify_warn(text : String, position : NOTIF_POSITION, fade_time : float = -
 	return new_notif
 
 
-func notify_click(text : String, position : NOTIF_POSITION, call_on_click : Callable, fade_time : float = -1, binds : Array = []):
+func notify_click(text : String, call_on_click : Callable, position : NOTIF_POSITION = 2, fade_time : float = -1, binds : Array = []):
 	var new_notif : Control
 	var container = notif_hud.hud_positions[position]
 

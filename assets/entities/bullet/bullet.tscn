@@ -1,15 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://dkihm3rutcd3o"]
+[gd_scene load_steps=4 format=3 uid="uid://dkihm3rutcd3o"]
 
 [ext_resource type="Script" path="res://assets/entities/bullet/bullet.gd" id="1_qjmrv"]
+[ext_resource type="PackedScene" uid="uid://u37ufcr6yohk" path="res://assets/entities/explosions/explosion_base.tscn" id="2_bfewn"]
 [ext_resource type="ArrayMesh" uid="uid://bmwkqs1xo6jhb" path="res://assets/models/bullet/bullet.res" id="2_bwsfq"]
 
 [node name="bullet" type="Node3D"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_qjmrv")
 bulletSpeed = 350.0
+explosion = ExtResource("2_bfewn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(-35, -5.30116e-06, 1.33748e-13, 0, -2.65058e-06, -35, 3.0598e-06, -60.6382, 1.5299e-06, 0, 0, 0)
+transform = Transform3D(-35, -9.15611e-06, 2.31008e-13, 0, -2.65058e-06, -35, 5.28485e-06, -60.6382, 1.5299e-06, 0, 0, 0)
 mesh = ExtResource("2_bwsfq")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]

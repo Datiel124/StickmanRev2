@@ -72,24 +72,28 @@ func _physics_process(delta):
 		##Enable Freecam
 		if Input.is_action_just_pressed("freecam_enable"):
 			if !is_freecam and !dead_cam:
+				Global.notify_fade("Freecam enabled.")
 				detach_cam()
-
 
 		##Posess Pawn
 		if Input.is_action_just_pressed("debug_posess"):
 			if Aimcast.is_colliding() && is_freecam:
 				if Aimcast.get_collider().get_parent() is Pawn_Controller:
+					Global.notify_fade("Posessed pawn " + str(Aimcast.get_collider().get_parent()))
 					posess_pawn(Aimcast.get_collider().get_parent())
 
 		if Input.is_action_just_pressed("pawn_spawn"):
 			var spawn_zone = get_node("/root/Global")
 			if Aimcast.is_colliding():
 				if !Aimcast.get_collision_point() == null:
+					Global.notify_fade("Spawned Pawn")
 					var tospawn = load("res://assets/entities/pawn/character_pawn.tscn")
 					var pawn = tospawn.instantiate()
 					pawn.position = Aimcast.get_collision_point()
 					pawn.rotation.y = randf_range(0,360)
 					spawn_zone.add_child(pawn, true)
+					return
+			Global.notify_warn("Failed to spawn: Look at a surface to spawn pawn onto.")
 
 	##If freecam is on
 	if is_freecam:

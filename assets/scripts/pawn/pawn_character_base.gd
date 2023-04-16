@@ -177,13 +177,14 @@ func summon_item(item):
 		if !spawned.is_held:
 			spawned.is_held = true
 
-
+signal die
 func kill(bone_hit):
 	$Collider.disabled = true
 	is_dead = true
 	Health = 0
 	create_ragdoll(bone_hit)
 	anim_tree.active = false
+	die.emit()
 	hide()
 
 func create_ragdoll(impulse_bone:int = 0):

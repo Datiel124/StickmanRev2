@@ -3,7 +3,17 @@ class_name playerMasterController
 ##Enable controller
 var enabled = true
 ##Player Pawn
-var pawn : Pawn
+var pawn : Pawn:
+	set(value):
+		while pawnCam == null:
+			print("NOY CONNECTED")
+			await get_tree().process_frame
+		print("disconnecting old")
+		Global.notify_fade("old + " + str(pawn))
+		Global.notify_fade("new + " + str(value))
+		print("connecting new")
+		value.die.connect(pawnCam.detach_cam)
+		pawn = value
 ##Player Camera
 var pawnCam
 #Tilt
@@ -99,10 +109,10 @@ func _input(input):
 			##Scroll weapon list down
 			if Input.is_action_just_pressed("mwheel_down"):
 				pawn.current_equipped_index = pawn.current_equipped_index - 1
-			
+
 			##Pause menu toggle
 			if Input.is_action_just_pressed("game_pause"):
-				Global.notify_warn("No pause menu yet.. Just Alt+F4 if you need to leave the game.", 2, 2)
+				Global.notify_warn("No pause menu yet.. Just Alt+F4 if you need to leave the game.", 2, 1)
 			#Set movement strength parameters
 			pawn.MoveLeft = Input.get_action_strength("MoveLeft")
 			pawn.MoveRight = Input.get_action_strength("MoveRight")

@@ -7,23 +7,17 @@ class_name Pawn_Controller
 @export var controllerScript : masterController
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func setMasterController(mcontroller):
 	controllerScript = mcontroller
 
-func getMasterController():
+
+func getMasterController() -> masterController:
 	return controllerScript
+
 
 func clearMasterController():
 	controllerScript = null
 	for child in get_children():
 		if child is masterController:
 			child.queue_free()
+

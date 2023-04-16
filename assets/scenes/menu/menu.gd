@@ -9,7 +9,6 @@ func _ready():
 	addr_entry.text = Global.ip
 	port_entry.text = str(Global.port)
 	name_entry.text = Global.player_name
-	Global.notify_warn("Early work in progress build.. Expect hella bugs", 2, 1.5)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

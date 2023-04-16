@@ -1,0 +1,139 @@
+[gd_scene load_steps=17 format=3 uid="uid://dlw1c27n63ie7"]
+
+[ext_resource type="Texture2D" uid="uid://deg4xoxwmqn8w" path="res://assets/textures/smoke/smoke1.png" id="1_g2ds5"]
+[ext_resource type="Texture2D" uid="uid://ehl8p4tg6an2" path="res://assets/entities/explosions/flash.png" id="2_fxq1o"]
+
+[sub_resource type="GDScript" id="GDScript_swuip"]
+script/source = "extends RigidBody3D
+
+
+func _on_timer_timeout() -> void:
+	$shorttrail.emitting = false
+	$trail.emitting = false
+	$OmniLight3D.light_energy = 0
+	$CollisionShape3D.disabled = true
+	freeze = true
+	await get_tree().create_timer(3.0).timeout
+	queue_free()
+	pass # Replace with function body.
+"
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rmnd0"]
+radius = 0.0994859
+
+[sub_resource type="Gradient" id="Gradient_e0drq"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.240741, 1)
+colors = PackedColorArray(0.537255, 0.470588, 0.45098, 0, 0.368627, 0.368627, 0.368627, 0.278431, 0.00784314, 0.00784314, 0.0392157, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_mhrbw"]
+gradient = SubResource("Gradient_e0drq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rk57g"]
+lifetime_randomness = 0.5
+direction = Vector3(0, 1, 0)
+spread = 0.0
+gravity = Vector3(0, 2, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 0.5
+angular_velocity_min = -11.57
+angular_velocity_max = 23.13
+damping_max = 2.41
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 0.5
+color_ramp = SubResource("GradientTexture1D_mhrbw")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ixrbc"]
+transparency = 1
+shading_mode = 2
+diffuse_mode = 2
+specular_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_g2ds5")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+grow_amount = -5.355
+
+[sub_resource type="QuadMesh" id="QuadMesh_y2gy8"]
+material = SubResource("StandardMaterial3D_ixrbc")
+
+[sub_resource type="Gradient" id="Gradient_5knod"]
+offsets = PackedFloat32Array(0, 0.16129, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.78285, 0.580373, 0.821716, 1, 0.397312, 0, 0.670588)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_eeo1j"]
+gradient = SubResource("Gradient_5knod")
+
+[sub_resource type="Gradient" id="Gradient_nxn1t"]
+colors = PackedColorArray(1, 0.575872, 0.113015, 1, 1, 0.401534, 0, 0.888889)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4ikds"]
+gradient = SubResource("Gradient_nxn1t")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ltlfd"]
+gravity = Vector3(0, 0, 0)
+scale_min = 0.4
+scale_max = 0.6
+color_ramp = SubResource("GradientTexture1D_4ikds")
+color_initial_ramp = SubResource("GradientTexture1D_eeo1j")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7scub"]
+transparency = 1
+shading_mode = 0
+diffuse_mode = 2
+specular_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(1.2, 1.1, 1, 1)
+albedo_texture = ExtResource("2_fxq1o")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+grow_amount = -5.355
+
+[sub_resource type="QuadMesh" id="QuadMesh_ogfov"]
+material = SubResource("StandardMaterial3D_7scub")
+
+[node name="debris_base" type="RigidBody3D"]
+collision_layer = 0
+gravity_scale = 0.5
+script = SubResource("GDScript_swuip")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_rmnd0")
+
+[node name="trail" type="GPUParticles3D" parent="."]
+amount = 16
+lifetime = 2.0
+fixed_fps = 60
+visibility_aabb = AABB(-0.652759, -0.514794, -0.572628, 1.30552, 4.03764, 1.14526)
+process_material = SubResource("ParticleProcessMaterial_rk57g")
+draw_pass_1 = SubResource("QuadMesh_y2gy8")
+
+[node name="shorttrail" type="GPUParticles3D" parent="."]
+amount = 2
+lifetime = 0.02
+fixed_fps = 60
+interpolate = false
+visibility_aabb = AABB(-0.336193, -0.319695, -0.293938, 0.672386, 0.63939, 0.587875)
+process_material = SubResource("ParticleProcessMaterial_ltlfd")
+draw_pass_1 = SubResource("QuadMesh_ogfov")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(1, 0.380392, 0, 1)
+light_energy = 0.5
+omni_range = 1.0
+omni_attenuation = 0.392292
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

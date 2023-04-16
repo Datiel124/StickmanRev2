@@ -9,6 +9,5 @@ ao_enabled = true
 uv2_triplanar = true
 uv2_world_triplanar = true
 billboard_keep_scale = true
-grow = true
 grow_amount = -0.441
 fixed_size = true

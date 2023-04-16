@@ -10,6 +10,8 @@ margin = 0.653
 points = PackedVector3Array(0.03, -0.121, 0.021, 0.196, 0.04, -0.027, -0.07, -0.112, -0.021, 0.198, 0.03, 0.019, -0.061, 0.042, 0.018, -0.072, -0.121, 0.022, -0.058, 0.031, -0.025, -0.006, -0.111, -0.031)
 
 [node name="WeaponBase" type="RigidBody3D" groups=["Item"]]
+collision_layer = 16
+collision_mask = 17
 script = ExtResource("1_7d5cs")
 Item_Resource = ExtResource("2_keabg")
 

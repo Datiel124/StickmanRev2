@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dursbwf6gwoqv"]
+[gd_scene load_steps=4 format=3 uid="uid://dursbwf6gwoqv"]
 
 [ext_resource type="PackedScene" uid="uid://d3tap8lr0nbpi" path="res://assets/scripts/singletons/notifs/notif_fade.tscn" id="1_yal84"]
 [ext_resource type="Texture2D" uid="uid://kk848843568l" path="res://assets/scripts/singletons/notifs/warninghd.pmg.png" id="2_wwe7f"]
-[ext_resource type="AudioStream" uid="uid://ot20of35bq16" path="res://assets/scripts/singletons/notifs/notifRandomizerWarn.tres" id="3_vvkbt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qe8nk"]
 bg_color = Color(0.176471, 0, 0, 0.686275)
@@ -13,7 +12,6 @@ corner_detail = 1
 
 [node name="notif_warn" instance=ExtResource("1_yal84")]
 theme_override_styles/panel = SubResource("StyleBoxFlat_qe8nk")
-y_scale_mult = 1.0
 
 [node name="Label" parent="." index="0"]
 offset_left = 32.0
@@ -31,6 +29,3 @@ grow_vertical = 2
 texture = ExtResource("2_wwe7f")
 expand_mode = 1
 stretch_mode = 5
-
-[node name="AudioStreamPlayer" parent="." index="3"]
-stream = ExtResource("3_vvkbt")

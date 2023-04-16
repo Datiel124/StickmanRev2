@@ -17,7 +17,7 @@ func _ready():
 	if is_held:
 		self.visible = false
 		collision.disabled = true
-	
+
 	item_cooldown.wait_time = Item_Resource.Item_Cooldown
 	pass # Replace with function body.
 
@@ -34,7 +34,7 @@ func use():
 		is_in_use = true
 		itemUsed.emit()
 		item_cooldown.start()
-		
+
 		if Item_Resource.item_type == 5:
 				playSound(0)
 				#GlobalParticles.create_bullet_tracer(muzzle_point.global_position, self.rotation, muzzle_point)
@@ -44,19 +44,19 @@ func use():
 				#GlobalParticles.create_bullet_tracer(muzzle_point.global_position, self.rotation, muzzle_point)
 
 		if Item_Resource.animation_type == 0:
-			holder.anim_tree.set("parameters/pistol_shot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)	
-			
+			holder.anim_tree.set("parameters/pistol_shot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+
 		if Item_Resource.animation_type == 1:
 			holder.anim_tree.set("parameters/badger_shot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-		
+
 		holder.is_using = true
 		holder.weapon_lower_timer.start()
-		
+
 		if !Item_Resource.Projectile == null:
 			muzzle_point.add_child(bullet)
 			bullet.shooter = holder
 			bullet.top_level = true
-		
+
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -65,14 +65,14 @@ func _physics_process(delta):
 		lerp_offset(delta)
 		set("gravity_scale", 0)
 		collision.disabled = true
-		
-	
+
+
 
 func lerp_offset(delta):
 	self.position.z = lerp(self.position.z, Item_Resource.Item_Position_Offset.z, 5 * delta)
 	self.position.y = lerp(self.position.y, Item_Resource.Item_Position_Offset.y, 5 * delta)
 	self.position.x = lerp(self.position.x, Item_Resource.Item_Position_Offset.x, 5 * delta)
-	
+
 	self.rotation.z = lerp(self.rotation.z, Item_Resource.Item_Rotation_Offset.z, 5 * delta)
 	self.rotation.y = lerp(self.rotation.y, Item_Resource.Item_Rotation_Offset.y, 5 * delta)
 	self.rotation.x = lerp(self.rotation.x, Item_Resource.Item_Rotation_Offset.x, 5 * delta)
