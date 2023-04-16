@@ -81,6 +81,8 @@ func _physics_process(delta):
 				if Aimcast.get_collider().get_parent() is Pawn_Controller:
 					Global.notify_fade("Posessed pawn " + str(Aimcast.get_collider().get_parent()))
 					posess_pawn(Aimcast.get_collider().get_parent())
+			else:
+				Global.notify_warn("Must be looking at a pawn while in freecam to posess.", 2, 5)
 
 		if Input.is_action_just_pressed("pawn_spawn"):
 			var spawn_zone = get_node("/root/Global")

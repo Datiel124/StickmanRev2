@@ -21,3 +21,4 @@ func clearMasterController():
 		if child is masterController:
 			child.queue_free()
 
+

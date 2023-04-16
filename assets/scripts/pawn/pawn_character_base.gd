@@ -161,6 +161,24 @@ func _physics_process(delta):
 		is_aiming = true
 
 
+func damage(amount, impulseMult:float = 1, bulletDir:Vector3 = Vector3.ZERO, hitPos : Vector3 = Vector3.ZERO, applyKnockback:bool = true, knockbackAmount:float = 0, hitbox : Hitbox = null):
+	var damageamount
+	if hitbox == null:
+		damageamount = amount
+	else:
+		damageamount = amount * hitbox.hitboxDmgMultiplier
+		last_bone_hit = hitbox.boneId
+	var localPoint = self.to_local(hitPos)
+	var physOffset = localPoint - self.position
+	physOffset = self.to_global(physOffset)
+	last_impulse = -(bulletDir.normalized() * randf_range(2, impulse_amnt) * impulseMult) + (Vector3.UP * randf_range(4,5))
+	impulseDir = physOffset
+	Health = Health - damageamount
+	GlobalParticles.create_blood(0,hitPos)
+
+	if applyKnockback:
+		velocity += -(bulletDir * knockbackAmount)
+
 
 func pawn_animation(delta):
 	pass
@@ -215,6 +233,4 @@ func _on_weapon_lower_timer_timeout():
 
 func change_to_dead_cam():
 	pass
-
-
 
