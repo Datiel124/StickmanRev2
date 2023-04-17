@@ -102,11 +102,11 @@ func _input(input):
 			if Input.is_action_just_pressed("swap_shoulder"):
 				swap_shoulder()
 			##Scroll weapon list up
-			if Input.is_action_just_pressed("mwheel_up"):
+			if Input.is_action_just_pressed("mwheel_up") and !Input.is_action_pressed("Shoot"):
 				pawn.current_equipped_index = pawn.current_equipped_index + 1
 
 			##Scroll weapon list down
-			if Input.is_action_just_pressed("mwheel_down"):
+			if Input.is_action_just_pressed("mwheel_down") and !Input.is_action_pressed("Shoot"):
 				pawn.current_equipped_index = pawn.current_equipped_index - 1
 
 			##Pause menu toggle
