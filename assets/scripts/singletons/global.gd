@@ -18,12 +18,6 @@ var is_fullscreen = true
 ## Ingame Globals
 var world
 
-#MP Related
-var port = 7777
-var ip = "localhost"
-
-var player_name = ""
-
 ##World Stuff
 var mp_spawner = MultiplayerSpawner.new()
 var notif_hud = preload("res://assets/scripts/singletons/Notifications.tscn").instantiate()
@@ -68,6 +62,37 @@ func _ready():
 	mp_spawner.add_spawnable_scene("res://assets/entities/pawn/character_pawn.tscn")
 	mp_spawner.set_spawn_path('/root/Global')
 
+
+
+
+
+func generate_name() -> String:
+	var outname = ""
+
+	var before = ["Jum", "Ge", "Po"]
+	var middleA = ["ba", "bo", "fi", "lo", "yum"]
+	var middleB = ["bin", "sta", "mil"]
+	var after = ["ba", "bo", "tam"]
+
+	var completed
+
+	outname += before.pick_random()
+	match outname[-1]:
+		"o":
+			outname += middleB.pick_random()
+		"e":
+			outname += middleA.pick_random()
+		"m":
+			outname += middleB.pick_random()
+	outname += after.pick_random()
+
+	return outname
+
+
+func validate_name(check : String) -> bool:
+	var regex = RegEx.create_from_string("\\w+")
+	var result = regex.search(check)
+	return result.strings[0].length() > 0
 
 
 func load_settings():

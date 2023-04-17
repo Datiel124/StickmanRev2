@@ -30,7 +30,7 @@ func _process(delta):
 			##Pawn Death
 			if !pawn.die.is_connected(pawnCam.detach_cam):
 				pawn.die.connect(pawnCam.detach_cam)
-			
+
 			##Connect Item picked up signal
 			if !pawn.pickedupItem.is_connected(itemPickedup):
 				pawn.pickedupItem.connect(itemPickedup)

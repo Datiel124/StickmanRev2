@@ -1,8 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://byf70b5ate3gx"]
+[gd_scene load_steps=6 format=3 uid="uid://byf70b5ate3gx"]
 
 [ext_resource type="Script" path="res://assets/scenes/menu/menu.gd" id="1_lpo11"]
 [ext_resource type="Texture2D" uid="uid://dc3fkfugwvtla" path="res://assets/textures/misc/company-logo (1).png" id="2_feimm"]
+[ext_resource type="Texture2D" uid="uid://c6720hpdah6sx" path="res://assets/textures/ui/refresh.png" id="2_nk2t6"]
 [ext_resource type="AudioStream" uid="uid://dmifxlb0c387l" path="res://assets/sounds/ui/uiclick.wav" id="3_ipqm8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_38gwj"]
+font_size = 64
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
 
 [node name="menu" type="Control"]
 layout_mode = 3
@@ -74,6 +80,15 @@ placeholder_text = "Enter IP Address Here"
 layout_mode = 2
 placeholder_text = "Port"
 
+[node name="randomize_name" type="TextureButton" parent="CanvasLayer"]
+offset_left = 736.0
+offset_top = 504.0
+offset_right = 760.0
+offset_bottom = 528.0
+texture_normal = ExtResource("2_nk2t6")
+ignore_texture_size = true
+stretch_mode = 0
+
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 anchors_preset = 3
 anchor_left = 1.0
@@ -89,6 +104,47 @@ grow_vertical = 0
 scale = Vector2(0.199, 0.199)
 texture = ExtResource("2_feimm")
 
+[node name="networkwait" type="ColorRect" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.662745)
+
+[node name="Label" type="Label" parent="CanvasLayer/networkwait"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Joining a server..."
+label_settings = SubResource("LabelSettings_38gwj")
+
+[node name="cancelbutton" type="Button" parent="CanvasLayer/networkwait"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = 50.0
+offset_right = 256.0
+offset_bottom = 106.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Cancel"
+
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_ipqm8")
 bus = &"Sounds"
@@ -96,3 +152,6 @@ bus = &"Sounds"
 [connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/HostBtn" to="." method="_on_host_btn_pressed"]
 [connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/JoinBtn" to="." method="_on_join_btn_pressed"]
+[connection signal="pressed" from="CanvasLayer/randomize_name" to="." method="_on_randomize_name_pressed"]
+[connection signal="ready" from="CanvasLayer/networkwait" to="CanvasLayer/networkwait" method="hide"]
+[connection signal="pressed" from="CanvasLayer/networkwait/cancelbutton" to="." method="_on_cancelbutton_pressed"]

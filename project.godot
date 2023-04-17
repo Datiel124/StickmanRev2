@@ -25,6 +25,7 @@ Global="*res://assets/scripts/singletons/global.gd"
 Weapondb="*res://assets/scripts/singletons/weapondb.gd"
 GlobalParticles="*res://assets/scripts/singletons/global_particles.gd"
 Cvars="*res://assets/scripts/singletons/cvars.gd"
+Networking="*res://assets/scripts/singletons/networking.gd"
 
 [display]
 

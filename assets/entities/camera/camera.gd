@@ -67,7 +67,7 @@ func _physics_process(delta):
 		else:
 			Global.debugMode = true
 			Global.notify_warn("Debug controls enabled.", 2, 5)
-			
+
 	if Global.debugMode:
 		##Enable Freecam
 		if Input.is_action_just_pressed("give_test_item"):
