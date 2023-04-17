@@ -71,6 +71,23 @@ layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter Name Here"
 
+[node name="randomize_name" type="TextureButton" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer/NameEnt"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -12.5
+offset_right = -10.0
+offset_bottom = 11.5
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("2_nk2t6")
+ignore_texture_size = true
+stretch_mode = 0
+
 [node name="AddrEntry" type="LineEdit" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -79,15 +96,6 @@ placeholder_text = "Enter IP Address Here"
 [node name="PortEntry" type="LineEdit" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer"]
 layout_mode = 2
 placeholder_text = "Port"
-
-[node name="randomize_name" type="TextureButton" parent="CanvasLayer"]
-offset_left = 736.0
-offset_top = 504.0
-offset_right = 760.0
-offset_bottom = 528.0
-texture_normal = ExtResource("2_nk2t6")
-ignore_texture_size = true
-stretch_mode = 0
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 anchors_preset = 3
@@ -152,6 +160,6 @@ bus = &"Sounds"
 [connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/HostBtn" to="." method="_on_host_btn_pressed"]
 [connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/JoinBtn" to="." method="_on_join_btn_pressed"]
-[connection signal="pressed" from="CanvasLayer/randomize_name" to="." method="_on_randomize_name_pressed"]
+[connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer/NameEnt/randomize_name" to="." method="_on_randomize_name_pressed"]
 [connection signal="ready" from="CanvasLayer/networkwait" to="CanvasLayer/networkwait" method="hide"]
 [connection signal="pressed" from="CanvasLayer/networkwait/cancelbutton" to="." method="_on_cancelbutton_pressed"]

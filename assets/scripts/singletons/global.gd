@@ -111,7 +111,7 @@ func add_player(pos:Vector3 = Vector3(0,0,0), peer_id:int = 0):
 	var player_pawn = stickpawn.instantiate()
 	if is_multiplayer_game:
 		add_child(player_pawn)
-		player_camera.c_name = player_name
+		player_camera.c_name = Networking.player_name
 		player_camera.name = str(peer_id)
 		player_camera.mp_id = str(peer_id)
 		player_pawn.name = str(peer_id)

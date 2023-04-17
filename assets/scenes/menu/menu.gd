@@ -8,11 +8,11 @@ var mp_peer := ENetMultiplayerPeer.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	addr_entry.text = Networking.ip
-	port_entry.text = str(Netowrking.port)
+	port_entry.text = str(Networking.port)
 	name_entry.text = Networking.player_name
 	Global.notify_warn("Heads up, debug controls are disabled by default. Press F9 to enable them. Early alpha build right here.", 2, 5)
 	name_entry.text = Global.generate_name()
-	multiplayer.peer_connected.connect(_on_peer_connected)
+	Networking.peer_registered.connect(_on_peer_connected.unbind(1))
 	multiplayer.connected_to_server.connect(_on_peer_connected.bind(-1))
 
 
@@ -47,28 +47,37 @@ func _on_join_btn_pressed():
 
 func create_server():
 	Networking.ip = addr_entry.text
-	Netowrking.port = int(port_entry.text)
+	Networking.port = int(port_entry.text)
 	Networking.player_name = name_entry.text
 	Global.is_multiplayer_game = true
-	mp_peer.create_server(Netowrking.port, 2)
+	mp_peer.create_server(Networking.port, 3)
 	multiplayer.multiplayer_peer = mp_peer
 	%networkwait.visible = true
 
 
 func join_server():
 	Networking.ip = addr_entry.text
-	Netowrking.port = int(port_entry.text)
+	Networking.port = int(port_entry.text)
 	Networking.player_name = name_entry.text
 	Global.is_multiplayer_game = true
-	mp_peer.create_client(Networking.ip, Netowrking.port)
+	mp_peer.create_client(Networking.ip, Networking.port)
 	multiplayer.multiplayer_peer = mp_peer
 	%networkwait.visible = true
 
 
 func _on_peer_connected(id) -> void:
 	#id is -1 if you just connected to server
+	if id == -1:
+		Networking.request_player_data.rpc()
+		for i in multiplayer.get_peers():
+			#wait for them to register
+			await Networking.peer_registered
 	#change to lobby
+	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
+	$AudioStreamPlayer2D.finished.connect($AudioStreamPlayer2D.queue_free)
+	$AudioStreamPlayer2D.reparent(get_tree().get_root())
 	get_tree().change_scene_to_file("res://assets/scenes/menu/network_lobby.tscn")
+	Fade.fade_in(0.3, Color(0,0,0,1),"Diagonal",true,true)
 
 
 func _on_cancelbutton_pressed() -> void:
