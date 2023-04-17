@@ -264,8 +264,11 @@ func getMidPoint(muzzlepoint):
 	var dir = -(rayEnd - muzzlepoint.global_transform.origin).normalized()
 	return dir
 
-func add_trauma(trauma_amount : float):
+func add_trauma(trauma_amount : float, _maxX:float = 10.0, _maxY:float = 10.0, _maxZ:float = 5.0):
 	trauma = clamp(trauma + trauma_amount, 0.0, 1.0)
+	max_x = _maxX
+	max_y = _maxY
+	max_z = _maxZ
 
 func get_shake_intensity() -> float:
 	return trauma * trauma
