@@ -25,6 +25,21 @@ var vert_velocity = Vector3.ZERO
 var total_pitch = 0.0
 var mouse_pos = Vector2(0.0,0.0)
 
+##Screenshake
+@export var trauma_reduction_rate := 1.0
+
+@export var max_x := 10.0
+@export var max_y := 10.0
+@export var max_z := 5.0
+
+@export var noise = FastNoiseLite.new()
+@export var noise_speed := 50.0
+
+@onready var initial_rotation := Camera.rotation_degrees as Vector3
+
+var trauma := 0.0
+
+var time := 0.0
 
 
 var c_name = ""
@@ -175,7 +190,14 @@ func _input(event):
 		mouse_pos.x += event.relative.x
 		mouse_pos.y += event.relative.y
 
-
+func _process(delta):
+		time += delta
+		trauma = max(trauma - delta * trauma_reduction_rate, 0.0)
+		
+		if !is_freecam:
+			Camera.rotation_degrees.x = initial_rotation.x + max_x * get_shake_intensity() * get_noise_from_seed(0)
+			Camera.rotation_degrees.y = initial_rotation.y + max_y * get_shake_intensity() * get_noise_from_seed(1)
+			Camera.rotation_degrees.z = initial_rotation.z + max_z * get_shake_intensity() * get_noise_from_seed(2)
 
 func posess_pawn(pawn:Node3D):
 	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
@@ -242,6 +264,12 @@ func getMidPoint(muzzlepoint):
 	var dir = -(rayEnd - muzzlepoint.global_transform.origin).normalized()
 	return dir
 
-func applyRecoil(amount:int):
-	var camDefaultRotation = Vector3(vert.rotation.x, horiz.rotation.y, Camera.rotation.z)
-	vert.rotation.y = vert.rotation.y * -amount
+func add_trauma(trauma_amount : float):
+	trauma = clamp(trauma + trauma_amount, 0.0, 1.0)
+
+func get_shake_intensity() -> float:
+	return trauma * trauma
+
+func get_noise_from_seed(_seed : int) -> float:
+	noise.set_seed(_seed)
+	return noise.get_noise_1d(time * noise_speed)

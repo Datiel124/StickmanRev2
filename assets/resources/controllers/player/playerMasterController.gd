@@ -89,6 +89,7 @@ func _process(delta):
 				turnRate = default_turn_rate
 		else:
 			pawn.die.disconnect(pawnCam.detach_cam)
+			pawn.pickedupItem.disconnect(itemPickedup)
 
 func _physics_process(delta):
 	if !pawn == null:
@@ -135,8 +136,8 @@ func getKillcastCollider():
 func checkIfKillcastColliding():
 	return pawnCam.Killcast.is_colliding()
 
-func shotFired():
-	pawnCam.applyRecoil(5)
+func shotFired(shakeAmount):
+	pawnCam.add_trauma(shakeAmount)
 
 func itemPickedup(spawned):
 	Global.notify_fade("Picked up " + str(spawned.name), 2, 5)
