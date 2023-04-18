@@ -7,6 +7,7 @@ var bone_hit = 0
 var pawn_to_animate : CharacterBody3D
 var death_sound_played = false
 
+@onready var remove_timer = $remove_timer
 @export var pawn_dead:Node3D
 
 @export var active_ragdoll_enabled : bool
@@ -29,6 +30,7 @@ var physics_bones
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#ragdoll_skeleton.physical_bones_start_simulation()
+	Global.num_ragdolls += 1
 	physics_bones = ragdoll_skeleton.get_children().filter(func(x): return x is PhysicalBone3D)
 	#print(physics_bones)
 
@@ -36,9 +38,14 @@ func _ready():
 func _process(delta):
 	pass
 
+
 func hookes_law(displacement: Vector3, current_velocity: Vector3, stiffness: float, damping: float) -> Vector3:
 	return (stiffness * displacement) - (damping * current_velocity)
 
 
 func _on_remove_timer_timeout():
 	queue_free()
+
+
+func _exit_tree() -> void:
+	Global.num_ragdolls -= 1

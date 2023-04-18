@@ -288,7 +288,7 @@ radius = 0.0571894
 [sub_resource type="SphereShape3D" id="SphereShape3D_eyda4"]
 radius = 0.151072
 
-[node name="pawn_ragdoll" type="Node3D"]
+[node name="pawn_ragdoll" type="Node3D" groups=["ragdolls"]]
 script = ExtResource("1_naskj")
 active_ragdoll_enabled = true
 linear_spring_stiffness = 1500.0
@@ -764,14 +764,14 @@ transform = Transform3D(1, 2.70084e-08, 5.96046e-08, 0, 4.47035e-08, 1, -2.6077e
 shape = SubResource("CylinderShape3D_n3yv1")
 
 [node name="Physical Bone L_UpperArm" type="PhysicalBone3D" parent="Mesh/Male/MaleSkeleton/Skeleton3D"]
-transform = Transform3D(-0.783184, 0.612228, -0.108419, -0.0840538, 0.0685211, 0.994205, 0.616033, 0.787674, -0.00218497, 0.173439, 1.32751, -0.107495)
+transform = Transform3D(-0.783184, 0.612228, -0.108419, -0.0840538, 0.0685211, 0.994205, 0.616033, 0.787674, -0.00218497, 0.17333, 1.32853, -0.107763)
 top_level = true
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
-joint_offset = Transform3D(1, 0, 0, 0, -0.627013, -0.779008, 0, 0.779008, -0.627013, 0.00115232, 0.00145568, 0.118909)
+joint_offset = Transform3D(1, 0, 0, 0, -0.627013, -0.779008, 0, 0.779008, -0.627013, 0.00131748, 0.00166362, 0.117887)
 joint_rotation = Vector3(2.24851, 0, 0)
-body_offset = Transform3D(0.999997, 2.98023e-08, -2.09117e-06, 1.47021e-06, -3.5367e-07, -1.00013, -6.07967e-06, 1, 2.0201e-05, -0.00115207, 0.118924, -0.00145808)
+body_offset = Transform3D(0.999997, 2.98023e-08, -2.09117e-06, 1.47021e-06, -3.5367e-07, -1.00013, -6.07967e-06, 1, 2.0201e-05, -0.00131723, 0.117902, -0.00166599)
 mass = 1.3
 bounce = 0.15
 linear_damp = 0.15
@@ -1268,9 +1268,9 @@ top_level = true
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
-joint_offset = Transform3D(-3.61999e-06, 0, 0.999999, 0, 0.999999, 0, -0.999999, 0, -3.61999e-06, 2.91877e-06, -3.69536e-06, 0.202169)
+joint_offset = Transform3D(-3.61999e-06, 0, 0.999999, 0, 0.999999, 0, -0.999999, 0, -3.61999e-06, 2.91877e-06, -3.70976e-06, 0.202169)
 joint_rotation = Vector3(0, 1.5708, 0)
-body_offset = Transform3D(1.00002, 0.00022711, -1.43597e-05, -3.14903e-07, 8.66279e-05, -1.00059, -1.08033e-07, 1.03503, 1.84029e-05, -1.49012e-08, 0.202288, 1.04308e-07)
+body_offset = Transform3D(1.00002, 0.00022711, -1.43597e-05, -3.14903e-07, 8.66279e-05, -1.00059, -1.08033e-07, 1.03503, 1.84029e-05, -1.49012e-08, 0.202288, 1.19209e-07)
 mass = 1.3
 friction = 0.5
 bounce = 0.15
@@ -1770,9 +1770,9 @@ top_level = true
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
-joint_offset = Transform3D(-3.61999e-06, 0, 1, 0, 1, 0, -1, 0, -3.61999e-06, 5.97816e-07, 2.737e-07, 0.131943)
+joint_offset = Transform3D(-3.61999e-06, 0, 1, 0, 1, 0, -1, 0, -3.61999e-06, 5.98062e-07, 2.737e-07, 0.131943)
 joint_rotation = Vector3(0, 1.5708, 0)
-body_offset = Transform3D(0.999884, -1.19209e-06, -5.6345e-07, -4.1686e-06, 2.19792e-06, -0.999924, 6.85453e-07, 0.999996, -3.74019e-06, -5.23403e-07, 0.131933, 2.19792e-07)
+body_offset = Transform3D(0.999884, -1.19209e-06, -5.65313e-07, -4.17046e-06, 2.19792e-06, -0.999924, 6.85453e-07, 0.999996, -3.74019e-06, -5.23403e-07, 0.131933, 2.19792e-07)
 mass = 1.3
 bounce = 0.15
 linear_damp = 0.15

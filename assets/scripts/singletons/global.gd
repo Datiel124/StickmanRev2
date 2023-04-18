@@ -31,6 +31,10 @@ var config_file = ConfigFile.new()
 
 var settingsvars = config_file.load("user://settings/settings.sav")
 
+var num_ragdolls : int = 0:
+	set(value):
+		num_ragdolls = max(value, 0)
+var max_ragdolls : int = 8
 # Called when the node enters the scene tree for the first time.
 var clicksnap = preload("res://assets/sounds/ui/uipopup.wav")
 func _process(delta):
@@ -40,6 +44,9 @@ func _process(delta):
 	if Input.is_action_just_pressed("screenshot"):
 		var path = screenshot()
 		Global.notify_click("Took screenshot '"+ path +"' (Click to view)", open_screenshot.bind(path), 2, 8)
+
+	if num_ragdolls > max_ragdolls and (Engine.get_process_frames() % 5 == 0):
+		get_tree().get_nodes_in_group("ragdolls")[0].queue_free()
 
 
 var ss_sound = preload("res://assets/sounds/ui/uiSoft.wav")
