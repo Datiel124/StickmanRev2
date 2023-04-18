@@ -5,14 +5,13 @@
 [ext_resource type="AudioStream" uid="uid://ot20of35bq16" path="res://assets/scripts/singletons/notifs/notifRandomizerWarn.tres" id="3_2gvq2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qe8nk"]
-bg_color = Color(0.176471, 0, 0, 0.686275)
+bg_color = Color(0.27451, 0, 0, 1)
 border_width_top = 2
 border_width_bottom = 2
 border_color = Color(1, 0, 0, 0)
 corner_detail = 1
 
 [node name="notif_warn" instance=ExtResource("1_yal84")]
-process_mode = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_qe8nk")
 
 [node name="Label" parent="." index="0"]

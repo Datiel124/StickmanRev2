@@ -4,7 +4,7 @@
 [ext_resource type="AudioStream" uid="uid://c1x354mn4nakn" path="res://assets/scripts/singletons/notifs/notifRandomizer.tres" id="2_amows"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fx4d3"]
-bg_color = Color(0, 0, 0, 0.462745)
+bg_color = Color(0.113725, 0.113725, 0.113725, 1)
 border_width_top = 2
 border_width_bottom = 2
 border_color = Color(0, 0, 0, 0)

@@ -33,9 +33,7 @@ var mp_id
 var defaultcamres = load("res://assets/resources/CameraData/DefaultCam.tres")
 @export var default_cam_fov = 90
 @export var is_freecam = true
-@export var attachedPawn : Node3D:
-	get:
-		return attachedPawn
+@export var attachedPawn : Node3D
 @export var CameraDataResource:CameraData
 
 @onready var rot = vert.global_transform.basis.get_euler().y
