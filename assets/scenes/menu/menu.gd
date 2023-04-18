@@ -35,14 +35,12 @@ func _on_start_game_pressed():
 func _on_host_btn_pressed():
 	if Global.validate_name(name_entry.text):
 		$AudioStreamPlayer2D.play()
-		%networkwait.visible = true
 		create_server()
 
 
 func _on_join_btn_pressed():
 	if addr_entry.text and Global.validate_name(name_entry.text):
 		$AudioStreamPlayer2D.play()
-		%networkwait.visible = true
 		join_server()
 
 
@@ -53,7 +51,7 @@ func create_server():
 	Global.is_multiplayer_game = true
 	mp_peer.create_server(Networking.port, 3)
 	multiplayer.multiplayer_peer = mp_peer
-	%networkwait.visible = true
+	transition_to_lobby()
 
 
 func join_server():
@@ -74,11 +72,18 @@ func _on_peer_connected(id) -> void:
 			#wait for them to register
 			await Networking.peer_registered
 	#change to lobby
+	transition_to_lobby()
+
+
+func transition_to_lobby() -> void:
+	get_tree().paused = true
 	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
 	$AudioStreamPlayer2D.finished.connect($AudioStreamPlayer2D.queue_free)
 	$AudioStreamPlayer2D.reparent(get_tree().get_root())
 	get_tree().change_scene_to_file("res://assets/scenes/menu/network_lobby.tscn")
+	get_tree().paused = false
 	Fade.fade_in(0.3, Color(0,0,0,1),"Diagonal",true,true)
+
 
 
 func _on_cancelbutton_pressed() -> void:

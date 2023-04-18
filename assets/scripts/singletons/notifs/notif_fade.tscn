@@ -48,6 +48,7 @@ _data = {
 }
 
 [node name="notif_fade" type="Panel"]
+process_mode = 3
 clip_contents = true
 custom_minimum_size = Vector2(272, 32)
 offset_right = 272.0

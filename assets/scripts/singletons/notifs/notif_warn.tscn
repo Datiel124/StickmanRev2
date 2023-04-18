@@ -12,6 +12,7 @@ border_color = Color(1, 0, 0, 0)
 corner_detail = 1
 
 [node name="notif_warn" instance=ExtResource("1_yal84")]
+process_mode = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_qe8nk")
 
 [node name="Label" parent="." index="0"]

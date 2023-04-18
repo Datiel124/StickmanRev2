@@ -156,6 +156,7 @@ grow_vertical = 2
 text = "Cancel"
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
 stream = ExtResource("3_ipqm8")
 bus = &"Sounds"
 
