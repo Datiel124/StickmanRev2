@@ -93,9 +93,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter IP Address Here"
 
-[node name="PortEntry" type="LineEdit" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer"]
+[node name="PortEntry" type="SpinBox" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer"]
 layout_mode = 2
-placeholder_text = "Port"
+min_value = 7777.0
+max_value = 999999.0
+value = 7777.0
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 anchors_preset = 3

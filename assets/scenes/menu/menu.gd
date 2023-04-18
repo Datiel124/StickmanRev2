@@ -8,12 +8,13 @@ var mp_peer := ENetMultiplayerPeer.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	addr_entry.text = Networking.ip
-	port_entry.text = str(Networking.port)
+	port_entry.value = Networking.port
 	name_entry.text = Networking.player_name
 	Global.notify_warn("Heads up, debug controls are disabled by default. Press F9 to enable them. Early alpha build right here.", 2, 5)
 	name_entry.text = Global.generate_name()
 	Networking.peer_registered.connect(_on_peer_connected.unbind(1))
 	multiplayer.connected_to_server.connect(_on_peer_connected.bind(-1))
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -32,14 +33,14 @@ func _on_start_game_pressed():
 
 
 func _on_host_btn_pressed():
-	if port_entry.text and Global.validate_name(name_entry.text):
+	if Global.validate_name(name_entry.text):
 		$AudioStreamPlayer2D.play()
 		%networkwait.visible = true
 		create_server()
 
 
 func _on_join_btn_pressed():
-	if addr_entry.text and port_entry.text and Global.validate_name(name_entry.text):
+	if addr_entry.text and Global.validate_name(name_entry.text):
 		$AudioStreamPlayer2D.play()
 		%networkwait.visible = true
 		join_server()
@@ -47,7 +48,7 @@ func _on_join_btn_pressed():
 
 func create_server():
 	Networking.ip = addr_entry.text
-	Networking.port = int(port_entry.text)
+	Networking.port = port_entry.value
 	Networking.player_name = name_entry.text
 	Global.is_multiplayer_game = true
 	mp_peer.create_server(Networking.port, 3)
@@ -57,7 +58,7 @@ func create_server():
 
 func join_server():
 	Networking.ip = addr_entry.text
-	Networking.port = int(port_entry.text)
+	Networking.port = port_entry.value
 	Networking.player_name = name_entry.text
 	Global.is_multiplayer_game = true
 	mp_peer.create_client(Networking.ip, Networking.port)

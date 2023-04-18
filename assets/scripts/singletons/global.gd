@@ -63,9 +63,6 @@ func _ready():
 	mp_spawner.set_spawn_path('/root/Global')
 
 
-
-
-
 func generate_name() -> String:
 	var outname = ""
 
