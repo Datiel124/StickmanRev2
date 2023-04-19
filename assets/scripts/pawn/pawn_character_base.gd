@@ -219,7 +219,6 @@ func kill(bone_hit):
 	anim_tree.active = false
 	die.emit()
 	hide()
-	get_owner().deleteTimer.start()
 
 func create_ragdoll(impulse_bone:int = 0):
 	var _ragdoll = ragdoll.instantiate()

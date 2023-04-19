@@ -251,7 +251,7 @@ process_material = SubResource("ParticleProcessMaterial_3gpk5")
 draw_pass_1 = SubResource("QuadMesh_2uh6p")
 
 [node name="flash" type="GPUParticles3D" parent="Particles"]
-sorting_offset = 1.0
+sorting_offset = 5.0
 gi_mode = 0
 emitting = false
 amount = 4
