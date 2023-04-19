@@ -89,6 +89,7 @@ func _process(delta):
 				turnRate = default_turn_rate
 		else:
 			pawn.die.disconnect(pawnCam.detach_cam)
+			pawn.pickedupItem.disconnect(itemPickedup)
 
 func _physics_process(delta):
 	if !pawn == null:
@@ -101,11 +102,11 @@ func _input(input):
 			if Input.is_action_just_pressed("swap_shoulder"):
 				swap_shoulder()
 			##Scroll weapon list up
-			if Input.is_action_just_pressed("mwheel_up"):
+			if Input.is_action_just_pressed("mwheel_up") and !Input.is_action_pressed("Shoot"):
 				pawn.current_equipped_index = pawn.current_equipped_index + 1
 
 			##Scroll weapon list down
-			if Input.is_action_just_pressed("mwheel_down"):
+			if Input.is_action_just_pressed("mwheel_down") and !Input.is_action_pressed("Shoot"):
 				pawn.current_equipped_index = pawn.current_equipped_index - 1
 
 			##Pause menu toggle
@@ -135,8 +136,8 @@ func getKillcastCollider():
 func checkIfKillcastColliding():
 	return pawnCam.Killcast.is_colliding()
 
-func shotFired():
-	pawnCam.applyRecoil(5)
+func shotFired(shakeAmount):
+	pawnCam.add_trauma(shakeAmount)
 
 func itemPickedup(spawned):
 	Global.notify_fade("Picked up " + str(spawned.name), 2, 5)

@@ -1,6 +1,6 @@
 extends Node
 class_name Pawn_Item
-signal itemUsed
+signal itemUsed(shakeAmount)
 @export var Item_Resource : ItemResource
 @export var holder : CharacterBody3D
 @export var is_held = false
@@ -34,7 +34,7 @@ func use():
 	##Call this function when using the item, takes after the item type described in the item resource
 	if !is_in_use:
 		is_in_use = true
-		itemUsed.emit()
+		itemUsed.emit(Item_Resource.Camera_Shake_Intensity)
 		item_cooldown.start()
 
 		if Item_Resource.item_type == 5:
