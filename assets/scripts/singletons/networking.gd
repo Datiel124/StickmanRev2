@@ -24,10 +24,10 @@ func _ready() -> void:
 
 func _on_server_disconnected():
 	get_tree().paused = true
-	await Fade.fade_out(0.3, Color.BLACK, "Diagonal", false, true).finished
+	await Fade.fade_out(0.2, Color.BLACK, "Diagonal", false, true).finished
 	Global.notify_warn("Server disconnected.", 2, 8)
 	get_tree().change_scene_to_file("res://assets/scenes/menu/menu.tscn")
-	Fade.fade_in(0.3, Color.BLACK, "Diagonal", true, true).finished
+	Fade.fade_in(0.2, Color.BLACK, "Diagonal", true, true).finished
 	get_tree().paused = false
 
 

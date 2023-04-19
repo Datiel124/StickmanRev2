@@ -123,6 +123,8 @@ func add_player(pos:Vector3 = Vector3(0,0,0), peer_id:int = 0):
 	add_child(player_pawn)
 	player_pawn.add_child(controller)
 	player_pawn.name += str(peer_id)
+	if Networking.peer_data.has(peer_id):
+		player_pawn.character_pawn.nametag.text = Networking.get_peer_data(peer_id).player_name
 	player_camera.attachedPawn = player_pawn
 	player_camera.name += str(peer_id)
 	player_pawn.setMasterController(controller)
@@ -130,6 +132,7 @@ func add_player(pos:Vector3 = Vector3(0,0,0), peer_id:int = 0):
 	player_camera.CameraDataResource = player_pawn.getMasterController().CameraResource
 	player_pawn.getMasterController().pawnCam = player_camera
 	player_pawn.character_pawn.CameraPosNode.add_child(player_camera)
+	player_camera.Camera.current = is_me
 	player_pawn.position = pos
 	player_camera.is_freecam = false
 

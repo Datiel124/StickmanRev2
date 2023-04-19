@@ -65,7 +65,7 @@ func _physics_process(delta):
 				var hitResult = shooter.get_owner().getMasterController().getKillcastCollider()
 				if hitResult.has_method("damage"):
 					hitResult.damage(shooter.current_equipped.Item_Resource.Damage, shooter.current_equipped.Item_Resource.physicsPushMult, bulletFlyDir, hitPosition, true, shooter.current_equipped.Item_Resource.knockbackForce)
-					#explode(hitResult.global_position)
+					explode(hitResult.global_position)
 
 		justCreated = false
 

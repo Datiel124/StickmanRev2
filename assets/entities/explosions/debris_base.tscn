@@ -69,20 +69,27 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 0.78285, 0.580373, 0.821716, 1, 0.39731
 gradient = SubResource("Gradient_5knod")
 
 [sub_resource type="Gradient" id="Gradient_nxn1t"]
-colors = PackedColorArray(1, 0.575872, 0.113015, 1, 1, 0.401534, 0, 0.888889)
+colors = PackedColorArray(1, 0.930856, 0.617826, 1, 1, 0.311195, 0, 0.888889)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_4ikds"]
 gradient = SubResource("Gradient_nxn1t")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ltlfd"]
+spread = 180.0
 gravity = Vector3(0, 0, 0)
-scale_min = 0.4
-scale_max = 0.6
+initial_velocity_max = 19.23
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 0.0
+scale_max = 0.3
 color_ramp = SubResource("GradientTexture1D_4ikds")
 color_initial_ramp = SubResource("GradientTexture1D_eeo1j")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7scub"]
 transparency = 1
+blend_mode = 1
 shading_mode = 0
 diffuse_mode = 2
 specular_mode = 2
@@ -118,7 +125,7 @@ draw_pass_1 = SubResource("QuadMesh_y2gy8")
 
 [node name="shorttrail" type="GPUParticles3D" parent="."]
 gi_mode = 0
-amount = 2
+amount = 4
 lifetime = 0.02
 fixed_fps = 60
 interpolate = false

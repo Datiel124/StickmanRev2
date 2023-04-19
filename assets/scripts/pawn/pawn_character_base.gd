@@ -15,10 +15,10 @@ signal pickedupItem
 @onready var hitBoxes = $Mesh/Male/MaleSkeleton/Hitboxes
 @onready var pawnMesh = $Mesh
 @onready var anim_tree = $Mesh/AnimationTree
-
+@onready var nametag = %nametag
 
 @export var pawnController : masterController
-@export var Health = 100
+@export var Health = 1000
 @export var is_dead = false
 @export var is_aiming = false
 
@@ -69,17 +69,14 @@ var is_using:bool
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-func _enter_tree():
-	if Global.is_multiplayer_game:
-		set_multiplayer_authority(str(name).to_int())
-
 
 func _ready():
 	Inventory.append(null)
+#	nametag.visible = !is_multiplayer_authority() and multiplayer.multiplayer_peer != null
 
 
 func _physics_process(delta):
-	if Global.is_multiplayer_game:
+	if multiplayer.multiplayer_peer != null:
 		if not is_multiplayer_authority(): return
 
 	if Health <= 0 and !is_dead:
@@ -161,6 +158,8 @@ func _physics_process(delta):
 		is_aiming = true
 
 
+var damage_popup : PackedScene = preload("res://assets/scenes/damage_popup.tscn")
+var last_popup : Node = null
 func damage(amount, impulseMult:float = 1, bulletDir:Vector3 = Vector3.ZERO, hitPos : Vector3 = Vector3.ZERO, applyKnockback:bool = true, knockbackAmount:float = 0, hitbox : Hitbox = null):
 	var damageamount
 	if hitbox == null:
@@ -168,6 +167,22 @@ func damage(amount, impulseMult:float = 1, bulletDir:Vector3 = Vector3.ZERO, hit
 	else:
 		damageamount = amount * hitbox.hitboxDmgMultiplier
 		last_bone_hit = hitbox.boneId
+
+	if last_popup != null:
+		#there exists a previous one
+		if last_popup.fall_down:
+			last_popup = null
+		else:
+			last_popup.accumulated_damage += damageamount
+			last_popup.global_position = global_position + Vector3.UP * 1.8
+	else:
+		#it is null
+		last_popup = damage_popup.instantiate()
+		die.connect(last_popup.start_falling)
+		last_popup.global_position = global_position + Vector3.UP * 1.8
+		last_popup.accumulated_damage += damageamount
+		get_parent().get_parent().add_child(last_popup)
+
 	var localPoint = self.to_local(hitPos)
 	var physOffset = localPoint - self.position
 	physOffset = self.to_global(physOffset)

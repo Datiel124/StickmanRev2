@@ -95,7 +95,6 @@ func finalize_load(loaded_level) -> void:
 		Global.add_player(Vector3.ZERO, i)
 
 
-
 func _on_settings_button_pressed() -> void:
 	$Settings.visible = true
 	pass
