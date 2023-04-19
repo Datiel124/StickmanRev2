@@ -76,8 +76,8 @@ func _ready():
 
 
 func _physics_process(delta):
-	if multiplayer.multiplayer_peer != null:
-		if not is_multiplayer_authority(): return
+#	if multiplayer.multiplayer_peer != null:
+#		if not is_multiplayer_authority(): return
 
 	if Health <= 0 and !is_dead:
 		kill(last_bone_hit)
@@ -219,6 +219,7 @@ func kill(bone_hit):
 	anim_tree.active = false
 	die.emit()
 	hide()
+	get_owner().deleteTimer.start()
 
 func create_ragdoll(impulse_bone:int = 0):
 	var _ragdoll = ragdoll.instantiate()
@@ -248,8 +249,6 @@ func _on_weapon_lower_timer_timeout():
 
 func change_to_dead_cam():
 	pass
-
-
 
 func _on_timer_timeout():
 	get_owner().queue_free()

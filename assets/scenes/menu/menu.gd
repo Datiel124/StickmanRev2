@@ -63,7 +63,7 @@ func join_server():
 	mp_peer.create_client(Networking.ip, Networking.port)
 	multiplayer.multiplayer_peer = mp_peer
 	%networkwait.visible = true
-
+	$CanvasLayer/networkwait/Connecttune.play()
 
 func _on_peer_connected(id) -> void:
 	#id is -1 if you just connected to server

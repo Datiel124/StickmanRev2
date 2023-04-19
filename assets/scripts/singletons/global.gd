@@ -66,6 +66,7 @@ func _ready():
 	mp_spawner.name = "MPSpawner"
 	mp_spawner.add_spawnable_scene("res://assets/entities/camera/camera.tscn")
 	mp_spawner.add_spawnable_scene("res://assets/entities/pawn/character_pawn.tscn")
+	mp_spawner.add_spawnable_scene("res://assets/resources/controllers/player/playerController.tscn")
 	mp_spawner.set_spawn_path('/root/Global')
 
 

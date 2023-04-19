@@ -59,15 +59,15 @@ var defaultcamres = load("res://assets/resources/CameraData/DefaultCam.tres")
 
 
 func _ready():
-	if multiplayer.multiplayer_peer != null:
-		if not is_multiplayer_authority(): return
+#	if multiplayer.multiplayer_peer != null:
+#		if not is_multiplayer_authority(): return
 	Camera.current = true
 	Input.set_mouse_mode(2)
 	pass # Replace with function body.
 
 func _physics_process(delta):
-	if multiplayer.multiplayer_peer != null:
-		if not is_multiplayer_authority(): return
+#	if multiplayer.multiplayer_peer != null:
+#		if not is_multiplayer_authority(): return
 	##Rotation Setter
 	rot = vert.global_transform.basis.get_euler().y
 	update_mouselook()
@@ -181,8 +181,8 @@ func camera_zoom_lerp():
 	camera_springarm.spring_length = lerp(camera_springarm.spring_length, spring_arm_temp, cam_smooth_zoom)
 
 func _input(event):
-	if multiplayer.multiplayer_peer != null:
-		if not is_multiplayer_authority(): return
+#	if multiplayer.multiplayer_peer != null:
+#		if not is_multiplayer_authority(): return
 
 	if event is InputEventMouseMotion:
 		mouse_pos.x += event.relative.x
