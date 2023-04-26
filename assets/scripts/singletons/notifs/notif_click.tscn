@@ -89,4 +89,7 @@ libraries = {
 "": SubResource("AnimationLibrary_4rn2g")
 }
 
+[node name="AudioStreamPlayer" parent="." index="5"]
+stream_paused = true
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

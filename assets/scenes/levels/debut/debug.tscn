@@ -1,9 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cwkuxqjkx3ffa"]
+[gd_scene load_steps=9 format=3 uid="uid://d23r28eml4jy1"]
 
 [ext_resource type="ArrayMesh" uid="uid://73njubqxid5t" path="res://assets/scenes/levels/debut/test2.res" id="3_xeh7y"]
 [ext_resource type="Environment" uid="uid://d3dpjlph6ubct" path="res://assets/envs/default_env.tres" id="4_jgn5e"]
+[ext_resource type="Material" uid="uid://kpukkpxo6q8f" path="res://assets/materials/devMaterials/tiles/white_1.tres" id="4_ulkge"]
 [ext_resource type="PackedScene" uid="uid://dl1s1x72s8t5h" path="res://assets/entities/props/crap_boombox/crap_boombox.tscn" id="5_kasv3"]
-[ext_resource type="Material" uid="uid://kpukkpxo6q8f" path="res://assets/materials/tiles/white_1.tres" id="5_njkap"]
 [ext_resource type="PackedScene" uid="uid://drt48tkil2m1c" path="res://assets/entities/weapons/Baretta/Baretta.tscn" id="6_8yilj"]
 [ext_resource type="PackedScene" uid="uid://dpdu75kd4lge8" path="res://assets/entities/weapons/Honeybadger/honeybadger.tscn" id="9_nq381"]
 
@@ -64,13 +64,13 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.17652, -0.174146, -3.65979)
 use_collision = true
 size = Vector3(1.22836, 0.516705, 1)
-material = ExtResource("5_njkap")
+material = ExtResource("4_ulkge")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.2055, 24.0477, -7.88497)
 use_collision = true
 size = Vector3(1.22836, 0.516705, 1)
-material = ExtResource("5_njkap")
+material = ExtResource("4_ulkge")
 
 [node name="crap_boombox" parent="." instance=ExtResource("5_kasv3")]
 transform = Transform3D(0.659516, 0, -0.75169, 0, 1, 0, 0.75169, 0, 0.659516, -1.46134, 0.104405, -3.78415)

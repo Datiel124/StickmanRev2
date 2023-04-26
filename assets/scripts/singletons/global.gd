@@ -14,7 +14,8 @@ var system_time: String = Time.get_time_string_from_system()
 var is_multiplayer_game = false
 ## If is fullscreen
 var is_fullscreen = true
-
+## Damage numbers
+var isDamageNums = true
 ## Ingame Globals
 var world
 
@@ -136,6 +137,8 @@ func add_player(pos:Vector3 = Vector3(0,0,0), peer_id:int = 0):
 	player_camera.Camera.current = is_me
 	player_pawn.position = pos
 	player_camera.is_freecam = false
+	player_camera.set_multiplayer_authority(str(player_camera.name).to_int())
+	#player_pawn.set_multiplayer_authority(str(player_pawn.name).to_int())
 
 
 func save_settings():
@@ -237,3 +240,6 @@ func notify_custom(node : Control, position : NOTIF_POSITION) -> Control:
 	container.add_child(node)
 	set_notif_flags(node, position)
 	return node
+
+
+

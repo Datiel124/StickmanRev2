@@ -27,6 +27,10 @@ func _ready():
 func _process(delta):
 	if !pawn == null:
 		if enabled:
+			##Weapon Switch Sound
+			if !pawn.item_changed.is_connected(playItemEquip):
+				pawn.item_changed.connect(playItemEquip)
+			
 			##Pawn Death
 			if !pawn.die.is_connected(pawnCam.detach_cam):
 				pawn.die.connect(pawnCam.detach_cam)
@@ -88,8 +92,10 @@ func _process(delta):
 			else:
 				turnRate = default_turn_rate
 		else:
-			pawn.die.disconnect(pawnCam.detach_cam)
-			pawn.pickedupItem.disconnect(itemPickedup)
+			if pawn.die.is_connected(pawnCam.detach_cam):
+				pawn.die.disconnect(pawnCam.detach_cam)
+			if pawn.pickedupItem.is_connected(itemPickedup):
+				pawn.pickedupItem.disconnect(itemPickedup)
 
 func _physics_process(delta):
 	if !pawn == null:
@@ -141,3 +147,7 @@ func shotFired(shakeAmount):
 
 func itemPickedup(spawned):
 	Global.notify_fade("Picked up " + str(spawned.name), 2, 5)
+
+func playItemEquip():
+	if !pawn.equipsounds.playing:
+		pawn.equipsounds.play()

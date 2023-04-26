@@ -28,9 +28,9 @@ var mouse_pos = Vector2(0.0,0.0)
 ##Screenshake
 @export var trauma_reduction_rate := 1.0
 
-@export var max_x := 10.0
-@export var max_y := 10.0
-@export var max_z := 5.0
+@export var max_x := 3.5
+@export var max_y := 3.5
+@export var max_z := 8.0
 
 @export var noise = FastNoiseLite.new()
 @export var noise_speed := 50.0
@@ -262,11 +262,9 @@ func getMidPoint(muzzlepoint):
 	var dir = -(rayEnd - muzzlepoint.global_transform.origin).normalized()
 	return dir
 
-func add_trauma(trauma_amount : float, _maxX:float = 10.0, _maxY:float = 10.0, _maxZ:float = 5.0):
+func add_trauma(trauma_amount : float):
 	trauma = clamp(trauma + trauma_amount, 0.0, 1.0)
-	max_x = _maxX
-	max_y = _maxY
-	max_z = _maxZ
+
 
 func get_shake_intensity() -> float:
 	return trauma * trauma

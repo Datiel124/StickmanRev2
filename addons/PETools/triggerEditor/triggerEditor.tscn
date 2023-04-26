@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbvln7irjnqp3"]
+
+[ext_resource type="Script" path="res://addons/PETools/triggerEditor/triggerEditor.gd" id="1_juuij"]
+
+[node name="triggerEditor" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_juuij")
+
+[node name="triggerGraph" type="GraphEdit" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GraphNode" type="GraphNode" parent="triggerGraph"]
+layout_mode = 0
+offset_left = 414.0
+offset_top = 281.0
+offset_right = 546.0
+offset_bottom = 335.0
+mouse_filter = 1
+title = "TriggerEnter"
+position_offset = Vector2(414, 281)

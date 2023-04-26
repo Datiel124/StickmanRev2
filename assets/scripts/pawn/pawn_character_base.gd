@@ -6,6 +6,7 @@ var ragdoll = preload("res://assets/entities/pawn/pawn_ragdoll.tscn")
 var dt
 signal pickedupItem
 
+@onready var equipsounds = $equipsounds
 @onready var CameraPosNode = $CameraPos
 @onready var ik_node = $Mesh/Male/MaleSkeleton/Skeleton3D/SkeletonIK3D
 @onready var ik_marker = $Mesh/Lookat
@@ -51,12 +52,14 @@ var MoveForward = 0.0
 var MoveBackwards = 0.0
 
 #Inventory and Equip
+signal item_changed
 @export var Inventory: Array
 @onready var itemholder = $R_Holder
 var current_equipped = null
 var current_equipped_index := 0:
 	set(value):
 		current_equipped_index = clamp(value, 0, Inventory.size()-1)
+		emit_signal("item_changed")
 
 var last_bone_hit = 0
 var last_impulse: Vector3
@@ -167,21 +170,22 @@ func damage(amount, impulseMult:float = 1, bulletDir:Vector3 = Vector3.ZERO, hit
 	else:
 		damageamount = amount * hitbox.hitboxDmgMultiplier
 		last_bone_hit = hitbox.boneId
-
-	if last_popup != null:
-		#there exists a previous one
-		if last_popup.fall_down:
-			last_popup = null
+	
+	if Global.isDamageNums:
+		if last_popup != null:
+			#there exists a previous one
+			if last_popup.fall_down:
+				last_popup = null
+			else:
+				last_popup.accumulated_damage += damageamount
+				last_popup.global_position = global_position + Vector3.UP * 1.8
 		else:
-			last_popup.accumulated_damage += damageamount
+			#it is null
+			last_popup = damage_popup.instantiate()
+			die.connect(last_popup.start_falling)
 			last_popup.global_position = global_position + Vector3.UP * 1.8
-	else:
-		#it is null
-		last_popup = damage_popup.instantiate()
-		die.connect(last_popup.start_falling)
-		last_popup.global_position = global_position + Vector3.UP * 1.8
-		last_popup.accumulated_damage += damageamount
-		get_parent().get_parent().add_child(last_popup)
+			last_popup.accumulated_damage += damageamount
+			get_parent().get_parent().add_child(last_popup)
 
 	var localPoint = self.to_local(hitPos)
 	var physOffset = localPoint - self.position
@@ -206,7 +210,7 @@ func summon_item(item):
 		itemholder.add_child(spawned)
 		Inventory.append(spawned)
 		emit_signal("pickedupItem", spawned)
-		$equipsounds.play()
+		equipsounds.play()
 		if !spawned.is_held:
 			spawned.is_held = true
 

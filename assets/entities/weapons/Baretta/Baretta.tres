@@ -9,7 +9,7 @@
 script = ExtResource("1_83wu1")
 ItemName = "Beretta 9M"
 Item_Position_Offset = Vector3(-0.053, 0.152, -0.002)
-Item_Rotation_Offset = Vector3(0, 0.243, 1.611)
+Item_Rotation_Offset = Vector3(0, 0.243, 1.555)
 itemIcon = ExtResource("2_lcm7u")
 Item_Cooldown = 0.3
 Damage = 14

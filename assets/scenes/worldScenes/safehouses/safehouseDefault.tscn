@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://assets/scripts/world_related/worldScript/worldScript.gd" id="1_02hqo"]
 [ext_resource type="Environment" uid="uid://d3dpjlph6ubct" path="res://assets/envs/default_env.tres" id="2_uo5rm"]
 
-[node name="safehouseDefault" type="Node"]
+[node name="worldName" type="Node"]
 script = ExtResource("1_02hqo")
-worldType = 2
 worldName = "Safehouse One"
+worldType = 2
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("2_uo5rm")
