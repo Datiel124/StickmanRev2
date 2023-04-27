@@ -9,6 +9,7 @@ func _enter_tree():
 	##Init Trigger Editor
 	triggerUI = triggerEditorScene.instantiate() as Control
 	add_control_to_bottom_panel(triggerUI, "Trigger Editor")
+	triggerUI.plugin = self
 	pass
 
 
