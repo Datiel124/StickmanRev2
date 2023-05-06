@@ -46,6 +46,7 @@ var c_name = ""
 var mp_id:int
 
 #Movement Variables
+var direction : Vector3
 var MoveLeft = 0.0
 var MoveRight = 0.0
 var MoveForward = 0.0
@@ -97,7 +98,6 @@ func _physics_process(delta):
 
 		# Get the input direction and handle the movement/deceleration.
 		# As good practice, you should replace UI actions with custom gameplay actions.
-		var direction = Vector3(MoveRight - MoveLeft, 0, MoveBackwards - MoveForward).rotated(Vector3.UP, rot)
 
 		if direction != Vector3.ZERO:
 				direction = direction.normalized()
@@ -219,6 +219,7 @@ func kill(bone_hit):
 	$Collider.disabled = true
 	is_dead = true
 	Health = 0
+	dropWeapon(current_equipped)
 	create_ragdoll(bone_hit)
 	anim_tree.active = false
 	die.emit()
@@ -228,7 +229,7 @@ func kill(bone_hit):
 func create_ragdoll(impulse_bone:int = 0):
 	var _ragdoll = ragdoll.instantiate()
 	_ragdoll.global_transform = $Mesh.global_transform
-	get_tree().root.get_node("World").add_child(_ragdoll)
+	Global.world.worldMisc.add_child(_ragdoll)
 	for bones in _ragdoll.ragdoll_skeleton.get_bone_count():
 		_ragdoll.ragdoll_skeleton.set_bone_pose_rotation(bones, $Mesh/Male/MaleSkeleton/Skeleton3D.get_bone_pose_rotation(bones))
 		_ragdoll.ragdoll_skeleton.set_bone_pose_position(bones, $Mesh/Male/MaleSkeleton/Skeleton3D.get_bone_pose_position(bones))
@@ -256,3 +257,16 @@ func change_to_dead_cam():
 
 func _on_timer_timeout():
 	get_owner().queue_free()
+
+func dropWeapon(weapon):
+	if !current_equipped == null:
+		var weaponDrop = Weapondb.SpawnableWeapons[str(weapon.name)].instantiate()
+		if !weaponDrop == null:
+			Global.world.worldMisc.add_child(weaponDrop)
+			weaponDrop.global_position = current_equipped.global_position
+			weaponDrop.global_rotation = current_equipped.global_rotation
+			Inventory.remove_at(current_equipped_index)
+			current_equipped.queue_free()
+			current_equipped_index =- 1
+		else:
+			return null

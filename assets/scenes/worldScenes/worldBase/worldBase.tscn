@@ -27,6 +27,12 @@ environment = ExtResource("2_q8jqw")
 
 [node name="Pawns" type="Node3D" parent="."]
 
+[node name="Players" type="Node3D" parent="Pawns"]
+
 [node name="Props" type="Node3D" parent="."]
 
 [node name="Misc" type="Node3D" parent="."]
+
+[node name="Particles" type="Node3D" parent="Misc"]
+
+[node name="WaypointNodes" type="Node3D" parent="Misc"]

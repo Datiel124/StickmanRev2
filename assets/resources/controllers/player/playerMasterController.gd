@@ -28,8 +28,8 @@ func _process(delta):
 	if !pawn == null:
 		if enabled:
 			##Weapon Switch Sound
-			if !pawn.item_changed.is_connected(playItemEquip):
-				pawn.item_changed.connect(playItemEquip)
+			if !pawn.item_changed.is_connected(itemChange):
+				pawn.item_changed.connect(itemChange)
 			
 			##Pawn Death
 			if !pawn.die.is_connected(pawnCam.detach_cam):
@@ -73,8 +73,10 @@ func _process(delta):
 					pawn.is_aiming = false
 
 			##Set weapon icon for the hud when the player has a weapon equipped.
+			var animationPlayed = false
 			if pawn.has_weapon_equipped:
-				pawnCam.hudDisplay.weaponDisplay.show()
+				if !pawnCam.hudDisplay.weaponDisplay.visible:
+					pawnCam.hudDisplay.weaponDisplay.show()
 				pawnCam.hudDisplay.weaponDisplayName.text = pawn.current_equipped.Item_Resource.ItemName
 				if !pawn.current_equipped.Item_Resource.itemIcon == null:
 					pawnCam.hudDisplay.weaponDisplayTexture.texture = pawn.current_equipped.Item_Resource.itemIcon
@@ -83,6 +85,7 @@ func _process(delta):
 					pawnCam.hudDisplay.weaponDisplayTexture.texture = unknownpng
 			else:
 				pawnCam.hudDisplay.weaponDisplay.hide()
+				animationPlayed = true
 
 
 			##Aim Rotation turn rate set
@@ -99,11 +102,16 @@ func _process(delta):
 
 func _physics_process(delta):
 	if !pawn == null:
-		pass
-
+		##Set player movement direction
+		pawn.direction = Vector3(pawn.MoveRight - pawn.MoveLeft, 0, pawn.MoveBackwards - pawn.MoveForward).rotated(Vector3.UP, pawn.rot)
+	
 func _input(input):
 	if !pawn == null:
 		if enabled:
+			#Drop weapon
+			if Input.is_action_just_pressed("game_dropWeapon"):
+				pawn.dropWeapon(pawn.current_equipped)
+			
 			#Swap Shoulder
 			if Input.is_action_just_pressed("swap_shoulder"):
 				swap_shoulder()
@@ -148,6 +156,10 @@ func shotFired(shakeAmount):
 func itemPickedup(spawned):
 	Global.notify_fade("Picked up " + str(spawned.name), 2, 5)
 
-func playItemEquip():
-	if !pawn.equipsounds.playing:
-		pawn.equipsounds.play()
+func itemChange():
+	if !pawn.current_equipped_index > pawn.Inventory.size()-1:
+		if !pawn.current_equipped_index <= 0:
+			pawn.anim_tree.set("parameters/weapon_blend/blend_amount", 0)
+	
+		if !pawn.equipsounds.playing:
+			pawn.equipsounds.play()

@@ -27,8 +27,8 @@ func _on_start_game_pressed():
 	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
 	await $AudioStreamPlayer2D.finished
 	Global.is_multiplayer_game = false
-	get_tree().change_scene_to_file("res://assets/scenes/levels/debut/debug.tscn")
-	Global.add_player()
+	get_tree().change_scene_to_file("res://assets/scenes/worldScenes/areas/ar_testArea.tscn")
+	#Global.add_player()
 	get_tree().paused = false
 	Fade.fade_in(0.3, Color(0,0,0,1),"GradientVertical",false,true)
 

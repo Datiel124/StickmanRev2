@@ -2,7 +2,7 @@ extends Node
 
 @onready var SpawnableWeapons = {
 	"Baretta" : load("res://assets/entities/weapons/Baretta/Baretta.tscn"),
-	"Honeybadger" : load("res://assets/entities/weapons/Honeybadger/honeybadger.tscn")
+	"HoneyBadger" : load("res://assets/entities/weapons/Honeybadger/honeybadger.tscn")
 }
 # Called when the node enters the scene tree for the first time.
 func _ready():

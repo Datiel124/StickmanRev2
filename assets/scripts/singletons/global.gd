@@ -17,7 +17,7 @@ var is_fullscreen = true
 ## Damage numbers
 var isDamageNums = true
 ## Ingame Globals
-var world
+var world : WorldScene
 
 ##World Stuff
 var mp_spawner = MultiplayerSpawner.new()
@@ -122,8 +122,8 @@ func add_player(pos:Vector3 = Vector3(0,0,0), peer_id:int = 0):
 	var playerController = load("res://assets/resources/controllers/player/playerController.tscn")
 	var controller = playerController.instantiate()
 	controller.pawn = player_pawn
-	add_child(player_pawn)
-	player_pawn.add_child(controller)
+	world.playerPawns.add_child(player_pawn)
+	player_pawn.character_pawn.add_child(controller)
 	player_pawn.name += str(peer_id)
 	if Networking.peer_data.has(peer_id):
 		player_pawn.character_pawn.nametag.text = Networking.get_peer_data(peer_id).player_name

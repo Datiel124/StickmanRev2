@@ -22,6 +22,7 @@ item_use_sounds = Array[AudioStream]([ExtResource("1_3cv54")])
 item_sound_pitch_min = 1
 item_sound_pitch_max = 1.3
 Projectile = ExtResource("1_ntpgu")
+isSilenced = false
 arm_filters = 2
 animation_type = 0
 item_type = 6

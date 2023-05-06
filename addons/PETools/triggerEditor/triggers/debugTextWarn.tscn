@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3 uid="uid://gi5nnarl0125"]
+
+[ext_resource type="Texture2D" uid="uid://comhudminbe43" path="res://assets/textures/fatcowIcons/accept_button.png" id="1_lbxwe"]
+
+[sub_resource type="GDScript" id="GDScript_5mavs"]
+script/source = "@tool
+extends GraphNode
+
+# Called when the node enters the scene tree for the first time.
+func _enter_tree():
+	set_slot(0,true,0,Color(1,1,1,1),true,0,Color(1,1,1,1))
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_close_request():
+	queue_free()
+"
+
+[node name="debugTextWarn" type="GraphNode"]
+offset_right = 296.0
+offset_bottom = 121.0
+title = "Debug Text - Warn"
+show_close = true
+resizable = true
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color(1, 1, 1, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+script = SubResource("GDScript_5mavs")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Place your text here"
+
+[node name="triggerOnce" type="CheckButton" parent="."]
+layout_mode = 2
+text = "Trigger Once?"
+icon = ExtResource("1_lbxwe")
+
+[connection signal="close_request" from="." to="." method="_on_close_request"]

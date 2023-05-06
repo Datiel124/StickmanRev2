@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bbvln7irjnqp3"]
+[gd_scene load_steps=11 format=3 uid="uid://bbvln7irjnqp3"]
 
 [ext_resource type="Script" path="res://addons/PETools/triggerEditor/triggerEditor.gd" id="1_juuij"]
 [ext_resource type="Texture2D" uid="uid://b0rcyskpx6n8b" path="res://assets/textures/fatcowIcons/attribution.png" id="2_rscjf"]
@@ -11,23 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://cwgc6fm8vd7cb" path="res://assets/textures/FatCowIcons32x32/save_as.png" id="9_fd3xn"]
 [ext_resource type="Texture2D" uid="uid://c44trubnajqlf" path="res://assets/textures/FatCowIcons32x32/folder.png" id="10_55uxx"]
 
-[sub_resource type="InputEventKey" id="InputEventKey_qb331"]
-device = -1
-ctrl_pressed = true
-pressed = true
-keycode = 83
-
-[sub_resource type="Shortcut" id="Shortcut_ly21m"]
-events = [SubResource("InputEventKey_qb331")]
-
-[sub_resource type="InputEventKey" id="InputEventKey_jcic0"]
-device = -1
-ctrl_pressed = true
-keycode = 79
-
-[sub_resource type="Shortcut" id="Shortcut_lg28u"]
-events = [SubResource("InputEventKey_jcic0")]
-
 [node name="triggerEditor" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -37,6 +20,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_juuij")
 
+[node name="FileDialog" type="FileDialog" parent="."]
+initial_position = 2
+size = Vector2i(549, 493)
+filters = PackedStringArray(".trg")
+
 [node name="triggerGraph" type="GraphEdit" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -44,6 +32,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+right_disconnects = true
 
 [node name="nodeDropDown" type="OptionButton" parent="."]
 layout_mode = 1
@@ -57,10 +46,10 @@ offset_bottom = 35.0
 grow_horizontal = 0
 item_count = 8
 selected = 0
-popup/item_0/text = "PlayerPawnEnter"
+popup/item_0/text = "Pawn Enter"
 popup/item_0/icon = ExtResource("2_rscjf")
 popup/item_0/id = 0
-popup/item_1/text = "PlayerPawnLeave"
+popup/item_1/text = "Pawn leave"
 popup/item_1/icon = ExtResource("3_dwm6i")
 popup/item_1/id = 1
 popup/item_2/text = "Scene Related"
@@ -96,24 +85,29 @@ icon = ExtResource("8_ra0d3")
 
 [node name="saveTriggers" type="Button" parent="."]
 layout_mode = 0
-offset_left = 263.0
-offset_top = 14.0
-offset_right = 288.0
-offset_bottom = 39.0
-shortcut = SubResource("Shortcut_ly21m")
+offset_left = 12.0
+offset_top = 41.0
+offset_right = 37.0
+offset_bottom = 66.0
 icon = ExtResource("9_fd3xn")
 expand_icon = true
 
 [node name="loadTriggers" type="Button" parent="."]
 layout_mode = 0
-offset_left = 292.0
-offset_top = 14.0
-offset_right = 317.0
-offset_bottom = 39.0
-shortcut = SubResource("Shortcut_lg28u")
+offset_left = 41.0
+offset_top = 41.0
+offset_right = 66.0
+offset_bottom = 66.0
 icon = ExtResource("10_55uxx")
 expand_icon = true
 
+[connection signal="canceled" from="FileDialog" to="." method="_on_file_dialog_canceled"]
+[connection signal="confirmed" from="FileDialog" to="." method="_on_file_dialog_confirmed"]
+[connection signal="dir_selected" from="FileDialog" to="." method="_on_file_dialog_dir_selected"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
 [connection signal="connection_request" from="triggerGraph" to="." method="_on_trigger_graph_connection_request"]
+[connection signal="disconnection_request" from="triggerGraph" to="." method="_on_trigger_graph_disconnection_request"]
 [connection signal="item_selected" from="nodeDropDown" to="." method="_on_node_add_item_selected"]
 [connection signal="pressed" from="addNode" to="." method="_on_add_node_pressed"]
+[connection signal="pressed" from="saveTriggers" to="." method="_on_save_triggers_pressed"]
+[connection signal="pressed" from="loadTriggers" to="." method="_on_load_triggers_pressed"]

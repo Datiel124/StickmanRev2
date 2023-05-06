@@ -56,6 +56,7 @@ offset_bottom = 32.0
 size_flags_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_fx4d3")
 script = ExtResource("1_7sywe")
+y_scale_mult = 0.933246
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -78,6 +79,7 @@ libraries = {
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_amows")
 volume_db = -25.0
+stream_paused = true
 bus = &"Sounds"
 
 [connection signal="ready" from="." to="AudioStreamPlayer" method="play"]

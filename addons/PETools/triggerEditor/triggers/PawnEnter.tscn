@@ -1,0 +1,90 @@
+[gd_scene load_steps=4 format=3 uid="uid://cymvxik8g2gtl"]
+
+[ext_resource type="Theme" uid="uid://dwsk7gvn3optr" path="res://assets/resources/editorTheme/vertex_4.0-r2.res" id="1_gn574"]
+[ext_resource type="Texture2D" uid="uid://b3mln7h38yk3f" path="res://assets/textures/FatCowIcons32x32/attribution.png" id="2_75s3t"]
+
+[sub_resource type="GDScript" id="GDScript_r1v5o"]
+script/source = "@tool
+extends GraphNode
+@onready var playerCheck = $playerOnlyCheck
+@onready var pawnCheck = $pawnOnlyCheck
+var playerOnly : bool = false
+# Called when the node enters the scene tree for the first time.
+func _enter_tree():
+	set_slot(0,false,0,Color(1,1,1,1),true,0,Color(1,1,1,1))
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	if playerCheck.button_pressed:
+		pawnCheck.disabled = true
+	else:
+		pawnCheck.disabled = false
+		
+	if pawnCheck.button_pressed:
+		playerCheck.disabled = true
+	else:
+		playerCheck.disabled = false
+"
+
+[node name="PawnEnter" type="GraphNode"]
+offset_right = 234.0
+offset_bottom = 80.0
+theme = ExtResource("1_gn574")
+title = "Pawn Enter Trigger"
+show_close = true
+resizable = true
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color(1, 1, 1, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+slot/2/left_enabled = false
+slot/2/left_type = 0
+slot/2/left_color = Color(1, 1, 1, 1)
+slot/2/left_icon = null
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color(1, 1, 1, 1)
+slot/2/right_icon = null
+slot/2/draw_stylebox = true
+slot/3/left_enabled = false
+slot/3/left_type = 0
+slot/3/left_color = Color(1, 1, 1, 1)
+slot/3/left_icon = null
+slot/3/right_enabled = false
+slot/3/right_type = 0
+slot/3/right_color = Color(1, 1, 1, 1)
+slot/3/right_icon = null
+slot/3/draw_stylebox = true
+script = SubResource("GDScript_r1v5o")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Triggered upon pawn 
+entering trigger"
+
+[node name="HSeparator" type="HSeparator" parent="."]
+layout_mode = 2
+
+[node name="playerOnlyCheck" type="CheckButton" parent="."]
+layout_mode = 2
+text = "Player Only?"
+icon = ExtResource("2_75s3t")
+
+[node name="pawnOnlyCheck" type="CheckButton" parent="."]
+layout_mode = 2
+text = "Pawn Only?"
+icon = ExtResource("2_75s3t")

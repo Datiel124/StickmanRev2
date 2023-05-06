@@ -10,6 +10,7 @@ class_name Pawn_Controller
 
 func setMasterController(mcontroller):
 	controllerScript = mcontroller
+	mcontroller.pawn = character_pawn
 
 
 func getMasterController() -> masterController:
@@ -18,8 +19,12 @@ func getMasterController() -> masterController:
 
 func clearMasterController():
 	controllerScript = null
-	for child in get_children():
+	for child in character_pawn.get_children():
 		if child is masterController:
 			child.queue_free()
 
 
+
+
+func _on_timer_timeout():
+	queue_free()

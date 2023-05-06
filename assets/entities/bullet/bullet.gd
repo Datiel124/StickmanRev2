@@ -84,12 +84,12 @@ func _process(delta: float) -> void:
 	pos_prev_frame = global_position
 
 
-func explode(at_position):
+func explode(atPosition):
 	var new = explosion.instantiate() as Node3D
 	new.top_level = true
 	#HACK - add to level instead
 	get_node("/root/Global").add_child(new)
-	new.global_position = at_position
+	new.global_position = atPosition
 	delete()
 
 

@@ -106,15 +106,20 @@ func _physics_process(delta):
 				Global.notify_warn("Must be looking at a pawn while in freecam to posess.", 2, 5)
 
 		if Input.is_action_just_pressed("pawn_spawn"):
-			var spawn_zone = get_node("/root/Global")
+			var spawn_zone = Global.world.worldPawns
 			if Aimcast.is_colliding():
 				if !Aimcast.get_collision_point() == null:
-					Global.notify_fade("Spawned Pawn")
 					var tospawn = load("res://assets/entities/pawn/character_pawn.tscn")
-					var pawn = tospawn.instantiate()
+					var aiController = load("res://assets/resources/controllers/ai/baseAIController.tscn")
+					var pawn = tospawn.duplicate().instantiate()
+					var controller = aiController.duplicate().instantiate()
+					Global.notify_fade("Spawned " + str(pawn.name))
 					pawn.position = Aimcast.get_collision_point()
 					pawn.rotation.y = randf_range(0,360)
 					spawn_zone.add_child(pawn, true)
+					pawn.setMasterController(controller)
+					pawn.character_pawn.add_child(controller)
+					controller.set_owner(pawn)
 					return
 			Global.notify_warn("Failed to spawn: Look at a surface to spawn pawn onto.", 2, 3)
 

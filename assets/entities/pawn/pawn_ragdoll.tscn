@@ -689,7 +689,7 @@ joint_type = 5
 joint_offset = Transform3D(-3.61999e-06, 0, 1, 0, 1, 0, -1, 0, -3.61999e-06, -3.24532e-09, -3.51236e-08, 0.103046)
 joint_rotation = Vector3(0, 1.5708, 0)
 body_offset = Transform3D(1.00001, 2.64496e-06, -4.65661e-09, 1.76867e-05, -1.11014e-06, -1.00001, 5.58794e-06, 0.999999, -4.54485e-07, 3.72529e-09, 0.103047, 8.19564e-08)
-mass = 1.3
+mass = 4.8
 bounce = 0.15
 linear_damp = 0.15
 angular_damp = 5.0
@@ -747,7 +747,7 @@ joint_constraints/z/linear_equilibrium_point = 0.0
 joint_constraints/z/linear_restitution = 0.5
 joint_constraints/z/linear_damping = 1.0
 joint_constraints/z/angular_limit_enabled = true
-joint_constraints/z/angular_limit_upper = 94.23
+joint_constraints/z/angular_limit_upper = 52.49
 joint_constraints/z/angular_limit_lower = -55.57
 joint_constraints/z/angular_limit_softness = 0.5
 joint_constraints/z/angular_restitution = 0.0
@@ -766,6 +766,7 @@ shape = SubResource("CylinderShape3D_n3yv1")
 [node name="Physical Bone L_UpperArm" type="PhysicalBone3D" parent="Mesh/Male/MaleSkeleton/Skeleton3D"]
 transform = Transform3D(-0.783184, 0.612228, -0.108419, -0.0840538, 0.0685211, 0.994205, 0.616033, 0.787674, -0.00218497, 0.17333, 1.32853, -0.107763)
 top_level = true
+visible = false
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
@@ -849,6 +850,7 @@ shape = SubResource("CapsuleShape3D_abqbp")
 [node name="Physical Bone L_Forearm" type="PhysicalBone3D" parent="Mesh/Male/MaleSkeleton/Skeleton3D"]
 transform = Transform3D(-0.813601, 0.57835, -0.0595132, 0.0848253, 0.21935, 0.971923, 0.575174, 0.785728, -0.227518, 0.195279, 1.07276, -0.0762947)
 top_level = true
+visible = false
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
@@ -932,6 +934,7 @@ shape = SubResource("CapsuleShape3D_dcl87")
 [node name="Physical Bone L_Hand" type="PhysicalBone3D" parent="Mesh/Male/MaleSkeleton/Skeleton3D"]
 transform = Transform3D(0.830383, 0.40927, 0.37824, 0.124771, -0.797995, 0.589587, 0.543188, -0.442345, -0.713635, 0.184843, 0.920548, -0.0132233)
 top_level = true
+visible = false
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
@@ -1015,6 +1018,7 @@ shape = SubResource("CylinderShape3D_6152e")
 [node name="Physical Bone R_UpperArm" type="PhysicalBone3D" parent="Mesh/Male/MaleSkeleton/Skeleton3D"]
 transform = Transform3D(-0.526366, -0.849319, 0.0394524, 0.205459, -0.0820326, 0.975212, -0.82503, 0.521422, 0.21769, -0.113191, 1.32399, -0.164658)
 top_level = true
+visible = false
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
@@ -1263,14 +1267,15 @@ transform = Transform3D(0.996773, 0.0451003, -0.0664053, 0.0219999, 0.642088, 0.
 shape = SubResource("CylinderShape3D_1tsw7")
 
 [node name="Physical Bone L_UpperLeg" type="PhysicalBone3D" parent="Mesh/Male/MaleSkeleton/Skeleton3D"]
-transform = Transform3D(0.98946, -0.0118839, -0.144563, 0.143496, -0.0637105, 0.988294, -0.0204554, -1.03299, -0.0592248, 0.108215, 0.677524, -0.0688434)
+transform = Transform3D(0.98946, -0.0118839, -0.144563, 0.143496, -0.0637105, 0.988294, -0.0204554, -1.03299, -0.0592248, 0.108215, 0.677524, -0.0688435)
 top_level = true
+visible = false
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
-joint_offset = Transform3D(-3.61999e-06, 0, 0.999999, 0, 0.999999, 0, -0.999999, 0, -3.61999e-06, 2.88921e-06, -4.77512e-06, 0.202169)
+joint_offset = Transform3D(-3.61999e-06, 0, 0.999999, 0, 0.999999, 0, -0.999999, 0, -3.61999e-06, 2.88921e-06, -4.80391e-06, 0.202169)
 joint_rotation = Vector3(0, 1.5708, 0)
-body_offset = Transform3D(1.00002, 0.00022711, -1.43597e-05, -3.14903e-07, 8.66279e-05, -1.00059, -1.08033e-07, 1.03503, 1.84029e-05, 1.49012e-08, 0.202288, 1.2219e-06)
+body_offset = Transform3D(1.00002, 0.00022711, -1.43597e-05, -3.14903e-07, 8.66279e-05, -1.00059, -1.08033e-07, 1.03503, 1.84029e-05, 1.49012e-08, 0.202288, 1.2517e-06)
 mass = 1.3
 friction = 0.5
 bounce = 0.15
@@ -1349,6 +1354,7 @@ shape = SubResource("CapsuleShape3D_qdfid")
 [node name="Physical Bone L_LowerLeg" type="PhysicalBone3D" parent="Mesh/Male/MaleSkeleton/Skeleton3D"]
 transform = Transform3D(0.995898, -0.051757, -0.0741364, 0.0871008, 0.328956, 0.940295, -0.0242826, -0.942916, 0.332125, 0.152366, 0.288389, -0.12375)
 top_level = true
+visible = false
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
@@ -1433,6 +1439,7 @@ shape = SubResource("CapsuleShape3D_ufogu")
 [node name="Physical Bone L_Foot" type="PhysicalBone3D" parent="Mesh/Male/MaleSkeleton/Skeleton3D"]
 transform = Transform3D(-0.976635, 0.0410251, -0.210906, -0.134792, 0.647443, 0.750042, 0.167331, 0.760985, -0.626787, 0.177203, 0.0638096, -0.161175)
 top_level = true
+visible = false
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
@@ -1516,6 +1523,7 @@ shape = SubResource("CapsuleShape3D_4mly4")
 [node name="Physical Bone R_UpperLeg" type="PhysicalBone3D" parent="Mesh/Male/MaleSkeleton/Skeleton3D"]
 transform = Transform3D(0.962929, 0.156671, 0.219561, -0.156435, -0.338786, 0.92773, 0.219747, -0.927724, -0.301724, -0.0651469, 0.689115, -0.0338486)
 top_level = true
+visible = false
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
@@ -1600,6 +1608,7 @@ shape = SubResource("CapsuleShape3D_tin2x")
 [node name="Physical Bone R_LowerLeg" type="PhysicalBone3D" parent="Mesh/Male/MaleSkeleton/Skeleton3D"]
 transform = Transform3D(0.972892, 0.208266, 0.100459, -0.101905, -0.00385769, 0.994785, 0.207568, -0.978059, 0.0174814, -0.129791, 0.301141, 0.0236631)
 top_level = true
+visible = false
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
@@ -1684,6 +1693,7 @@ shape = SubResource("CapsuleShape3D_b0b24")
 [node name="Physical Bone R_Foot" type="PhysicalBone3D" parent="Mesh/Male/MaleSkeleton/Skeleton3D"]
 transform = Transform3D(-0.931403, -0.174671, 0.319324, 0.0612431, 0.789584, 0.610541, -0.358785, 0.588217, -0.724758, -0.147087, 0.0696243, 0.0596684)
 top_level = true
+visible = false
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
@@ -1767,12 +1777,13 @@ shape = SubResource("CapsuleShape3D_wd1j5")
 [node name="Physical Bone Spine_2" type="PhysicalBone3D" parent="Mesh/Male/MaleSkeleton/Skeleton3D"]
 transform = Transform3D(0.995721, -0.0901051, 0.013084, 0.00832526, -0.0529492, -0.998479, 0.0906569, 0.994514, -0.0519807, 0.0256013, 1.34929, -0.0971246)
 top_level = true
+visible = false
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
-joint_offset = Transform3D(-3.61999e-06, 0, 1, 0, 1, 0, -1, 0, -3.61999e-06, 5.98307e-07, 2.73701e-07, 0.131943)
+joint_offset = Transform3D(-3.61999e-06, 0, 1, 0, 1, 0, -1, 0, -3.61999e-06, 5.98799e-07, 2.73701e-07, 0.131943)
 joint_rotation = Vector3(0, 1.5708, 0)
-body_offset = Transform3D(0.999884, -1.19209e-06, -5.67175e-07, -4.17233e-06, 2.19792e-06, -0.999924, 6.85453e-07, 0.999996, -3.74019e-06, -5.23403e-07, 0.131933, 2.19792e-07)
+body_offset = Transform3D(0.999884, -1.19209e-06, -5.70901e-07, -4.17605e-06, 2.19792e-06, -0.999924, 6.85453e-07, 0.999996, -3.74019e-06, -5.23403e-07, 0.131933, 2.19792e-07)
 mass = 1.3
 bounce = 0.15
 linear_damp = 0.15
@@ -1850,6 +1861,7 @@ shape = SubResource("CylinderShape3D_uw6vj")
 [node name="Physical Bone Spine_0" type="PhysicalBone3D" parent="Mesh/Male/MaleSkeleton/Skeleton3D"]
 transform = Transform3D(0.9902, -0.136608, -0.0297676, 0.00540065, 0.250315, -0.968201, 0.139696, 0.959144, 0.248427, 0.0325631, 0.94474, -0.10502)
 top_level = true
+visible = false
 collision_layer = 14
 collision_mask = 3
 joint_type = 5
@@ -1933,6 +1945,7 @@ shape = SubResource("CylinderShape3D_a8p76")
 [node name="Physical Bone Neck" type="PhysicalBone3D" parent="Mesh/Male/MaleSkeleton/Skeleton3D"]
 transform = Transform3D(-0.983438, 0.172583, 0.0550046, -0.00690851, 0.267712, -0.963454, -0.181004, -0.947908, -0.262085, 0.028169, 2.99872, -0.0190719)
 top_level = true
+visible = false
 collision_layer = 14
 collision_mask = 3
 joint_type = 5

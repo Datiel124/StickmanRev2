@@ -1,5 +1,6 @@
 extends Control
 
+@onready var animPlayer = $AnimationPlayer
 @onready var weaponDisplay = $WeaponDisplay
 @onready var weaponDisplayTexture = $WeaponDisplay/WepText
 @onready var weaponDisplayName = $WeaponDisplay/WeaponName

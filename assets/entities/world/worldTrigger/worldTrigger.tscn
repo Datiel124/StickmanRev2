@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq4erixtu55te"]
+
+[ext_resource type="Script" path="res://assets/scripts/world_related/worldTrigger/worldTriggerParser.gd" id="1_28bij"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6ysoa"]
+size = Vector3(4.18879, 1, 1)
+
+[node name="worldTrigger" type="Node3D"]
+script = ExtResource("1_28bij")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_6ysoa")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

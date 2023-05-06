@@ -11,6 +11,7 @@ signal itemUsed(shakeAmount)
 @onready var collision = $CollisionShape3D
 @onready var item_cooldown = $item_cooldown
 @onready var can_be_picked_up = true
+@onready var noiseAmount = $noiseAmount
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -61,8 +62,15 @@ func use():
 			muzzle_point.add_child(smokeEffect)
 			bullet.shooter = holder
 			bullet.top_level = true
-
-	pass
+		if !Item_Resource.isSilenced:
+			var pawnsHeard = noiseAmount.get_overlapping_bodies()
+			
+#			for pawns in pawnsHeard:
+#				if pawns is Pawn:
+#					if !pawns == null:
+#						if pawns.get_owner().controllerScript.has_method("updateTargetLocation"):
+#							pass
+#							pawns.get_owner().controllerScript.updateTargetLocation(holder.global_position)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
