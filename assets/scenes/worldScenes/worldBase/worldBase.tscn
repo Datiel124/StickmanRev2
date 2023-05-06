@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4dpjminsf4mx"]
+
+[ext_resource type="Script" path="res://assets/scripts/world_related/worldScript/worldScript.gd" id="1_uvhdb"]
+[ext_resource type="Environment" uid="uid://d3dpjlph6ubct" path="res://assets/envs/default_env.tres" id="2_q8jqw"]
+
+[node name="worldBase" type="Node"]
+script = ExtResource("1_uvhdb")
+worldName = "World Base"
+worldDescription = "Make an inherited scene of this.."
+
+[node name="Spawns" type="Node" parent="."]
+
+[node name="playerSpawns" type="Node" parent="Spawns"]
+
+[node name="pawnSpawns" type="Node" parent="Spawns"]
+
+[node name="Environment" type="Node" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(0.195125, -0.357449, 0.913322, 0, 0.931221, 0.364454, -0.980778, -0.0711142, 0.181705, 13.0998, 6.69348, 0.228307)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = ExtResource("2_q8jqw")
+
+[node name="Geometry" type="Node3D" parent="."]
+
+[node name="Pawns" type="Node3D" parent="."]
+
+[node name="Players" type="Node3D" parent="Pawns"]
+
+[node name="Props" type="Node3D" parent="."]
+
+[node name="Misc" type="Node3D" parent="."]
+
+[node name="Particles" type="Node3D" parent="Misc"]
+
+[node name="WaypointNodes" type="Node3D" parent="Misc"]

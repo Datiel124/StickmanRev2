@@ -6,6 +6,7 @@ var ragdoll = preload("res://assets/entities/pawn/pawn_ragdoll.tscn")
 var dt
 signal pickedupItem
 
+@onready var equipsounds = $equipsounds
 @onready var CameraPosNode = $CameraPos
 @onready var ik_node = $Mesh/Male/MaleSkeleton/Skeleton3D/SkeletonIK3D
 @onready var ik_marker = $Mesh/Lookat
@@ -15,10 +16,10 @@ signal pickedupItem
 @onready var hitBoxes = $Mesh/Male/MaleSkeleton/Hitboxes
 @onready var pawnMesh = $Mesh
 @onready var anim_tree = $Mesh/AnimationTree
-
+@onready var nametag = %nametag
 
 @export var pawnController : masterController
-@export var Health = 100
+@export var Health = 1000
 @export var is_dead = false
 @export var is_aiming = false
 
@@ -45,18 +46,21 @@ var c_name = ""
 var mp_id:int
 
 #Movement Variables
+var direction : Vector3
 var MoveLeft = 0.0
 var MoveRight = 0.0
 var MoveForward = 0.0
 var MoveBackwards = 0.0
 
 #Inventory and Equip
+signal item_changed
 @export var Inventory: Array
 @onready var itemholder = $R_Holder
 var current_equipped = null
 var current_equipped_index := 0:
 	set(value):
 		current_equipped_index = clamp(value, 0, Inventory.size()-1)
+		emit_signal("item_changed")
 
 var last_bone_hit = 0
 var last_impulse: Vector3
@@ -69,18 +73,15 @@ var is_using:bool
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-func _enter_tree():
-	if Global.is_multiplayer_game:
-		set_multiplayer_authority(str(name).to_int())
-
 
 func _ready():
 	Inventory.append(null)
+#	nametag.visible = !is_multiplayer_authority() and multiplayer.multiplayer_peer != null
 
 
 func _physics_process(delta):
-	if Global.is_multiplayer_game:
-		if not is_multiplayer_authority(): return
+#	if multiplayer.multiplayer_peer != null:
+#		if not is_multiplayer_authority(): return
 
 	if Health <= 0 and !is_dead:
 		kill(last_bone_hit)
@@ -97,7 +98,6 @@ func _physics_process(delta):
 
 		# Get the input direction and handle the movement/deceleration.
 		# As good practice, you should replace UI actions with custom gameplay actions.
-		var direction = Vector3(MoveRight - MoveLeft, 0, MoveBackwards - MoveForward).rotated(Vector3.UP, rot)
 
 		if direction != Vector3.ZERO:
 				direction = direction.normalized()
@@ -161,6 +161,8 @@ func _physics_process(delta):
 		is_aiming = true
 
 
+var damage_popup : PackedScene = preload("res://assets/scenes/damage_popup.tscn")
+var last_popup : Node = null
 func damage(amount, impulseMult:float = 1, bulletDir:Vector3 = Vector3.ZERO, hitPos : Vector3 = Vector3.ZERO, applyKnockback:bool = true, knockbackAmount:float = 0, hitbox : Hitbox = null):
 	var damageamount
 	if hitbox == null:
@@ -168,6 +170,23 @@ func damage(amount, impulseMult:float = 1, bulletDir:Vector3 = Vector3.ZERO, hit
 	else:
 		damageamount = amount * hitbox.hitboxDmgMultiplier
 		last_bone_hit = hitbox.boneId
+	
+	if Global.isDamageNums:
+		if last_popup != null:
+			#there exists a previous one
+			if last_popup.fall_down:
+				last_popup = null
+			else:
+				last_popup.accumulated_damage += damageamount
+				last_popup.global_position = global_position + Vector3.UP * 1.8
+		else:
+			#it is null
+			last_popup = damage_popup.instantiate()
+			die.connect(last_popup.start_falling)
+			last_popup.global_position = global_position + Vector3.UP * 1.8
+			last_popup.accumulated_damage += damageamount
+			get_parent().get_parent().add_child(last_popup)
+
 	var localPoint = self.to_local(hitPos)
 	var physOffset = localPoint - self.position
 	physOffset = self.to_global(physOffset)
@@ -191,7 +210,7 @@ func summon_item(item):
 		itemholder.add_child(spawned)
 		Inventory.append(spawned)
 		emit_signal("pickedupItem", spawned)
-		$equipsounds.play()
+		equipsounds.play()
 		if !spawned.is_held:
 			spawned.is_held = true
 
@@ -200,6 +219,7 @@ func kill(bone_hit):
 	$Collider.disabled = true
 	is_dead = true
 	Health = 0
+	dropWeapon(current_equipped)
 	create_ragdoll(bone_hit)
 	anim_tree.active = false
 	die.emit()
@@ -209,7 +229,7 @@ func kill(bone_hit):
 func create_ragdoll(impulse_bone:int = 0):
 	var _ragdoll = ragdoll.instantiate()
 	_ragdoll.global_transform = $Mesh.global_transform
-	get_tree().root.get_node("World").add_child(_ragdoll)
+	Global.world.worldMisc.add_child(_ragdoll)
 	for bones in _ragdoll.ragdoll_skeleton.get_bone_count():
 		_ragdoll.ragdoll_skeleton.set_bone_pose_rotation(bones, $Mesh/Male/MaleSkeleton/Skeleton3D.get_bone_pose_rotation(bones))
 		_ragdoll.ragdoll_skeleton.set_bone_pose_position(bones, $Mesh/Male/MaleSkeleton/Skeleton3D.get_bone_pose_position(bones))
@@ -235,7 +255,18 @@ func _on_weapon_lower_timer_timeout():
 func change_to_dead_cam():
 	pass
 
-
-
 func _on_timer_timeout():
 	get_owner().queue_free()
+
+func dropWeapon(weapon):
+	if !current_equipped == null:
+		var weaponDrop = Weapondb.SpawnableWeapons[str(weapon.name)].instantiate()
+		if !weaponDrop == null:
+			Global.world.worldMisc.add_child(weaponDrop)
+			weaponDrop.global_position = current_equipped.global_position
+			weaponDrop.global_rotation = current_equipped.global_rotation
+			Inventory.remove_at(current_equipped_index)
+			current_equipped.queue_free()
+			current_equipped_index =- 1
+		else:
+			return null

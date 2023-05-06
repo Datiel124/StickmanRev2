@@ -14,15 +14,10 @@ var system_time: String = Time.get_time_string_from_system()
 var is_multiplayer_game = false
 ## If is fullscreen
 var is_fullscreen = true
-
+## Damage numbers
+var isDamageNums = true
 ## Ingame Globals
-var world
-
-#MP Related
-var port = 7777
-var ip = "localhost"
-
-var player_name = ""
+var world : WorldScene
 
 ##World Stuff
 var mp_spawner = MultiplayerSpawner.new()
@@ -37,16 +32,22 @@ var config_file = ConfigFile.new()
 
 var settingsvars = config_file.load("user://settings/settings.sav")
 
+var num_ragdolls : int = 0:
+	set(value):
+		num_ragdolls = max(value, 0)
+var max_ragdolls : int = 8
 # Called when the node enters the scene tree for the first time.
 var clicksnap = preload("res://assets/sounds/ui/uipopup.wav")
 func _process(delta):
-
 	if Input.is_action_just_pressed("fullscreen_toggle"):
 		fullscreen_toggle()
 
 	if Input.is_action_just_pressed("screenshot"):
 		var path = screenshot()
 		Global.notify_click("Took screenshot '"+ path +"' (Click to view)", open_screenshot.bind(path), 2, 8)
+
+	if num_ragdolls > max_ragdolls and (Engine.get_process_frames() % 5 == 0):
+		get_tree().get_nodes_in_group("ragdolls")[0].queue_free()
 
 
 var ss_sound = preload("res://assets/sounds/ui/uiSoft.wav")
@@ -58,16 +59,46 @@ func open_screenshot(path):
 	OS.shell_open(ProjectSettings.globalize_path(path))
 	new_audio.finished.connect(new_audio.queue_free)
 
-
 func _ready():
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	load_settings()
 	add_child(mp_spawner)
 	add_child(notif_hud)
 	mp_spawner.name = "MPSpawner"
 	mp_spawner.add_spawnable_scene("res://assets/entities/camera/camera.tscn")
 	mp_spawner.add_spawnable_scene("res://assets/entities/pawn/character_pawn.tscn")
+	mp_spawner.add_spawnable_scene("res://assets/resources/controllers/player/playerController.tscn")
 	mp_spawner.set_spawn_path('/root/Global')
 
+
+func generate_name() -> String:
+	var outname = ""
+
+	var before = ["Jum", "Ge", "Po"]
+	var middleA = ["ba", "bo", "fi", "lo", "yum"]
+	var middleB = ["bin", "sta", "mil"]
+	var after = ["ba", "bo", "tam"]
+
+	var completed
+
+	outname += before.pick_random()
+	match outname[-1]:
+		"o":
+			outname += middleB.pick_random()
+		"e":
+			outname += middleA.pick_random()
+		"m":
+			outname += middleB.pick_random()
+	outname += after.pick_random()
+
+	return outname
+
+
+func validate_name(check : String) -> bool:
+	#just a simple regex to validate a username
+	var regex = RegEx.create_from_string("\\w+")
+	var result = regex.search(check)
+	return result.strings[0].length() > 0
 
 
 func load_settings():
@@ -80,39 +111,35 @@ func load_settings():
 		for setting in config_file.get_sections():
 			is_fullscreen = config_file.get_value(setting, "fullscreen")
 
-##Adds a player/camera to the scene - MULTIPLAYER USAGE ONLY
+
+##Adds a player/camera to the scene
 func add_player(pos:Vector3 = Vector3(0,0,0), peer_id:int = 0):
 	var player_camera = camera_ent.instantiate()
 	var player_pawn = stickpawn.instantiate()
-	if is_multiplayer_game:
-		add_child(player_pawn)
-		player_camera.c_name = player_name
-		player_camera.name = str(peer_id)
-		player_camera.mp_id = str(peer_id)
-		player_pawn.name = str(peer_id)
-		player_pawn.set_multiplayer_authority(str(peer_id).to_int())
-		player_camera.camera_follow_node = player_pawn
-		player_camera.CameraDataResource = player_pawn.character_pawn.CameraResource
-		player_camera.set_multiplayer_authority(str(peer_id).to_int())
-		player_pawn.character_pawn.CameraPosNode.add_child(player_camera)
-		player_pawn.character_pawn.pawn_cam = player_camera
-		player_pawn.character_pawn.is_controlled = true
-		player_pawn.position = pos
-		player_camera.is_freecam = false
-	else:
-		var playerController = load("res://assets/resources/controllers/player/playerController.tscn")
-		var controller = playerController.instantiate()
-		controller.pawn = player_pawn
-		add_child(player_pawn)
-		player_pawn.add_child(controller)
-		player_camera.attachedPawn = player_pawn
-		player_pawn.setMasterController(controller)
-		player_pawn.getMasterController().pawn = player_pawn.character_pawn
-		player_camera.CameraDataResource = player_pawn.getMasterController().CameraResource
-		player_pawn.getMasterController().pawnCam = player_camera
-		player_pawn.character_pawn.CameraPosNode.add_child(player_camera)
-		player_pawn.position = pos
-		player_camera.is_freecam = false
+
+	var is_me := peer_id == multiplayer.get_unique_id()
+
+	var playerController = load("res://assets/resources/controllers/player/playerController.tscn")
+	var controller = playerController.instantiate()
+	controller.pawn = player_pawn
+	world.playerPawns.add_child(player_pawn)
+	player_pawn.character_pawn.add_child(controller)
+	player_pawn.name += str(peer_id)
+	if Networking.peer_data.has(peer_id):
+		player_pawn.character_pawn.nametag.text = Networking.get_peer_data(peer_id).player_name
+	player_camera.attachedPawn = player_pawn
+	player_camera.name += str(peer_id)
+	player_pawn.setMasterController(controller)
+	player_pawn.getMasterController().pawn = player_pawn.character_pawn
+	player_camera.CameraDataResource = player_pawn.getMasterController().CameraResource
+	player_pawn.getMasterController().pawnCam = player_camera
+	player_pawn.character_pawn.CameraPosNode.add_child(player_camera)
+	player_camera.Camera.current = is_me
+	player_pawn.position = pos
+	player_camera.is_freecam = false
+	player_camera.set_multiplayer_authority(str(player_camera.name).to_int())
+	#player_pawn.set_multiplayer_authority(str(player_pawn.name).to_int())
+
 
 func save_settings():
 	if !user_dir.dir_exists("user://settings"):
@@ -213,3 +240,6 @@ func notify_custom(node : Control, position : NOTIF_POSITION) -> Control:
 	container.add_child(node)
 	set_notif_flags(node, position)
 	return node
+
+
+

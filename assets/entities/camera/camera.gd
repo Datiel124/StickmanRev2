@@ -28,9 +28,9 @@ var mouse_pos = Vector2(0.0,0.0)
 ##Screenshake
 @export var trauma_reduction_rate := 1.0
 
-@export var max_x := 10.0
-@export var max_y := 10.0
-@export var max_z := 5.0
+@export var max_x := 3.5
+@export var max_y := 3.5
+@export var max_z := 8.0
 
 @export var noise = FastNoiseLite.new()
 @export var noise_speed := 50.0
@@ -48,9 +48,7 @@ var mp_id
 var defaultcamres = load("res://assets/resources/CameraData/DefaultCam.tres")
 @export var default_cam_fov = 90
 @export var is_freecam = true
-@export var attachedPawn : Node3D:
-	get:
-		return attachedPawn
+@export var attachedPawn : Node3D
 @export var CameraDataResource:CameraData
 
 @onready var rot = vert.global_transform.basis.get_euler().y
@@ -61,15 +59,15 @@ var defaultcamres = load("res://assets/resources/CameraData/DefaultCam.tres")
 
 
 func _ready():
-	if Global.is_multiplayer_game:
-		if not is_multiplayer_authority(): return
+#	if multiplayer.multiplayer_peer != null:
+#		if not is_multiplayer_authority(): return
 	Camera.current = true
 	Input.set_mouse_mode(2)
 	pass # Replace with function body.
 
 func _physics_process(delta):
-	if Global.is_multiplayer_game:
-		if not is_multiplayer_authority(): return
+#	if multiplayer.multiplayer_peer != null:
+#		if not is_multiplayer_authority(): return
 	##Rotation Setter
 	rot = vert.global_transform.basis.get_euler().y
 	update_mouselook()
@@ -82,7 +80,7 @@ func _physics_process(delta):
 		else:
 			Global.debugMode = true
 			Global.notify_warn("Debug controls enabled.", 2, 5)
-			
+
 	if Global.debugMode:
 		##Enable Freecam
 		if Input.is_action_just_pressed("give_test_item"):
@@ -108,15 +106,20 @@ func _physics_process(delta):
 				Global.notify_warn("Must be looking at a pawn while in freecam to posess.", 2, 5)
 
 		if Input.is_action_just_pressed("pawn_spawn"):
-			var spawn_zone = get_node("/root/Global")
+			var spawn_zone = Global.world.worldPawns
 			if Aimcast.is_colliding():
 				if !Aimcast.get_collision_point() == null:
-					Global.notify_fade("Spawned Pawn")
 					var tospawn = load("res://assets/entities/pawn/character_pawn.tscn")
-					var pawn = tospawn.instantiate()
+					var aiController = load("res://assets/resources/controllers/ai/baseAIController.tscn")
+					var pawn = tospawn.duplicate().instantiate()
+					var controller = aiController.duplicate().instantiate()
+					Global.notify_fade("Spawned " + str(pawn.name))
 					pawn.position = Aimcast.get_collision_point()
 					pawn.rotation.y = randf_range(0,360)
 					spawn_zone.add_child(pawn, true)
+					pawn.setMasterController(controller)
+					pawn.character_pawn.add_child(controller)
+					controller.set_owner(pawn)
 					return
 			Global.notify_warn("Failed to spawn: Look at a surface to spawn pawn onto.", 2, 3)
 
@@ -183,8 +186,8 @@ func camera_zoom_lerp():
 	camera_springarm.spring_length = lerp(camera_springarm.spring_length, spring_arm_temp, cam_smooth_zoom)
 
 func _input(event):
-	if Global.is_multiplayer_game:
-		if not is_multiplayer_authority(): return
+#	if multiplayer.multiplayer_peer != null:
+#		if not is_multiplayer_authority(): return
 
 	if event is InputEventMouseMotion:
 		mouse_pos.x += event.relative.x
@@ -264,11 +267,9 @@ func getMidPoint(muzzlepoint):
 	var dir = -(rayEnd - muzzlepoint.global_transform.origin).normalized()
 	return dir
 
-func add_trauma(trauma_amount : float, _maxX:float = 10.0, _maxY:float = 10.0, _maxZ:float = 5.0):
+func add_trauma(trauma_amount : float):
 	trauma = clamp(trauma + trauma_amount, 0.0, 1.0)
-	max_x = _maxX
-	max_y = _maxY
-	max_z = _maxZ
+
 
 func get_shake_intensity() -> float:
 	return trauma * trauma

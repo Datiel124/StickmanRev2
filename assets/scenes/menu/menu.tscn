@@ -1,8 +1,36 @@
-[gd_scene load_steps=4 format=3 uid="uid://byf70b5ate3gx"]
+[gd_scene load_steps=9 format=3 uid="uid://byf70b5ate3gx"]
 
 [ext_resource type="Script" path="res://assets/scenes/menu/menu.gd" id="1_lpo11"]
 [ext_resource type="Texture2D" uid="uid://dc3fkfugwvtla" path="res://assets/textures/misc/company-logo (1).png" id="2_feimm"]
+[ext_resource type="Texture2D" uid="uid://c6720hpdah6sx" path="res://assets/textures/ui/refresh.png" id="2_nk2t6"]
 [ext_resource type="AudioStream" uid="uid://dmifxlb0c387l" path="res://assets/sounds/ui/uiclick.wav" id="3_ipqm8"]
+[ext_resource type="AudioStream" uid="uid://c1mk4s30dq3nc" path="res://assets/music/Idlehoodtune.wav" id="4_tjge3"]
+
+[sub_resource type="Animation" id="Animation_rphrp"]
+resource_name = "spin"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(0.0980731, 1),
+"update": 0,
+"values": [6.28319, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b6aif"]
+_data = {
+"spin": SubResource("Animation_rphrp")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_38gwj"]
+font_size = 64
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
 
 [node name="menu" type="Control"]
 layout_mode = 3
@@ -65,14 +93,40 @@ layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter Name Here"
 
+[node name="randomize_name" type="TextureButton" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer/NameEnt"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -26.0
+offset_top = -13.0
+offset_right = -2.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+rotation = 6.28319
+pivot_offset = Vector2(12, 12)
+texture_normal = ExtResource("2_nk2t6")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer/NameEnt/randomize_name"]
+libraries = {
+"": SubResource("AnimationLibrary_b6aif")
+}
+
 [node name="AddrEntry" type="LineEdit" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter IP Address Here"
 
-[node name="PortEntry" type="LineEdit" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer"]
+[node name="PortEntry" type="SpinBox" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer"]
 layout_mode = 2
-placeholder_text = "Port"
+min_value = 7777.0
+max_value = 999999.0
+value = 7777.0
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 anchors_preset = 3
@@ -89,10 +143,62 @@ grow_vertical = 0
 scale = Vector2(0.199, 0.199)
 texture = ExtResource("2_feimm")
 
+[node name="networkwait" type="ColorRect" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.662745)
+
+[node name="Label" type="Label" parent="CanvasLayer/networkwait"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Joining Server.."
+label_settings = SubResource("LabelSettings_38gwj")
+
+[node name="cancelbutton" type="Button" parent="CanvasLayer/networkwait"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = 50.0
+offset_right = 256.0
+offset_bottom = 106.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Cancel"
+
+[node name="Connecttune" type="AudioStreamPlayer" parent="CanvasLayer/networkwait"]
+stream = ExtResource("4_tjge3")
+volume_db = -30.0
+
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
 stream = ExtResource("3_ipqm8")
 bus = &"Sounds"
 
 [connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/HostBtn" to="." method="_on_host_btn_pressed"]
 [connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/JoinBtn" to="." method="_on_join_btn_pressed"]
+[connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer/NameEnt/randomize_name" to="." method="_on_randomize_name_pressed"]
+[connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer/NameEnt/randomize_name" to="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer/NameEnt/randomize_name/AnimationPlayer" method="stop"]
+[connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer/NameEnt/randomize_name" to="CanvasLayer/Menu/MarginContainer/VBoxContainer/HFlowContainer/NameEnt/randomize_name/AnimationPlayer" method="play" flags=3 binds= [&"spin"]]
+[connection signal="hidden" from="CanvasLayer/networkwait" to="CanvasLayer/networkwait/Connecttune" method="stop"]
+[connection signal="ready" from="CanvasLayer/networkwait" to="CanvasLayer/networkwait" method="hide"]
+[connection signal="pressed" from="CanvasLayer/networkwait/cancelbutton" to="." method="_on_cancelbutton_pressed"]

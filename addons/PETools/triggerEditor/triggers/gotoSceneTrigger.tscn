@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3 uid="uid://bu4yngsumcohi"]
+
+[ext_resource type="Texture2D" uid="uid://br2fha5o1xbx3" path="res://assets/textures/FatCowIcons32x32/folder_add.png" id="1_ynr6w"]
+
+[sub_resource type="GDScript" id="GDScript_qr0sa"]
+resource_name = "sceneLoadTrigger"
+script/source = "extends GraphNode
+var scene = PackedScene
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[node name="gotoSceneTrigger" type="GraphNode"]
+title = "Goto Scene"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color(1, 1, 1, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+slot/2/left_enabled = false
+slot/2/left_type = 0
+slot/2/left_color = Color(1, 1, 1, 1)
+slot/2/left_icon = null
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color(1, 1, 1, 1)
+slot/2/right_icon = null
+slot/2/draw_stylebox = true
+script = SubResource("GDScript_qr0sa")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Load Scene"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+text = "Scene To Goto"
+icon = ExtResource("1_ynr6w")
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+text = "Scene Info Here"

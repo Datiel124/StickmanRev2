@@ -22,6 +22,7 @@ item_sound_pitch_min = 1
 item_sound_pitch_max = 1.3
 item_use_animation = ExtResource("2_4gi7o")
 Projectile = ExtResource("1_vj30q")
+isSilenced = false
 arm_filters = 2
 animation_type = 1
 item_type = 5

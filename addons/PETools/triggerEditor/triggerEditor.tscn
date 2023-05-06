@@ -1,0 +1,113 @@
+[gd_scene load_steps=11 format=3 uid="uid://bbvln7irjnqp3"]
+
+[ext_resource type="Script" path="res://addons/PETools/triggerEditor/triggerEditor.gd" id="1_juuij"]
+[ext_resource type="Texture2D" uid="uid://b0rcyskpx6n8b" path="res://assets/textures/fatcowIcons/attribution.png" id="2_rscjf"]
+[ext_resource type="Texture2D" uid="uid://h3htrwadk6h8" path="res://assets/textures/fatcowIcons/arrow_left.png" id="3_dwm6i"]
+[ext_resource type="Texture2D" uid="uid://dj6u5hg1wh3lk" path="res://assets/textures/fatcowIcons/clock_select_remain.png" id="4_7505h"]
+[ext_resource type="Texture2D" uid="uid://cpkb427qvcpnr" path="res://assets/textures/fatcowIcons/arrow_redo.png" id="5_m8skj"]
+[ext_resource type="Texture2D" uid="uid://b5oidunpckgkm" path="res://assets/textures/fatcowIcons/application.png" id="6_t3cif"]
+[ext_resource type="Texture2D" uid="uid://48qc8eitq7y1" path="res://assets/textures/fatcowIcons/application_delete.png" id="7_wxeir"]
+[ext_resource type="Texture2D" uid="uid://dnlk80xp8ryjp" path="res://assets/textures/fatcowIcons/add.png" id="8_ra0d3"]
+[ext_resource type="Texture2D" uid="uid://cwgc6fm8vd7cb" path="res://assets/textures/FatCowIcons32x32/save_as.png" id="9_fd3xn"]
+[ext_resource type="Texture2D" uid="uid://c44trubnajqlf" path="res://assets/textures/FatCowIcons32x32/folder.png" id="10_55uxx"]
+
+[node name="triggerEditor" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_juuij")
+
+[node name="FileDialog" type="FileDialog" parent="."]
+initial_position = 2
+size = Vector2i(549, 493)
+filters = PackedStringArray(".trg")
+
+[node name="triggerGraph" type="GraphEdit" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+right_disconnects = true
+
+[node name="nodeDropDown" type="OptionButton" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -221.0
+offset_top = 4.0
+offset_right = -19.0
+offset_bottom = 35.0
+grow_horizontal = 0
+item_count = 8
+selected = 0
+popup/item_0/text = "Pawn Enter"
+popup/item_0/icon = ExtResource("2_rscjf")
+popup/item_0/id = 0
+popup/item_1/text = "Pawn leave"
+popup/item_1/icon = ExtResource("3_dwm6i")
+popup/item_1/id = 1
+popup/item_2/text = "Scene Related"
+popup/item_2/id = 4
+popup/item_2/separator = true
+popup/item_3/text = "Wait"
+popup/item_3/icon = ExtResource("4_7505h")
+popup/item_3/id = 2
+popup/item_4/text = "Goto Scene"
+popup/item_4/icon = ExtResource("5_m8skj")
+popup/item_4/id = 3
+popup/item_5/text = "Debug"
+popup/item_5/id = 5
+popup/item_5/separator = true
+popup/item_6/text = "Debug Text"
+popup/item_6/icon = ExtResource("6_t3cif")
+popup/item_6/id = 6
+popup/item_7/text = "Debug Text - Warn"
+popup/item_7/icon = ExtResource("7_wxeir")
+popup/item_7/id = 7
+
+[node name="addNode" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -44.0
+offset_top = 40.0
+offset_right = -20.0
+offset_bottom = 64.0
+grow_horizontal = 0
+icon = ExtResource("8_ra0d3")
+
+[node name="saveTriggers" type="Button" parent="."]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 41.0
+offset_right = 37.0
+offset_bottom = 66.0
+icon = ExtResource("9_fd3xn")
+expand_icon = true
+
+[node name="loadTriggers" type="Button" parent="."]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 41.0
+offset_right = 66.0
+offset_bottom = 66.0
+icon = ExtResource("10_55uxx")
+expand_icon = true
+
+[connection signal="canceled" from="FileDialog" to="." method="_on_file_dialog_canceled"]
+[connection signal="confirmed" from="FileDialog" to="." method="_on_file_dialog_confirmed"]
+[connection signal="dir_selected" from="FileDialog" to="." method="_on_file_dialog_dir_selected"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="connection_request" from="triggerGraph" to="." method="_on_trigger_graph_connection_request"]
+[connection signal="disconnection_request" from="triggerGraph" to="." method="_on_trigger_graph_disconnection_request"]
+[connection signal="item_selected" from="nodeDropDown" to="." method="_on_node_add_item_selected"]
+[connection signal="pressed" from="addNode" to="." method="_on_add_node_pressed"]
+[connection signal="pressed" from="saveTriggers" to="." method="_on_save_triggers_pressed"]
+[connection signal="pressed" from="loadTriggers" to="." method="_on_load_triggers_pressed"]

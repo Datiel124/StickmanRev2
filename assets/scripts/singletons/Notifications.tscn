@@ -1,16 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://dm5bh8yaxomig"]
 
-[sub_resource type="GDScript" id="GDScript_h3uiv"]
-script/source = "extends MarginContainer
+[ext_resource type="Script" path="res://assets/scripts/singletons/Notifications.gd" id="1_68mj0"]
 
-var warning_texture := preload(\"res://assets/scripts/singletons/notifs/warninghd.pmg.png\")
-var notif_fade : PackedScene = preload(\"res://assets/scripts/singletons/notifs/notif_fade.tscn\")
-var notif_warn : PackedScene = preload(\"res://assets/scripts/singletons/notifs/notif_warn.tscn\")
-var notif_click : PackedScene = preload(\"res://assets/scripts/singletons/notifs/notif_click.tscn\")
-@onready var hud_positions = [$Margins/topleft_notifs, $Margins/topcenter_notifs, $Margins/topright_notifs, $Margins/bottomleft_notifs, $Margins/bottomcenter_notifs, $Margins/bottomright_notifs]
-"
+[node name="notif_layer" type="CanvasLayer"]
+script = ExtResource("1_68mj0")
 
-[node name="Notifications" type="MarginContainer"]
+[node name="Notifications" type="MarginContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -21,19 +16,18 @@ theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 64
-script = SubResource("GDScript_h3uiv")
 
-[node name="Margins" type="Control" parent="."]
+[node name="Margins" type="Control" parent="Notifications"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="topleft_notifs" type="VBoxContainer" parent="Margins"]
+[node name="topleft_notifs" type="VBoxContainer" parent="Notifications/Margins"]
 layout_mode = 1
 mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 2
 
-[node name="topcenter_notifs" type="VBoxContainer" parent="Margins"]
+[node name="topcenter_notifs" type="VBoxContainer" parent="Notifications/Margins"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -43,7 +37,7 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 2
 
-[node name="topright_notifs" type="VBoxContainer" parent="Margins"]
+[node name="topright_notifs" type="VBoxContainer" parent="Notifications/Margins"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -53,7 +47,7 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 2
 
-[node name="bottomleft_notifs" type="VBoxContainer" parent="Margins"]
+[node name="bottomleft_notifs" type="VBoxContainer" parent="Notifications/Margins"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -62,7 +56,7 @@ grow_vertical = 0
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="bottomcenter_notifs" type="VBoxContainer" parent="Margins"]
+[node name="bottomcenter_notifs" type="VBoxContainer" parent="Notifications/Margins"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -74,7 +68,7 @@ grow_vertical = 0
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="bottomright_notifs" type="VBoxContainer" parent="Margins"]
+[node name="bottomright_notifs" type="VBoxContainer" parent="Notifications/Margins"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0

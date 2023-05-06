@@ -43,14 +43,13 @@ func _ready() -> void:
 #do damage etc
 func explode():
 	await get_tree().physics_frame
-	var radius = $Area3D/CollisionShape3D.shape.radius
+	var radius = $Area3D/CollisionShape3D.shape.radius * $Area3D.scale.length()
 	var hit = $Area3D.get_overlapping_bodies().filter(func(shit) : return shit is CharacterBody3D)
 	print(\"aghhwahwd\")
 	for tgt in hit:
 		var dist = tgt.global_position.distance_to(global_position)
 		var hit_dmg = damage_falloff.sample_baked(radius / dist) * damage
 		var hit_impulse = damage_falloff.sample_baked(radius / dist) * impulse
-
 		tgt.damage(hit_dmg, 1, -global_position.direction_to(tgt.global_position), tgt.global_position, true, hit_impulse)
 
 func create_debris(at_position):
@@ -71,12 +70,12 @@ func create_debris(at_position):
 "
 
 [sub_resource type="Curve" id="Curve_bywsl"]
-_data = [Vector2(0, 1), 0.0, -2.11818, 0, 0, Vector2(1, 0.281818), -0.0492608, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 1), 0.0, 0.0585623, 0, 0, Vector2(0.487365, 0.754545), -1.157, -2.67557, 0, 0, Vector2(1, 0.309091), -0.0492608, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="Curve" id="Curve_rao8d"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.248927, 1), 0.0, 0.0, 0, 0, Vector2(0.755365, 0.218182), -4.24927, -0.891866, 0, 1, Vector2(1, 0), -0.891866, 0.0, 1, 0]
-point_count = 4
+_data = [Vector2(0, 1), 0.0, -2.36079, 0, 0, Vector2(1, 0.236364), 0.0513914, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="Gradient" id="Gradient_1kf7j"]
 interpolation_mode = 2
@@ -109,7 +108,7 @@ damping_min = 100.0
 damping_max = 100.0
 angle_min = -720.0
 angle_max = 720.0
-scale_max = 2.0
+scale_max = 3.0
 scale_curve = SubResource("CurveTexture_gxx65")
 color_ramp = SubResource("GradientTexture1D_dj83g")
 
@@ -164,7 +163,7 @@ grow_amount = -5.355
 material = SubResource("StandardMaterial3D_54rom")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_2wkh4"]
-radius = 0.161367
+radius = 2.56571
 
 [sub_resource type="Animation" id="Animation_xrp56"]
 length = 0.001
@@ -229,11 +228,11 @@ _data = {
 
 [node name="ExplosionBase" type="Node3D"]
 script = SubResource("GDScript_tc0hj")
-impulse = 0.1
-damage = 10.0
+impulse = 1.0
 impulse_falloff = SubResource("Curve_bywsl")
 damage_falloff = SubResource("Curve_rao8d")
 debris = ExtResource("1_ocief")
+debris_count = 1
 debris_velocity_min = 7.0
 debris_velocity_max = 10.0
 debris_lifetime_min = 1.0
@@ -252,7 +251,7 @@ process_material = SubResource("ParticleProcessMaterial_3gpk5")
 draw_pass_1 = SubResource("QuadMesh_2uh6p")
 
 [node name="flash" type="GPUParticles3D" parent="Particles"]
-sorting_offset = 1.0
+sorting_offset = 5.0
 gi_mode = 0
 emitting = false
 amount = 4
@@ -266,7 +265,6 @@ stream = ExtResource("4_miw1q")
 bus = &"Sounds"
 
 [node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 0)
 collision_layer = 0
 collision_mask = 8
 

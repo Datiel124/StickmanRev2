@@ -23,6 +23,7 @@ class_name ItemResource
 @export var item_sound_pitch_max = 1.3
 @export var item_use_animation : Animation
 @export var Projectile : PackedScene
+@export var isSilenced :bool = false
 ## Which arm will be animated with this item equipped. By default both arms will be animated
 @export_enum("Left Arm", "Right Arm", "Both Arms") var arm_filters = 2
 @export_enum("BarettaPistol", "HoneybadgerRifle") var animation_type = 0

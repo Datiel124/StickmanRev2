@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://co6tt6cmthhun"]
+
+[ext_resource type="FontFile" uid="uid://xmwjvmqspojb" path="res://assets/fonts/Grand_Aventure_Text.otf" id="1_gv6e0"]
+[ext_resource type="Script" path="res://assets/scenes/damage_popup.gd" id="2_3v8bk"]
+
+[sub_resource type="Gradient" id="Gradient_hqnlr"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.386555, 0.676471, 0.886555, 1)
+colors = PackedColorArray(1, 0.99361, 0.761495, 1, 1, 0.873011, 0, 1, 1, 0.470868, 0, 1, 1, 0.0463837, 0, 1, 1, 0, 0.627316, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ndyvx"]
+gradient = SubResource("Gradient_hqnlr")
+
+[node name="DamagePopup" type="Label3D"]
+sorting_offset = 10.0
+billboard = 1
+double_sided = false
+no_depth_test = true
+modulate = Color(1, 0.0901961, 0, 1)
+text = "64"
+font = ExtResource("1_gv6e0")
+font_size = 64
+outline_size = 8
+script = ExtResource("2_3v8bk")
+color_gradient = SubResource("GradientTexture1D_ndyvx")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

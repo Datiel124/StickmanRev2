@@ -23,9 +23,5 @@ func create_blood(type:int, pos:Vector3):
 		blood_to_spawn.position = pos
 
 
-func create_bullet_tracer(pos:Vector3, rot:Vector3, parent):
-	var created_b_tracer = bullet_tracer.instantiate()
-	#created_b_tracer.position = pos
-	#created_b_tracer.rotation = rot
-	parent.add_child(created_b_tracer)
+
 	
