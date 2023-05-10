@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://8bdkj7r165fv"]
+
+[ext_resource type="Texture2D" uid="uid://bg8hjl6s1fnkn" path="res://assets/textures/world/brick/tileable5t.png" id="1_td6pi"]
+
+[resource]
+albedo_texture = ExtResource("1_td6pi")
+uv1_triplanar = true
+uv1_world_triplanar = true

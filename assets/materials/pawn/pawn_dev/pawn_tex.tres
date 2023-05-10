@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://d68y7icd86b3" path="res://assets/textures/pawn_tex/texture_Roughness.jpg" id="5_3bwcl"]
 
 [resource]
+resource_local_to_scene = true
 resource_name = "MALE"
 cull_mode = 2
 vertex_color_use_as_albedo = true

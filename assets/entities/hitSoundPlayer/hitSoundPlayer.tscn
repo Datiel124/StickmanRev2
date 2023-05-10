@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dp0ug4vp2mhsk"]
+
+[ext_resource type="Script" path="res://assets/scripts/hitSoundPlayer/hitSoundPlayer.gd" id="1_4t7ib"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_4ta0o"]
+radius = 0.4655
+height = 0.931
+
+[node name="hitSoundPlayer" type="AudioStreamPlayer3D"]
+max_distance = 10.0
+bus = &"Sounds"
+script = ExtResource("1_4t7ib")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_4ta0o")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

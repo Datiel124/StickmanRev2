@@ -58,8 +58,9 @@ func use():
 		if !Item_Resource.Projectile == null:
 			var smoke = load("res://assets/particles/weaponSmoke/weaponSmoke.tscn")
 			var smokeEffect = smoke.instantiate()
+			Global.world.worldParticles.add_child(smokeEffect)
+			smokeEffect.global_position = muzzle_point.global_position
 			muzzle_point.add_child(bullet)
-			muzzle_point.add_child(smokeEffect)
 			bullet.shooter = holder
 			bullet.top_level = true
 		if !Item_Resource.isSilenced:

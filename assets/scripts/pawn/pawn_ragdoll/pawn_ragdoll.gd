@@ -7,8 +7,11 @@ var bone_hit = 0
 var pawn_to_animate : CharacterBody3D
 var death_sound_played = false
 
+@onready var pawnBody = $Mesh/Male/MaleSkeleton/Skeleton3D/MaleBody
+@onready var pawnHead = $Mesh/Male/MaleSkeleton/Skeleton3D/MaleHead
+
 @onready var remove_timer = $remove_timer
-@export var pawn_dead:Node3D
+@export var pawn_dead:Pawn_Controller
 
 @export var active_ragdoll_enabled : bool
 @export var target_skeleton: Skeleton3D
@@ -22,7 +25,7 @@ var death_sound_played = false
 @export var max_angular_force: float = 9999.0
 
 @onready var body = $Mesh
-@onready var ragdoll_skeleton = $Mesh/Male/MaleSkeleton/Skeleton3D
+@onready var ragdoll_skeleton : Skeleton3D = $Mesh/Male/MaleSkeleton/Skeleton3D
 
 var physics_bones
 
@@ -32,6 +35,8 @@ func _ready():
 	#ragdoll_skeleton.physical_bones_start_simulation()
 	Global.num_ragdolls += 1
 	physics_bones = ragdoll_skeleton.get_children().filter(func(x): return x is PhysicalBone3D)
+	pawnBody.set_surface_override_material(0, pawn_dead.character_pawn.pawnMat)
+	pawnHead.set_surface_override_material(0, pawn_dead.character_pawn.pawnMat)
 	#print(physics_bones)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

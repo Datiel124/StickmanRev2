@@ -19,3 +19,9 @@ light_energy = 2.231
 shadow_enabled = true
 distance_fade_enabled = true
 omni_range = 4.19111
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 4.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

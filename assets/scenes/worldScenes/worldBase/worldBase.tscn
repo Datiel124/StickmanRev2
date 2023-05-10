@@ -36,3 +36,7 @@ environment = ExtResource("2_q8jqw")
 [node name="Particles" type="Node3D" parent="Misc"]
 
 [node name="WaypointNodes" type="Node3D" parent="Misc"]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="Misc"]
+_spawnable_scenes = PackedStringArray("res://assets/entities/pawn/character_pawn.tscn", "res://assets/entities/camera/camera.tscn")
+spawn_path = NodePath("../../Pawns/Players")

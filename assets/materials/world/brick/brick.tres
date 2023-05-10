@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dk2dl3ypkq21y"]
+
+[ext_resource type="Texture2D" uid="uid://bdoimhom0d27e" path="res://assets/textures/world/brick/greybrickwall006x500.png" id="1_m6ox7"]
+
+[resource]
+albedo_color = Color(0.984314, 0, 0, 1)
+albedo_texture = ExtResource("1_m6ox7")
+uv1_triplanar = true
+uv1_world_triplanar = true

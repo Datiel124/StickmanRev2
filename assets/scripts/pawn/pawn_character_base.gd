@@ -15,21 +15,38 @@ signal pickedupItem
 @onready var weapon_lower_timer = $weapon_lower_timer
 @onready var hitBoxes = $Mesh/Male/MaleSkeleton/Hitboxes
 @onready var pawnMesh = $Mesh
+@onready var pawnBody = $Mesh/Male/MaleSkeleton/Skeleton3D/MaleBody
+@onready var pawnHead = $Mesh/Male/MaleSkeleton/Skeleton3D/MaleHead
 @onready var anim_tree = $Mesh/AnimationTree
 @onready var nametag = %nametag
 
+@export var step_height: float = 0.25
 @export var pawnController : masterController
-@export var Health = 1000
+@export var Health = 100
 @export var is_dead = false
 @export var is_aiming = false
 
-@export var character_speed = 5.0
+@export var defaultCharacterSpeed = 3.0
+@export var character_speed = 3.0
 @export var jump_force = 4.5
 
 
 @export var acceleration = 3
 
 @export var rot = 0.0
+var pawnMat
+@export var pawnColor : Color = Color(1,0.425, 0, 255):
+	set(value):
+		pawnColor = value
+		var material = load("res://assets/materials/pawn/pawn_dev/pawn_tex.tres").duplicate()
+		material.resource_local_to_scene = true
+		material.albedo_color = value
+		pawnMat = material
+		pawnBody.get_active_material(0).resource_local_to_scene = true
+		pawnHead.get_active_material(0).resource_local_to_scene = true
+		pawnBody.set_surface_override_material(0, material)
+		pawnHead.set_surface_override_material(0, material)
+
 
 #Weapon Related
 @export var has_weapon_equipped = false
@@ -227,8 +244,9 @@ func kill(bone_hit):
 	get_owner().deleteTimer.start()
 
 func create_ragdoll(impulse_bone:int = 0):
-	var _ragdoll = ragdoll.instantiate()
+	var _ragdoll : Ragdoll = ragdoll.instantiate()
 	_ragdoll.global_transform = $Mesh.global_transform
+	_ragdoll.pawn_dead = get_parent()
 	Global.world.worldMisc.add_child(_ragdoll)
 	for bones in _ragdoll.ragdoll_skeleton.get_bone_count():
 		_ragdoll.ragdoll_skeleton.set_bone_pose_rotation(bones, $Mesh/Male/MaleSkeleton/Skeleton3D.get_bone_pose_rotation(bones))
@@ -237,14 +255,14 @@ func create_ragdoll(impulse_bone:int = 0):
 	for bone in _ragdoll.ragdoll_skeleton.get_child_count():
 		var child = _ragdoll.ragdoll_skeleton.get_child(bone)
 		if child is PhysicalBone3D:
+			_ragdoll.ragdoll_skeleton.physical_bones_start_simulation()
+			child.apply_central_impulse(velocity)
 			if child.get_bone_id() == impulse_bone:
 				_ragdoll.ragdoll_skeleton.physical_bones_start_simulation()
 				child.apply_impulse(last_impulse, impulseDir)
-
 	_ragdoll.target_skeleton = pawn_skeleton
 	_ragdoll.bone_hit = last_bone_hit
 	_ragdoll.pawn_to_animate = self
-	_ragdoll.pawn_dead = get_parent()
 	created_ragdoll = _ragdoll
 
 
@@ -270,3 +288,77 @@ func dropWeapon(weapon):
 			current_equipped_index =- 1
 		else:
 			return null
+
+func _slide(
+	body: RID,
+	from: Transform3D,
+	motion: Vector3,
+	margin: float = 0.001,
+	max_slides: int = 6,
+	max_collisions: int = 16
+	) -> Vector3:
+
+	for i in range(max_slides):
+		var params := PhysicsTestMotionParameters3D.new()
+		params.from = from
+		params.motion = motion
+		params.margin = margin
+		params.max_collisions = max_collisions
+
+		var result := PhysicsTestMotionResult3D.new()
+		if not PhysicsServer3D.body_test_motion(body, params, result):
+			break
+
+		var normal: Vector3 = (
+			range(result.get_collision_count())
+			.map(func(collision_index): return result.get_collision_normal(collision_index))
+			.reduce(func(sum, normal): return sum + normal, Vector3.ZERO)
+			.normalized()
+		)
+		motion = result.get_remainder().slide(normal)
+		from = from.translated(result.get_travel())
+
+	return motion
+
+func _step_up(delta: float) -> bool:
+	# do step only if grounded
+	if not is_on_floor():
+		return false
+
+	# cast body upword by step_height
+	var up_test_params := PhysicsTestMotionParameters3D.new()
+	up_test_params.from = global_transform
+	up_test_params.motion = step_height * up_direction
+	up_test_params.margin = safe_margin
+	if PhysicsServer3D.body_test_motion(get_rid(), up_test_params):
+		print("up block")
+		return false
+
+	var up_transform = global_transform.translated(step_height * up_direction)
+	var slide_motion = (
+		_slide(get_rid(), up_transform, direction * delta, safe_margin, max_slides)
+		.slide(up_direction)
+	)
+
+	# cast body by slide motion
+	var forward_test_params := PhysicsTestMotionParameters3D.new()
+	forward_test_params.from = up_transform
+	forward_test_params.motion = slide_motion
+	forward_test_params.margin = safe_margin
+	if PhysicsServer3D.body_test_motion(get_rid(), forward_test_params):
+		print("fwd block")
+		return false
+
+	# cast body downward by step_height
+	var down_test_from := up_transform.translated(slide_motion)
+	var down_test_params := PhysicsTestMotionParameters3D.new()
+	down_test_params.from = down_test_from
+	down_test_params.motion = -step_height * up_direction
+	down_test_params.margin = safe_margin
+	var down_test_result := PhysicsTestMotionResult3D.new()
+	if PhysicsServer3D.body_test_motion(get_rid(), down_test_params, down_test_result):
+		#global_transform.translated(-down_test_result.get_remainder())
+		global_transform = down_test_from.translated(down_test_result.get_travel())
+		return true
+
+	return false

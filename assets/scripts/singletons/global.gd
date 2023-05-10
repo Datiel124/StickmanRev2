@@ -20,6 +20,7 @@ var isDamageNums = true
 var world : WorldScene
 
 ##World Stuff
+var ambientMusic = AudioStreamPlayer.new()
 var mp_spawner = MultiplayerSpawner.new()
 var notif_hud = preload("res://assets/scripts/singletons/Notifications.tscn").instantiate()
 
@@ -39,6 +40,7 @@ var max_ragdolls : int = 8
 # Called when the node enters the scene tree for the first time.
 var clicksnap = preload("res://assets/sounds/ui/uipopup.wav")
 func _process(delta):
+	
 	if Input.is_action_just_pressed("fullscreen_toggle"):
 		fullscreen_toggle()
 
@@ -64,12 +66,8 @@ func _ready():
 	load_settings()
 	add_child(mp_spawner)
 	add_child(notif_hud)
-	mp_spawner.name = "MPSpawner"
-	mp_spawner.add_spawnable_scene("res://assets/entities/camera/camera.tscn")
-	mp_spawner.add_spawnable_scene("res://assets/entities/pawn/character_pawn.tscn")
-	mp_spawner.add_spawnable_scene("res://assets/resources/controllers/player/playerController.tscn")
-	mp_spawner.set_spawn_path('/root/Global')
-
+	ambientMusic.bus = "AmbientMusic"
+	add_child(ambientMusic)
 
 func generate_name() -> String:
 	var outname = ""
@@ -243,3 +241,75 @@ func notify_custom(node : Control, position : NOTIF_POSITION) -> Control:
 
 
 
+func getAmbientSongs():
+	var songFiles = DirAccess.open("res://assets/music/ambient/")
+	var songs = []
+	songFiles.list_dir_begin()
+	
+	while true:
+		var song = songFiles.get_next()
+		if song == "":
+			break
+		elif not song.begins_with(".") and !song.get_extension() == "import":
+			songs.append(song)
+			print(song)
+	
+	songFiles.list_dir_end()
+	
+	return songs
+
+func playAmbientSong():
+	var songStream = AudioStreamMP3.new()
+	var song = FileAccess.open("res://assets/music/ambient/" + getAmbientSongs().pick_random(), FileAccess.READ)
+	songStream.data = song.get_buffer(song.get_length())
+	ambientMusic.stream = songStream
+	ambientMusic.set_bus("AmbientMusic")
+	ambientMusic.play()
+
+
+func detect_surface(result, position) -> StringName:
+	var matType : StringName
+	var particle : PackedScene
+	var bulletHole : PackedScene
+	var hitSound : AudioStream
+	
+	if result.is_in_group("Flesh"):
+		matType = "Flesh"
+		hitSound = SoundLibrary.soundHitFleshStream
+	elif result.is_in_group("Default"):	
+		matType = "Default"
+		hitSound = SoundLibrary.soundHitCementStream
+		bulletHole = bulletHoleLibrary.bulletHoleDefault
+	else:
+		matType = "Default"
+		hitSound = SoundLibrary.soundHitCementStream
+		bulletHole = bulletHoleLibrary.bulletHoleDefault
+		
+	if result.has_method("getCustomSound"):
+		var soundSpawn = result.customSound
+		if soundSpawn:
+			hitSound = result.customSound
+	else:
+		print("Unable to play sound. Assign one.")
+		
+	if !hitSound == null:
+		Global.spawnSoundAtPosition(result,position, hitSound)
+	if !bulletHole == null:
+		spawnBulletHoleAtPosition(result,bulletHole,position)
+	return matType
+	
+func spawnSoundAtPosition(owner:Node,position:Vector3,sound:AudioStream):
+	var soundPlayer = HitSoundPlayer.new()
+	owner.add_child(soundPlayer)
+	soundPlayer.global_transform.origin = position
+	soundPlayer.bus = "Sounds"
+	soundPlayer.stream = sound
+	soundPlayer.volume_db = -7
+	soundPlayer.play()	
+
+func spawnBulletHoleAtPosition(owner:Node,_bulletHole:PackedScene, position:Vector3):
+	var bulletHole = _bulletHole.instantiate()
+	owner.add_child(bulletHole)
+	bulletHole.global_transform.origin = position
+	bulletHole.look_at(position, Vector3(1,1,0))
+	

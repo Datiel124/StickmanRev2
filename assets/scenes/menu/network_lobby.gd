@@ -1,8 +1,8 @@
 extends Control
 
-
+signal spawnTime
 @onready var settings = $Settings
-
+var mapLoaded :bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	refresh_peer_list()
@@ -84,17 +84,23 @@ func start_game(level_path : String) -> void:
 
 
 func finalize_load(loaded_level) -> void:
+	mapLoaded = true
 	Global.notify_fade("Everyone finished loading, starting...", 1, 1)
 	get_tree().paused = false
 	get_tree().change_scene_to_packed(loaded_level)
-	#add myself
-	#The position these are initially spawned in doesn't really matter, because they will be synced.
-	Global.add_player(Vector3.ZERO, multiplayer.get_unique_id())
-	#add everyone else
-	for i in multiplayer.get_peers():
-		Global.add_player(Vector3.ZERO, i)
+	if mapLoaded:
+		spawnPlayers()
 
 
 func _on_settings_button_pressed() -> void:
 	$Settings.visible = true
 	pass
+
+func spawnPlayers():
+	if !Global.world == null:
+		if mapLoaded == true:
+			#The position these are initially spawned in doesn't really matter, because they will be synced.
+			Global.add_player(Global.world.getPlayerSpawnPoints(Vector3.ZERO,true), multiplayer.get_unique_id())
+			#add everyone else
+			for i in multiplayer.get_peers():
+				Global.add_player(Global.world.getPlayerSpawnPoints(Vector3.ZERO,true), i)

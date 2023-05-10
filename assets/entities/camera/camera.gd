@@ -55,7 +55,6 @@ var defaultcamres = load("res://assets/resources/CameraData/DefaultCam.tres")
 
 @export_range(0.001, 1.0) var sensitivity = 0.01
 
-@export var debug_impulse = 9
 
 
 func _ready():
@@ -113,12 +112,15 @@ func _physics_process(delta):
 					var aiController = load("res://assets/resources/controllers/ai/baseAIController.tscn")
 					var pawn = tospawn.duplicate().instantiate()
 					var controller = aiController.duplicate().instantiate()
+					var color = ["white","brown","red","blue","darkred","cyan","yellow","orange","deeppink","magenta","limegreen","darkorange"].pick_random()
+					var chooser = Color.from_string(color, Color(1,0.425, 0, 255))
 					Global.notify_fade("Spawned " + str(pawn.name))
 					pawn.position = Aimcast.get_collision_point()
-					pawn.rotation.y = randf_range(0,360)
+					#pawn.rotation.y = randf_range(0,360)
 					spawn_zone.add_child(pawn, true)
+					pawn.character_pawn.pawnColor = chooser
 					pawn.setMasterController(controller)
-					pawn.character_pawn.add_child(controller)
+					pawn.character_pawn.add_child(controller) 
 					controller.set_owner(pawn)
 					return
 			Global.notify_warn("Failed to spawn: Look at a surface to spawn pawn onto.", 2, 3)
@@ -219,6 +221,7 @@ func posess_pawn(pawn:Node3D):
 	is_freecam = false
 	pawn.getMasterController().pawn = pawn.character_pawn
 	Fade.fade_in(0.3, Color(0,0,0,1),"GradientVertical",false,true)
+	pawn.character_pawn.character_speed = pawn.character_pawn.defaultCharacterSpeed
 
 func update_mouselook():
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:

@@ -28,10 +28,9 @@ shape = SubResource("SphereShape3D_4phkm")
 wait_time = 0.99
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-target_desired_distance = 2.0
-path_max_distance = 10.31
+target_desired_distance = 5.0
 avoidance_enabled = true
-debug_enabled = true
+radius = 0.3
 debug_use_custom = true
 
 [connection signal="timeout" from="randomRefresh" to="." method="_on_random_refresh_timeout"]

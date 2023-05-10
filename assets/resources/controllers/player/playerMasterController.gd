@@ -162,4 +162,5 @@ func itemChange():
 			pawn.anim_tree.set("parameters/weapon_blend/blend_amount", 0)
 	
 		if !pawn.equipsounds.playing:
+			pawnCam.add_trauma(0.19)
 			pawn.equipsounds.play()

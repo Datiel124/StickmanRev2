@@ -1,18 +1,18 @@
 [gd_scene load_steps=9 format=3 uid="uid://juccg41dpmvn"]
 
 [ext_resource type="Script" path="res://assets/scenes/menu/network_lobby.gd" id="1_x5mb0"]
-[ext_resource type="FontFile" uid="uid://ddd6gom2kxdp" path="res://assets/fonts/Grand_Aventure_Shadow.otf" id="2_rfaxl"]
+[ext_resource type="FontFile" uid="uid://xmwjvmqspojb" path="res://assets/fonts/Grand_Aventure_Text.otf" id="2_vrd4t"]
 [ext_resource type="Script" path="res://assets/scenes/menu/lobby_settings.gd" id="3_b3qbx"]
 [ext_resource type="AudioStream" uid="uid://c1mk4s30dq3nc" path="res://assets/music/Idlehoodtune.wav" id="4_fw7iq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3egdk"]
-font = ExtResource("2_rfaxl")
+font = ExtResource("2_vrd4t")
 font_size = 38
 outline_size = 4
 outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_5fq33"]
-font = ExtResource("2_rfaxl")
+font = ExtResource("2_vrd4t")
 font_size = 128
 outline_size = 8
 outline_color = Color(0, 0, 0, 1)
@@ -53,10 +53,10 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="NetworkLobby"]
 layout_mode = 0
-offset_left = 16.0
-offset_top = -8.0
-offset_right = 576.0
-offset_bottom = 46.0
+offset_left = 14.0
+offset_top = 4.0
+offset_right = 574.0
+offset_bottom = 58.0
 text = "Players Connected"
 label_settings = SubResource("LabelSettings_3egdk")
 
@@ -138,7 +138,6 @@ script = ExtResource("3_b3qbx")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Settings"]
 stream = ExtResource("4_fw7iq")
 volume_db = -80.0
-pitch_scale = 0.8
 autoplay = true
 bus = &"Music"
 

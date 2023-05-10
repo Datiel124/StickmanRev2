@@ -19,7 +19,6 @@ var justCreated = true
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	prevPos = global_transform.origin
-	get_tree().create_timer(lifeTime).timeout.connect(delete)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -37,18 +36,14 @@ func _physics_process(delta):
 
 		##Cast the ray from prevpos to newpos
 		var hitQuery : PhysicsRayQueryParameters3D
+		hitQuery = PhysicsRayQueryParameters3D.create(prevPos,newPos)
+		var hitResult = get_world_3d().direct_space_state.intersect_ray(hitQuery)
 		if !shooter.get_owner().getMasterController().has_method("getKillcastPoint"):
-			hitQuery = PhysicsRayQueryParameters3D.create(prevPos,newPos)
-			hitQuery.collision_mask = 0b010
-
 			if shooter:
 				if isHit:
 					hitQuery.exclude = [self]
 				else:
 					hitQuery.exclude = [shooter, self]
-
-			var hitResult = get_world_3d().direct_space_state.intersect_ray(hitQuery)
-
 			var dist = prevPos.distance_to(newPos)
 
 			if hitResult:
@@ -62,7 +57,8 @@ func _physics_process(delta):
 		else:
 			if shooter.get_owner().getMasterController().has_method("getKillcastPoint") and shooter.get_owner().getMasterController().checkIfKillcastColliding() == true:
 				var hitPosition = shooter.get_owner().getMasterController().getKillcastPoint()
-				var hitResult = shooter.get_owner().getMasterController().getKillcastCollider()
+				hitResult = shooter.get_owner().getMasterController().getKillcastCollider()
+				Global.detect_surface(hitResult, hitPosition)
 				if hitResult.has_method("damage"):
 					hitResult.damage(shooter.current_equipped.Item_Resource.Damage, shooter.current_equipped.Item_Resource.physicsPushMult, bulletFlyDir, hitPosition, true, shooter.current_equipped.Item_Resource.knockbackForce)
 					#explode(hitResult.global_position)
@@ -77,6 +73,7 @@ func _physics_process(delta):
 	global_transform.origin = newPos
 
 
+
 var pos_prev_frame : Vector3
 func _process(delta: float) -> void:
 	scale.z = global_position.distance_to(prevPos) * 0.8
@@ -88,10 +85,14 @@ func explode(atPosition):
 	var new = explosion.instantiate() as Node3D
 	new.top_level = true
 	#HACK - add to level instead
-	get_node("/root/Global").add_child(new)
+	Global.world.worldMisc.add_child(new)
 	new.global_position = atPosition
 	delete()
 
 
 func delete():
 	queue_free()
+
+
+func _on_timer_timeout():
+	delete()

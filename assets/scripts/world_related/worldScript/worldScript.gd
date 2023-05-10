@@ -24,14 +24,22 @@ class_name WorldScene
 @export_category("Debug Parameters")
 ## Spawn Type to use when loading the scene
 @export_enum("Player","Camera","None") var spawnType = 0 
+##Spawn AI pawns at their respective positions when loading the world.
+@export var spawnPawnsOnLoad : bool = true
+func _enter_tree():
+	Global.world = self
 
 func _ready():
-	Global.world = self
 	##Spawn a player at a point.
-	Global.add_player(getPlayerSpawnPoints(Vector3.ZERO,true).global_position)
-	
+	if !Global.is_multiplayer_game:
+		Global.add_player(getPlayerSpawnPoints(Vector3.ZERO,true).global_position)
+	else:
+		spawnPawnsOnLoad = false
+		
+		
 	##Spawn pawns at their respective points.
-	spawnPawns()
+	if spawnPawnsOnLoad == true:
+		spawnPawns()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -58,14 +66,14 @@ func spawnPawns():
 					var tospawn = load("res://assets/entities/pawn/character_pawn.tscn")
 					var pawn = tospawn.duplicate().instantiate()
 					pawn.position = spawns.global_position
-					pawn.rotation.y = randf_range(0,360)
+					#pawn.rotation.y = randf_range(0,360)
 					worldPawns.add_child(pawn, true)
 			
 				if spawns.pawnAIType == 1:
 					var tospawn = load("res://assets/entities/pawn/character_pawn.tscn")
 					var pawn = tospawn.duplicate().instantiate()
 					pawn.position = spawns.global_position
-					pawn.rotation.y = randf_range(0,360)
+					#pawn.rotation.y = randf_range(0,360)
 					worldPawns.add_child(pawn, true)
 
 				if spawns.pawnAIType == 2:
@@ -74,7 +82,7 @@ func spawnPawns():
 					var pawn = tospawn.duplicate().instantiate()
 					var controller = aiController.duplicate().instantiate()
 					pawn.position = spawns.global_position
-					pawn.rotation.y = randf_range(0,360)
+					#awn.rotation.y = randf_range(0,360)
 					worldPawns.add_child(pawn, true)
 					pawn.setMasterController(controller)
 					pawn.character_pawn.add_child(controller)

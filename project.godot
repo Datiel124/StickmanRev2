@@ -26,6 +26,8 @@ Weapondb="*res://assets/scripts/singletons/weapondb.gd"
 GlobalParticles="*res://assets/scripts/singletons/global_particles.gd"
 Cvars="*res://assets/scripts/singletons/cvars.gd"
 Networking="*res://assets/scripts/singletons/networking.gd"
+SoundLibrary="*res://assets/scripts/singletons/soundLibrary/soundLibrary.gd"
+bulletHoleLibrary="*res://assets/scripts/singletons/bulletHoleLibrary/bulletHoleLibrary.gd"
 
 [display]
 

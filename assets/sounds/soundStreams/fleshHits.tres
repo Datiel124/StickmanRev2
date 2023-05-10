@@ -1,0 +1,16 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=4 format=3 uid="uid://c1y2fo7unohus"]
+
+[ext_resource type="AudioStream" uid="uid://csdfbvn7u4p2c" path="res://assets/sounds/gore/flesh/fleshhit1.wav" id="1_7noog"]
+[ext_resource type="AudioStream" uid="uid://cwo1mued4h6ol" path="res://assets/sounds/gore/flesh/fleshhit2.wav" id="2_pbqre"]
+[ext_resource type="AudioStream" uid="uid://c4f1g4iqqoxdi" path="res://assets/sounds/gore/headshot/head2.wav" id="3_ncno2"]
+
+[resource]
+streams_count = 3
+random_pitch = 1.02
+random_volume_offset_db = 0.0
+stream_0/stream = ExtResource("1_7noog")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("2_pbqre")
+stream_1/weight = 0.181
+stream_2/stream = ExtResource("3_ncno2")
+stream_2/weight = 1.0
