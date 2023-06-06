@@ -112,16 +112,14 @@ func _physics_process(delta):
 					var aiController = load("res://assets/resources/controllers/ai/baseAIController.tscn")
 					var pawn = tospawn.duplicate().instantiate()
 					var controller = aiController.duplicate().instantiate()
-					var color = ["white","brown","red","blue","darkred","cyan","yellow","orange","deeppink","magenta","limegreen","darkorange"].pick_random()
-					var chooser = Color.from_string(color, Color(1,0.425, 0, 255))
 					Global.notify_fade("Spawned " + str(pawn.name))
 					pawn.position = Aimcast.get_collision_point()
 					#pawn.rotation.y = randf_range(0,360)
 					spawn_zone.add_child(pawn, true)
-					pawn.character_pawn.pawnColor = chooser
 					pawn.setMasterController(controller)
 					pawn.character_pawn.add_child(controller) 
 					controller.set_owner(pawn)
+					pawn.character_pawn.randomizePawnColor()
 					return
 			Global.notify_warn("Failed to spawn: Look at a surface to spawn pawn onto.", 2, 3)
 
@@ -205,6 +203,7 @@ func _process(delta):
 			Camera.rotation_degrees.z = initial_rotation.z + max_z * get_shake_intensity() * get_noise_from_seed(2)
 
 func posess_pawn(pawn:Node3D):
+	print("posessing..")
 	await Fade.fade_out(0.3, Color(0,0,0,1),"Diagonal",false,true).finished
 	reset_cam()
 	attachedPawn = pawn

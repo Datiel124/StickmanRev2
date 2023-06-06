@@ -1,5 +1,4 @@
 extends CharacterBody3D
-
 class_name Pawn
 var ragdoll = preload("res://assets/entities/pawn/pawn_ragdoll.tscn")
 
@@ -42,10 +41,7 @@ var pawnMat
 		material.resource_local_to_scene = true
 		material.albedo_color = value
 		pawnMat = material
-		pawnBody.get_active_material(0).resource_local_to_scene = true
-		pawnHead.get_active_material(0).resource_local_to_scene = true
-		pawnBody.set_surface_override_material(0, material)
-		pawnHead.set_surface_override_material(0, material)
+		applyMaterial(material)
 
 
 #Weapon Related
@@ -71,7 +67,8 @@ var MoveBackwards = 0.0
 
 #Inventory and Equip
 signal item_changed
-@export var Inventory: Array
+var internalInv : Array
+@export var Inventory = internalInv.duplicate()
 @onready var itemholder = $R_Holder
 var current_equipped = null
 var current_equipped_index := 0:
@@ -92,9 +89,10 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 
 func _ready():
-	Inventory.append(null)
+	internalInv.append(null)
+	Inventory.duplicate(true)
 #	nametag.visible = !is_multiplayer_authority() and multiplayer.multiplayer_peer != null
-
+	pass
 
 func _physics_process(delta):
 #	if multiplayer.multiplayer_peer != null:
@@ -224,8 +222,9 @@ func summon_item(item):
 		var spawned = item.instantiate()
 		spawned.holder = self
 		spawned.is_held = true
-		itemholder.add_child(spawned)
-		Inventory.append(spawned)
+		self.itemholder.add_child(spawned)
+		self.internalInv.append(spawned)
+		Inventory = internalInv.duplicate()
 		emit_signal("pickedupItem", spawned)
 		equipsounds.play()
 		if !spawned.is_held:
@@ -249,6 +248,15 @@ func create_ragdoll(impulse_bone:int = 0):
 	_ragdoll.pawn_dead = get_parent()
 	Global.world.worldMisc.add_child(_ragdoll)
 	for bones in _ragdoll.ragdoll_skeleton.get_bone_count():
+		for hboxes in $Mesh/Male/MaleSkeleton/Hitboxes.get_children():
+			if hboxes is BoneAttachment3D:
+				var boneID = hboxes.bone_idx
+				for decals in hboxes.get_children():
+					for boneParent in _ragdoll.ragdoll_skeleton.get_children():
+						if boneParent is PhysicalBone3D:
+							if boneParent.get_bone_id() == boneID:
+								decals.reparent(boneParent, true)
+					
 		_ragdoll.ragdoll_skeleton.set_bone_pose_rotation(bones, $Mesh/Male/MaleSkeleton/Skeleton3D.get_bone_pose_rotation(bones))
 		_ragdoll.ragdoll_skeleton.set_bone_pose_position(bones, $Mesh/Male/MaleSkeleton/Skeleton3D.get_bone_pose_position(bones))
 
@@ -283,82 +291,21 @@ func dropWeapon(weapon):
 			Global.world.worldMisc.add_child(weaponDrop)
 			weaponDrop.global_position = current_equipped.global_position
 			weaponDrop.global_rotation = current_equipped.global_rotation
-			Inventory.remove_at(current_equipped_index)
+			internalInv	.remove_at(current_equipped_index)
+			Inventory = internalInv.duplicate()
 			current_equipped.queue_free()
 			current_equipped_index =- 1
 		else:
 			return null
+	
+	
+func randomizePawnColor():
+		var color = ["white","brown","red","blue","darkred","cyan","yellow","orange","deeppink","magenta","limegreen","darkorange"].pick_random()
+		var chooser = Color.from_string(color, Color(1,0.425, 0, 255))
+		pawnColor = chooser
 
-func _slide(
-	body: RID,
-	from: Transform3D,
-	motion: Vector3,
-	margin: float = 0.001,
-	max_slides: int = 6,
-	max_collisions: int = 16
-	) -> Vector3:
-
-	for i in range(max_slides):
-		var params := PhysicsTestMotionParameters3D.new()
-		params.from = from
-		params.motion = motion
-		params.margin = margin
-		params.max_collisions = max_collisions
-
-		var result := PhysicsTestMotionResult3D.new()
-		if not PhysicsServer3D.body_test_motion(body, params, result):
-			break
-
-		var normal: Vector3 = (
-			range(result.get_collision_count())
-			.map(func(collision_index): return result.get_collision_normal(collision_index))
-			.reduce(func(sum, normal): return sum + normal, Vector3.ZERO)
-			.normalized()
-		)
-		motion = result.get_remainder().slide(normal)
-		from = from.translated(result.get_travel())
-
-	return motion
-
-func _step_up(delta: float) -> bool:
-	# do step only if grounded
-	if not is_on_floor():
-		return false
-
-	# cast body upword by step_height
-	var up_test_params := PhysicsTestMotionParameters3D.new()
-	up_test_params.from = global_transform
-	up_test_params.motion = step_height * up_direction
-	up_test_params.margin = safe_margin
-	if PhysicsServer3D.body_test_motion(get_rid(), up_test_params):
-		print("up block")
-		return false
-
-	var up_transform = global_transform.translated(step_height * up_direction)
-	var slide_motion = (
-		_slide(get_rid(), up_transform, direction * delta, safe_margin, max_slides)
-		.slide(up_direction)
-	)
-
-	# cast body by slide motion
-	var forward_test_params := PhysicsTestMotionParameters3D.new()
-	forward_test_params.from = up_transform
-	forward_test_params.motion = slide_motion
-	forward_test_params.margin = safe_margin
-	if PhysicsServer3D.body_test_motion(get_rid(), forward_test_params):
-		print("fwd block")
-		return false
-
-	# cast body downward by step_height
-	var down_test_from := up_transform.translated(slide_motion)
-	var down_test_params := PhysicsTestMotionParameters3D.new()
-	down_test_params.from = down_test_from
-	down_test_params.motion = -step_height * up_direction
-	down_test_params.margin = safe_margin
-	var down_test_result := PhysicsTestMotionResult3D.new()
-	if PhysicsServer3D.body_test_motion(get_rid(), down_test_params, down_test_result):
-		#global_transform.translated(-down_test_result.get_remainder())
-		global_transform = down_test_from.translated(down_test_result.get_travel())
-		return true
-
-	return false
+func applyMaterial(material):
+	if !pawnBody == null:
+		pawnBody.set_surface_override_material(0, material)
+	if !pawnHead == null:
+		pawnHead.set_surface_override_material(0, material)

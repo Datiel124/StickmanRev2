@@ -58,33 +58,6 @@ func getPlayerSpawnPoints(offset:Vector3 = Vector3(0,0,0), pickRandom:bool = tru
 		pass
 		
 func spawnPawns():
-	var pawnSpawns = pawnWorldSpawns.get_children()
-	for spawns in pawnSpawns:
-		if spawns is SpawnPoint:
-			if spawns.spawnType == 0:
-				if spawns.pawnAIType == 0:
-					var tospawn = load("res://assets/entities/pawn/character_pawn.tscn")
-					var pawn = tospawn.duplicate().instantiate()
-					pawn.position = spawns.global_position
-					#pawn.rotation.y = randf_range(0,360)
-					worldPawns.add_child(pawn, true)
-			
-				if spawns.pawnAIType == 1:
-					var tospawn = load("res://assets/entities/pawn/character_pawn.tscn")
-					var pawn = tospawn.duplicate().instantiate()
-					pawn.position = spawns.global_position
-					#pawn.rotation.y = randf_range(0,360)
-					worldPawns.add_child(pawn, true)
-
-				if spawns.pawnAIType == 2:
-					var tospawn = load("res://assets/entities/pawn/character_pawn.tscn")
-					var aiController = load("res://assets/resources/controllers/ai/baseAIController.tscn")
-					var pawn = tospawn.duplicate().instantiate()
-					var controller = aiController.duplicate().instantiate()
-					pawn.position = spawns.global_position
-					#awn.rotation.y = randf_range(0,360)
-					worldPawns.add_child(pawn, true)
-					pawn.setMasterController(controller)
-					pawn.character_pawn.add_child(controller)
-					controller.set_owner(pawn)
-	return
+	for spawn in pawnWorldSpawns.get_children():
+		if spawn is SpawnPoint:
+			spawn.initSpawn()

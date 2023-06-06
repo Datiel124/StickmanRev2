@@ -6,7 +6,8 @@ var boneId : int
 @export var customSound : AudioStream
 
 ##How much additional damage does this specific hitbox do
-@export var hitboxDmgMultiplier = 1
+@export var hitboxDmgMultiplier = 1.0
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

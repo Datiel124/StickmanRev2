@@ -7,6 +7,8 @@ var aiMoveTime :bool = false
 @onready var navPointGrabber = $navPointGrabber
 @onready var navAgent : NavigationAgent3D = $NavigationAgent3D
 @onready var moveTo = $moveTo
+var safeVel
+
 
 ##Pathfinding
 var currLocation:Vector3 
@@ -17,11 +19,10 @@ var pawn : Pawn
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	randomize()
 	if !pawn == null:
-		pawn.rot = pawn.pawnMesh.global_transform.basis.get_euler().y
-		pawn.character_speed = pawn.defaultCharacterSpeed - randf_range(0.2,0.6)
-		updateTargetLocation(getNavPoints(true).global_position)
-
+		AIStart()
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	if !pawn == null:
@@ -60,6 +61,7 @@ func _on_random_refresh_timeout():
 	$randomRefresh.stop()
 
 func _on_navigation_agent_3d_velocity_computed(safe_velocity):
+	safeVel = safe_velocity
 	pawn.direction = pawn.direction.move_toward(safe_velocity, 0.25)
 
 func _on_navigation_agent_3d_target_reached():
@@ -67,4 +69,14 @@ func _on_navigation_agent_3d_target_reached():
 	aiMoveTime = false
 	$randomRefresh.start()
 	pawn.character_speed = pawn.defaultCharacterSpeed - randf_range(0.2,0.6)
+
+
+func AIStart():
+		pawn.rot = pawn.pawnMesh.global_transform.basis.get_euler().y
+		pawn.character_speed = pawn.defaultCharacterSpeed - randf_range(0.4,0.8)
+		updateTargetLocation(getNavPoints(true).global_position)
+		
+func _exit_tree():
+	pass
+
 

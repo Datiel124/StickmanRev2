@@ -10,14 +10,14 @@ config_version=5
 
 [application]
 
-config/name="Stick RPG 3D "
+config/name="Pawn Engine - DEBUG"
 config/description="Lol, If only it was Stick RPG 3D.."
 run/main_scene="res://assets/scenes/menu/menu.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 boot_splash/bg_color=Color(0.345098, 0.345098, 0.345098, 1)
 boot_splash/image="res://assets/textures/misc/bootlogo.png"
 boot_splash/fullsize=false
-config/icon="res://icon.svg"
+config/icon="res://assets/textures/misc/bootlogo.png"
 
 [autoload]
 
@@ -180,3 +180,9 @@ game_dropWeapon={
 
 common/physics_ticks_per_second=144
 3d/default_gravity=15.0
+
+[rendering]
+
+anti_aliasing/quality/msaa_2d=1
+anti_aliasing/quality/msaa_3d=1
+anti_aliasing/quality/screen_space_aa=1

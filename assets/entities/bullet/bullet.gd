@@ -57,8 +57,9 @@ func _physics_process(delta):
 		else:
 			if shooter.get_owner().getMasterController().has_method("getKillcastPoint") and shooter.get_owner().getMasterController().checkIfKillcastColliding() == true:
 				var hitPosition = shooter.get_owner().getMasterController().getKillcastPoint()
+				var hitNormal = shooter.get_owner().getMasterController().getKillcastNormal()
 				hitResult = shooter.get_owner().getMasterController().getKillcastCollider()
-				Global.detect_surface(hitResult, hitPosition)
+				Global.detect_surface(hitResult, hitPosition, hitNormal)
 				if hitResult.has_method("damage"):
 					hitResult.damage(shooter.current_equipped.Item_Resource.Damage, shooter.current_equipped.Item_Resource.physicsPushMult, bulletFlyDir, hitPosition, true, shooter.current_equipped.Item_Resource.knockbackForce)
 					#explode(hitResult.global_position)

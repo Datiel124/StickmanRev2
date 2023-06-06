@@ -267,7 +267,7 @@ func playAmbientSong():
 	ambientMusic.play()
 
 
-func detect_surface(result, position) -> StringName:
+func detect_surface(result, position, normal) -> StringName:
 	var matType : StringName
 	var particle : PackedScene
 	var bulletHole : PackedScene
@@ -276,6 +276,7 @@ func detect_surface(result, position) -> StringName:
 	if result.is_in_group("Flesh"):
 		matType = "Flesh"
 		hitSound = SoundLibrary.soundHitFleshStream
+		bulletHole = bulletHoleLibrary.bulletHoleFlesh
 	elif result.is_in_group("Default"):	
 		matType = "Default"
 		hitSound = SoundLibrary.soundHitCementStream
@@ -295,7 +296,7 @@ func detect_surface(result, position) -> StringName:
 	if !hitSound == null:
 		Global.spawnSoundAtPosition(result,position, hitSound)
 	if !bulletHole == null:
-		spawnBulletHoleAtPosition(result,bulletHole,position)
+		spawnBulletHoleAtPosition(result,bulletHole,position, normal)
 	return matType
 	
 func spawnSoundAtPosition(owner:Node,position:Vector3,sound:AudioStream):
@@ -307,9 +308,12 @@ func spawnSoundAtPosition(owner:Node,position:Vector3,sound:AudioStream):
 	soundPlayer.volume_db = -7
 	soundPlayer.play()	
 
-func spawnBulletHoleAtPosition(owner:Node,_bulletHole:PackedScene, position:Vector3):
+func spawnBulletHoleAtPosition(owner:Node,_bulletHole:PackedScene, position:Vector3, collisionNormal):
 	var bulletHole = _bulletHole.instantiate()
 	owner.add_child(bulletHole)
 	bulletHole.global_transform.origin = position
-	bulletHole.look_at(position, Vector3(1,1,0))
+	if collisionNormal != Vector3.UP:
+		bulletHole.look_at(position + collisionNormal, Vector3.UP)
+		bulletHole.global_transform = bulletHole.global_transform.rotated_local(Vector3.RIGHT, PI/2.0)
+	bulletHole.rotate(collisionNormal, randf_range(0, 2*PI))
 	

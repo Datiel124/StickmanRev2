@@ -1,7 +1,7 @@
 extends Node
 
 var bulletHoleDefault = preload("res://assets/entities/bulletHoles/bulletHoleDefault.tscn")
-
+var bulletHoleFlesh = preload("res://assets/entities/bulletHoles/bulletHoleFlesh.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.

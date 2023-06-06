@@ -147,6 +147,10 @@ func getKillcastCollider():
 	if pawnCam.Killcast.is_colliding():
 		return pawnCam.Killcast.get_collider()
 
+func getKillcastNormal():
+	if pawnCam.Killcast.is_colliding():
+		return pawnCam.Killcast.get_collision_normal()
+
 func checkIfKillcastColliding():
 	return pawnCam.Killcast.is_colliding()
 

@@ -12,9 +12,9 @@ class_name ItemResource
 @export var Item_Cooldown = 0.5
 @export var Damage = 5
 ## How much force is applied to physics objects when this item is casted upon it
-@export var physicsPushMult = 2
+@export var physicsPushMult = 1.0
 ## How much force is applied to a pawn when struck by this item
-@export var knockbackForce = 1
+@export var knockbackForce = 1.0
 @export var Ammo_bullets = 16
 @export var Ammo_mag = 8
 @export var Camera_Shake_Intensity = 0.5
